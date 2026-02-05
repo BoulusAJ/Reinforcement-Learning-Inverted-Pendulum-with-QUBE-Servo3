@@ -1,0 +1,5 @@
+Metadata-Version: 2.4
+Name: rl-qube
+Version: 0.1.0
+Summary: Python control and RL tools for Quanser QUBE-Servo 3
+Requires-Python: >=3.9
