@@ -1,0 +1,7 @@
+{
+  "python.defaultInterpreterPath": "C:\\Users\\abuj\\AppData\\Local\\miniforge3\\envs\\proj-RL-quanser-cube-3\\python.exe",
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}\\third_party\\quanser\\Quanser_Academic_Resources\\0_libraries\\python"
+  ],
+  "python.analysis.autoSearchPaths": true
+}

@@ -1,0 +1,3 @@
+[submodule "third_party/quanser"]
+	path = third_party/quanser
+	url = https://github.com/quanser/Quanser_Academic_Resources.git

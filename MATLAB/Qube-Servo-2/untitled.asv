@@ -1,0 +1,7 @@
+% pyenv("Version", "C:\Users\abuj\AppData\Local\miniforge3\envs\proj-RL-quanser-cube-3\python.exe", ...
+%       "ExecutionMode", "OutOfProcess");
+pyenv("Version", "C:\Users\abuj\AppData\Local\miniforge3\envs\proj-RL-quanser-cube-3\python.exe", ...
+      "ExecutionMode", "InProcess");
+%%
+py.importlib.import_module("rl_qube")
+py.importlib.import_module("pal")
