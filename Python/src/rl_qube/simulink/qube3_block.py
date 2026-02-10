@@ -17,10 +17,10 @@ def start(frequency: int = 200, vlimit: float = 2.0) -> None:
         _IO.open()
 
 
-def step(u: float, enable: int | float = 1) -> tuple[float, float, float, float, float, float]:
+def step(u: float, enable: int | float = 1) -> tuple[float, float, float, float, float, float, float, float]:
     """
     One tick. Returns:
-    theta, phi, theta_dot, phi_dot, current, fault
+    theta, phi, theta_dot, phi_dot, current, fault, backlog, rt_ok
     """
     global _IO
     if _IO is None:
@@ -44,6 +44,37 @@ def step(u: float, enable: int | float = 1) -> tuple[float, float, float, float,
         float(s.phi_dot),
         float(s.current),
         float(s.fault),
+        float(s.backlog),
+        float(s.rt_ok)
+    )
+
+def step_1(u: float, enable: int | float = 1) -> tuple[float, float, float, float, float, float]:
+    """
+    One tick. Returns:
+    theta, phi, theta_dot, phi_dot, current, fault, backlog, rt_ok
+    """
+    global _IO
+    if _IO is None:
+        start()
+
+    # At this point _IO is guaranteed not None, but Pylance may still not narrow across start().
+    # So we re-assert explicitly:
+    assert _IO is not None
+
+    en = bool(int(enable))
+    s = _IO.step_1(
+        motor_voltage=float(u),
+        motor_enable=en,
+        led_rgb=(False, True, False) if en else (True, False, False),
+    )
+
+    return (
+        float(s.theta),
+        float(s.phi),
+        float(s.theta_dot),
+        float(s.phi_dot),
+        float(s.current),
+        float(s.fault)
     )
 
 

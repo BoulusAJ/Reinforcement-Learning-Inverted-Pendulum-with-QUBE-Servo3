@@ -1,0 +1,2910 @@
+Reinforcement-Learning-Inverted-Pendulum-with-QUBE-Servo3/
+├── .vscode
+│   └── settings.json
+├── MATLAB
+│   └── [contents omitted intentionally]
+├── Python
+│   ├── experiments
+│   ├── scripts
+│   │   ├── qube3_smoke_test.py
+│   │   ├── run_env_random.py
+│   │   ├── run_qube3_block_like_simulink.py
+│   │   ├── test_1.py
+│   │   ├── test_qube3_io.py
+│   │   ├── test_qube3_io_200Hz.py
+│   │   ├── test_qube3_pal_200hz.py
+│   │   ├── test_qube3_pal_enable_zero.py
+│   │   ├── test_qube3_pal_pulse.py
+│   │   └── test_qube3_pal_step_sign.py
+│   ├── src
+│   │   ├── rl_qube
+│   │   │   ├── control
+│   │   │   │   └── __init__.py
+│   │   │   ├── envs
+│   │   │   │   └── qube_balance_env.py
+│   │   │   ├── interface
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── api.py
+│   │   │   │   ├── qube3_io.py
+│   │   │   │   └── qube3_pal_interface.py
+│   │   │   ├── simulink
+│   │   │   │   └── qube3_block.py
+│   │   │   └── __init__.py
+│   │   └── rl_qube.egg-info
+│   │       ├── dependency_links.txt
+│   │       ├── PKG-INFO
+│   │       ├── SOURCES.txt
+│   │       └── top_level.txt
+│   ├── tests
+│   ├── environment.lock.yml
+│   ├── environment.yml
+│   └── pyproject.toml
+├── third_party
+│   └── quanser
+│       └── Quanser_Academic_Resources
+│           ├── 0_libraries
+│           │   ├── matlab
+│           │   │   ├── qvl
+│           │   │   │   ├── CommModularContainer.m
+│           │   │   │   ├── MultiAgent.m
+│           │   │   │   ├── QLabsActor.m
+│           │   │   │   ├── QLabsAnimal.m
+│           │   │   │   ├── QLabsBasicShape.m
+│           │   │   │   ├── QLabsCharacter.m
+│           │   │   │   ├── QLabsConveyorCurved.m
+│           │   │   │   ├── QLabsConveyorStraight.m
+│           │   │   │   ├── QLabsCrosswalk.m
+│           │   │   │   ├── QLabsDeliveryTube.m
+│           │   │   │   ├── QLabsDeliveryTubeBottles.m
+│           │   │   │   ├── QLabsEnvironmentOutdoors.m
+│           │   │   │   ├── QLabsFreeCamera.m
+│           │   │   │   ├── QLabsGenericSensor.m
+│           │   │   │   ├── QLabsPerson.m
+│           │   │   │   ├── QLabsQArm.m
+│           │   │   │   ├── QLabsQBot2e.m
+│           │   │   │   ├── QLabsQbot3.m
+│           │   │   │   ├── QLabsQBotPlatform.m
+│           │   │   │   ├── QLabsQBotPlatformFlooring.m
+│           │   │   │   ├── QLabsQCar.m
+│           │   │   │   ├── QLabsQCar2.m
+│           │   │   │   ├── QLabsQCarFlooring.m
+│           │   │   │   ├── QLabsQDrone2.m
+│           │   │   │   ├── QLabsReferenceFrame.m
+│           │   │   │   ├── QLabsRoundaboutSign.m
+│           │   │   │   ├── QLabsShredder.m
+│           │   │   │   ├── QLabsSplineLine.m
+│           │   │   │   ├── QLabsStopSign.m
+│           │   │   │   ├── QLabsSystem.m
+│           │   │   │   ├── QLabsTrafficCone.m
+│           │   │   │   ├── QLabsTrafficLight.m
+│           │   │   │   ├── QLabsWalls.m
+│           │   │   │   ├── QLabsWidget.m
+│           │   │   │   ├── QLabsYieldSign.m
+│           │   │   │   └── QuanserInteractiveLabs.m
+│           │   │   └── qube_servo3.slx
+│           │   ├── python
+│           │   │   ├── hal
+│           │   │   │   ├── content
+│           │   │   │   │   ├── qarm_mini.py
+│           │   │   │   │   ├── qbot_platform_functions.py
+│           │   │   │   │   ├── qcar.py
+│           │   │   │   │   ├── qcar_config.py
+│           │   │   │   │   └── qcar_functions.py
+│           │   │   │   ├── products
+│           │   │   │   │   ├── mats.py
+│           │   │   │   │   ├── qarm.py
+│           │   │   │   │   └── qcar.py
+│           │   │   │   ├── utilities
+│           │   │   │   │   ├── control.py
+│           │   │   │   │   ├── estimation.py
+│           │   │   │   │   ├── geometry.py
+│           │   │   │   │   ├── image_processing.py
+│           │   │   │   │   ├── mapping.py
+│           │   │   │   │   └── path_planning.py
+│           │   │   │   └── __init__.py
+│           │   │   ├── pal
+│           │   │   │   ├── products
+│           │   │   │   │   ├── actuators.py
+│           │   │   │   │   ├── aero2.py
+│           │   │   │   │   ├── qarm.py
+│           │   │   │   │   ├── qarm_mini.py
+│           │   │   │   │   ├── qbot.py
+│           │   │   │   │   ├── qbot_platform.py
+│           │   │   │   │   ├── qbot_platform_alpha.py
+│           │   │   │   │   ├── qcar.py
+│           │   │   │   │   ├── qcar_config.py
+│           │   │   │   │   ├── qdrone2.py
+│           │   │   │   │   ├── qube.py
+│           │   │   │   │   ├── sensors.py
+│           │   │   │   │   └── traffic_light.py
+│           │   │   │   ├── resources
+│           │   │   │   │   ├── images.py
+│           │   │   │   │   └── rtmodels.py
+│           │   │   │   ├── utilities
+│           │   │   │   │   ├── gamepad.py
+│           │   │   │   │   ├── keyboard.py
+│           │   │   │   │   ├── lidar.py
+│           │   │   │   │   ├── math.py
+│           │   │   │   │   ├── probe.py
+│           │   │   │   │   ├── scope.py
+│           │   │   │   │   ├── stream.py
+│           │   │   │   │   ├── timing.py
+│           │   │   │   │   └── vision.py
+│           │   │   │   └── __init__.py
+│           │   │   ├── pit
+│           │   │   │   ├── haar
+│           │   │   │   │   ├── core.py
+│           │   │   │   │   ├── haarcascade_eye.xml
+│           │   │   │   │   └── haarcascade_frontalface_default.xml
+│           │   │   │   ├── jetson
+│           │   │   │   │   └── nets.py
+│           │   │   │   ├── LaneNet
+│           │   │   │   │   ├── architecture
+│           │   │   │   │   │   ├── backbone
+│           │   │   │   │   │   │   ├── deeplabv3_plus
+│           │   │   │   │   │   │   │   ├── sync_batchnorm
+│           │   │   │   │   │   │   │   │   ├── __init__.py
+│           │   │   │   │   │   │   │   │   ├── batchnorm.py
+│           │   │   │   │   │   │   │   │   ├── batchnorm_reimpl.py
+│           │   │   │   │   │   │   │   │   ├── comm.py
+│           │   │   │   │   │   │   │   │   ├── replicate.py
+│           │   │   │   │   │   │   │   │   └── unittest.py
+│           │   │   │   │   │   │   │   ├── __init__.py
+│           │   │   │   │   │   │   │   ├── ASPP.py
+│           │   │   │   │   │   │   │   ├── backbone.py
+│           │   │   │   │   │   │   │   ├── deeplabv3plus.py
+│           │   │   │   │   │   │   │   ├── resnet.py
+│           │   │   │   │   │   │   │   ├── resnet_atrous.py
+│           │   │   │   │   │   │   │   └── xception.py
+│           │   │   │   │   │   │   ├── __init__.py
+│           │   │   │   │   │   │   ├── ENet.py
+│           │   │   │   │   │   │   └── UNet.py
+│           │   │   │   │   │   ├── __init__.py
+│           │   │   │   │   │   ├── lanenet.py
+│           │   │   │   │   │   └── LICENSE
+│           │   │   │   │   ├── nets.py
+│           │   │   │   │   └── utils.py
+│           │   │   │   └── YOLO
+│           │   │   │       ├── nets.py
+│           │   │   │       └── utils.py
+│           │   │   ├── quanser_academic_resources.egg-info
+│           │   │   │   ├── dependency_links.txt
+│           │   │   │   ├── PKG-INFO
+│           │   │   │   ├── SOURCES.txt
+│           │   │   │   └── top_level.txt
+│           │   │   ├── qvl
+│           │   │   │   ├── __init__.py
+│           │   │   │   ├── actor.py
+│           │   │   │   ├── animal.py
+│           │   │   │   ├── autoclave.py
+│           │   │   │   ├── basic_shape.py
+│           │   │   │   ├── bottle_table.py
+│           │   │   │   ├── chair.py
+│           │   │   │   ├── character.py
+│           │   │   │   ├── computer.py
+│           │   │   │   ├── computer_keyboard.py
+│           │   │   │   ├── computer_monitor.py
+│           │   │   │   ├── computer_mouse.py
+│           │   │   │   ├── conveyor_curved.py
+│           │   │   │   ├── conveyor_straight.py
+│           │   │   │   ├── crosswalk.py
+│           │   │   │   ├── delivery_tube.py
+│           │   │   │   ├── desk.py
+│           │   │   │   ├── environment_outdoors.py
+│           │   │   │   ├── free_camera.py
+│           │   │   │   ├── generic_sensor.py
+│           │   │   │   ├── image_utilities.py
+│           │   │   │   ├── multi_agent.py
+│           │   │   │   ├── person.py
+│           │   │   │   ├── qarm.py
+│           │   │   │   ├── qbot2e.py
+│           │   │   │   ├── qbot3.py
+│           │   │   │   ├── qbot_hopper.py
+│           │   │   │   ├── qbot_platform.py
+│           │   │   │   ├── qbot_platform_flooring.py
+│           │   │   │   ├── qcar.py
+│           │   │   │   ├── qcar2.py
+│           │   │   │   ├── qcar_flooring.py
+│           │   │   │   ├── qdrone2.py
+│           │   │   │   ├── qlabs.py
+│           │   │   │   ├── real_time.py
+│           │   │   │   ├── reference_frame.py
+│           │   │   │   ├── roundabout_sign.py
+│           │   │   │   ├── shredder.py
+│           │   │   │   ├── spline_line.py
+│           │   │   │   ├── srv02.py
+│           │   │   │   ├── stop_sign.py
+│           │   │   │   ├── system.py
+│           │   │   │   ├── traffic_cone.py
+│           │   │   │   ├── traffic_light.py
+│           │   │   │   ├── walls.py
+│           │   │   │   ├── weigh_scale.py
+│           │   │   │   ├── widget.py
+│           │   │   │   └── yield_sign.py
+│           │   │   ├── pyproject.toml
+│           │   │   └── setup.py
+│           │   ├── resources
+│           │   │   ├── applications
+│           │   │   │   ├── KeyboardDriver
+│           │   │   │   │   ├── keyboardDriver.slx
+│           │   │   │   │   ├── keyboardDriver10.rt-win64
+│           │   │   │   │   ├── keyboardDriver100.rt-win64
+│           │   │   │   │   ├── keyboardDriver30.rt-win64
+│           │   │   │   │   ├── keyboardDriver500.rt-win64
+│           │   │   │   │   ├── matlab_example.m
+│           │   │   │   │   ├── PythonReadMe.txt
+│           │   │   │   │   └── simClient.slx
+│           │   │   │   ├── QBotPlatAlphaDriver
+│           │   │   │   │   ├── qbot_driver_v_1_22.slx
+│           │   │   │   │   ├── qbot_driver_v_2_4_virtual.slx
+│           │   │   │   │   ├── qbot_platform_alpha_driver_physical.rt-linux_pi_arm64
+│           │   │   │   │   ├── qbot_platform_alpha_driver_physical.slx
+│           │   │   │   │   └── test.slx
+│           │   │   │   ├── QbotPlatDriver
+│           │   │   │   │   ├── qbot_platform_driver_physical.slx
+│           │   │   │   │   └── qbot_platform_driver_virtual.slx
+│           │   │   │   ├── QBotPlatDrivers
+│           │   │   │   │   ├── qbot_platform_driver_virtual0.slx
+│           │   │   │   │   ├── qbot_platform_driver_virtual1.slx
+│           │   │   │   │   ├── qbot_platform_driver_virtual2.slx
+│           │   │   │   │   ├── qbot_platform_driver_virtual3.slx
+│           │   │   │   │   ├── qbot_platform_driver_virtual4.slx
+│           │   │   │   │   ├── qbot_platform_driver_virtual5.slx
+│           │   │   │   │   ├── qbot_platform_driver_virtual6.slx
+│           │   │   │   │   ├── qbot_platform_driver_virtual7.slx
+│           │   │   │   │   ├── qbot_platform_driver_virtual8.slx
+│           │   │   │   │   └── qbot_platform_driver_virtual9.slx
+│           │   │   │   ├── QCarDepthAlign
+│           │   │   │   │   └── QCar2DepthAlign.rt-linux_qcar2
+│           │   │   │   ├── QCarScanMatching
+│           │   │   │   │   ├── QCar2_CaptureScan.slx
+│           │   │   │   │   ├── qcar2CaptureScan.rt-linux_qcar2
+│           │   │   │   │   ├── qcar2LidarToGPS.rt-linux_qcar2
+│           │   │   │   │   ├── qcar2LidarToGPS.slx
+│           │   │   │   │   ├── QCar_CaptureScan.slx
+│           │   │   │   │   ├── qcarCaptureScan.rt-linux_nvidia
+│           │   │   │   │   ├── qcarLidarToGPS.rt-linux_nvidia
+│           │   │   │   │   └── qcarLidarToGPS.slx
+│           │   │   │   └── QLabsVRPNServer
+│           │   │   │       ├── src
+│           │   │   │       │   ├── qlabs_vrpn_server.cpp
+│           │   │   │       │   ├── qlabs_vrpn_server.h
+│           │   │   │       │   ├── vrpnServerSimple.filters
+│           │   │   │       │   └── vrpnServerSimple.vcxproj
+│           │   │   │       └── qlabs_vrpn_server.exe
+│           │   │   ├── images
+│           │   │   │   ├── qcar.png
+│           │   │   │   ├── sdcs_cityscape.png
+│           │   │   │   └── sdcs_cityscape_small.png
+│           │   │   ├── pretrained_models
+│           │   │   │   └── readme.txt
+│           │   │   └── rt_models
+│           │   │       ├── QArm
+│           │   │       │   └── QArm_Spawn.rt-win64
+│           │   │       ├── QArms
+│           │   │       │   ├── QArm_Spawn0.rt-win64
+│           │   │       │   ├── QArm_Spawn1.rt-win64
+│           │   │       │   ├── QArm_Spawn2.rt-win64
+│           │   │       │   ├── QArm_Spawn3.rt-win64
+│           │   │       │   ├── QArm_Spawn4.rt-win64
+│           │   │       │   └── QArm_Spawn5.rt-win64
+│           │   │       ├── QBotPlatform
+│           │   │       │   ├── qbot_platform_driver_virtual.rt-linux_x86_64
+│           │   │       │   ├── qbot_platform_driver_virtual.rt-win64
+│           │   │       │   ├── QBotPlatform_Workspace.rt-linux_x86_64
+│           │   │       │   ├── QBotPlatform_Workspace.rt-win64
+│           │   │       │   └── test_rt_model.py
+│           │   │       ├── QBotPlatforms
+│           │   │       │   ├── qbot_platform_driver_virtual0.rt-win64
+│           │   │       │   ├── qbot_platform_driver_virtual1.rt-win64
+│           │   │       │   ├── qbot_platform_driver_virtual2.rt-win64
+│           │   │       │   ├── qbot_platform_driver_virtual3.rt-win64
+│           │   │       │   ├── qbot_platform_driver_virtual4.rt-win64
+│           │   │       │   ├── qbot_platform_driver_virtual5.rt-win64
+│           │   │       │   ├── qbot_platform_driver_virtual6.rt-win64
+│           │   │       │   ├── qbot_platform_driver_virtual7.rt-win64
+│           │   │       │   ├── qbot_platform_driver_virtual8.rt-win64
+│           │   │       │   └── qbot_platform_driver_virtual9.rt-win64
+│           │   │       ├── QCar
+│           │   │       │   ├── QCar_Workspace.rt-win64
+│           │   │       │   └── QCar_Workspace_studio.rt-win64
+│           │   │       ├── QCar2
+│           │   │       │   ├── QCar2_Workspace.rt-linux_x86_64
+│           │   │       │   ├── QCar2_Workspace.rt-win64
+│           │   │       │   ├── QCar2_Workspace_studio.rt-linux_x86_64
+│           │   │       │   └── QCar2_Workspace_studio.rt-win64
+│           │   │       └── QDrone2
+│           │   │           └── QDrone2_Workspace.rt-win64
+│           │   └── libraries_guide.pdf
+│           ├── 1_setup
+│           │   ├── autonomous_vehicles_research_studio
+│           │   │   ├── step_0_introduction
+│           │   │   │   └── intro_checklist.pdf
+│           │   │   ├── step_10_calibrate_cameras
+│           │   │   │   └── calibrating_cameras_reference_frames.pdf
+│           │   │   ├── step_11_rigid_bodies
+│           │   │   │   ├── Localization_Visualization_Demo
+│           │   │   │   │   ├── meshes
+│           │   │   │   │   │   └── arrows.x3d
+│           │   │   │   │   ├── LocalizationVisualization_2019a.slx
+│           │   │   │   │   ├── optitrack.jpg
+│           │   │   │   │   ├── POSE_Check.xml
+│           │   │   │   │   ├── vicon.jpg
+│           │   │   │   │   └── Visualization.slx
+│           │   │   │   ├── Optitrack_Visualization_Demo
+│           │   │   │   │   ├── meshes
+│           │   │   │   │   │   └── arrows.x3d
+│           │   │   │   │   ├── Optitrack_Visualization_R2018a.mdl
+│           │   │   │   │   └── POSE_Check.xml
+│           │   │   │   ├── Vicon_Visualization_Demo
+│           │   │   │   │   ├── meshes
+│           │   │   │   │   │   └── arrows.x3d
+│           │   │   │   │   ├── POSE_Check.xml
+│           │   │   │   │   └── Vicon_Visualization_R2018a.mdl
+│           │   │   │   ├── VRPN_Visualization_Demo
+│           │   │   │   │   ├── meshes
+│           │   │   │   │   │   └── arrows.x3d
+│           │   │   │   │   ├── POSE_Check.xml
+│           │   │   │   │   ├── sim_VRPN.slx
+│           │   │   │   │   └── VRPN_Visualization_R2021a.slx
+│           │   │   │   └── rigid_bodies_motive.pdf
+│           │   │   ├── step_12_IO_check
+│           │   │   │   ├── QBot_2_IO_Check
+│           │   │   │   │   ├── Mission_Server_QBot2_IO_Check.mdl
+│           │   │   │   │   ├── Mission_Server_QBot2_IO_Check_FrSky.mdl
+│           │   │   │   │   └── Stabilizer_QBot2.mdl
+│           │   │   │   ├── QBot_2e_IO_Check
+│           │   │   │   │   ├── Mission_Server_QBot2e_IO_Check.mdl
+│           │   │   │   │   ├── Mission_Server_QBot2e_IO_Check_FrSky.mdl
+│           │   │   │   │   └── Stabilizer_QBot2e.mdl
+│           │   │   │   ├── QDrone2_IO_Check
+│           │   │   │   │   ├── Scripts
+│           │   │   │   │   │   └── plot_daq_qdrone2.m
+│           │   │   │   │   ├── Motor_Mapping_7_Inch.m
+│           │   │   │   │   ├── QD2_CameraCheck_2021b.slx
+│           │   │   │   │   └── QD2_IOCheck_2021b.slx
+│           │   │   │   ├── QDrone_IO_Check
+│           │   │   │   │   ├── Scripts
+│           │   │   │   │   │   └── plot_data_QDrone.m
+│           │   │   │   │   ├── QDrone_IO_Check.mdl
+│           │   │   │   │   └── QDrone_IO_Check_Full.mdl
+│           │   │   │   ├── QBot_2_2e_IO_test.pdf
+│           │   │   │   ├── QDrone_1_IO_test.pdf
+│           │   │   │   └── QDrone_2_IO_test.pdf
+│           │   │   ├── step_13_hover_test
+│           │   │   │   ├── QDrone2_Hover_Test
+│           │   │   │   │   ├── Scripts
+│           │   │   │   │   │   ├── plot_daq_qdrone2.m
+│           │   │   │   │   │   ├── plot_data_commander.m
+│           │   │   │   │   │   ├── plot_data_mission_server.m
+│           │   │   │   │   │   └── plot_data_stabilizer.m
+│           │   │   │   │   ├── Motor_Mapping_7_Inch.m
+│           │   │   │   │   ├── QD2_DroneStack_PID_2021a.slx
+│           │   │   │   │   └── QD2_MissionCtrl_Hover_2021a.slx
+│           │   │   │   ├── QDrone_Hover_Test
+│           │   │   │   │   ├── Scripts
+│           │   │   │   │   │   ├── plot_data_commander.m
+│           │   │   │   │   │   ├── plot_data_mission_server.m
+│           │   │   │   │   │   ├── plot_data_QDrone.m
+│           │   │   │   │   │   └── plot_data_stabilizer.m
+│           │   │   │   │   ├── Commander_Stabilizer_QDrone.mdl
+│           │   │   │   │   ├── Mission_Server_QDrone_Hover_Test.mdl
+│           │   │   │   │   ├── Mission_Server_QDrone_Hover_Test_FrSky.mdl
+│           │   │   │   │   ├── Mission_Server_QDrone_Hover_Test_Vicon.mdl
+│           │   │   │   │   └── Mission_Server_QDrone_Hover_Test_Vicon_FrSky.mdl
+│           │   │   │   ├── QDrone_1_hover_test.pdf
+│           │   │   │   └── QDrone_2_hover_test.pdf
+│           │   │   ├── step_1_workplace_setup
+│           │   │   │   └── workspace_setup.pdf
+│           │   │   ├── step_2_batteries
+│           │   │   │   ├── QBot_2_2e_batteries.pdf
+│           │   │   │   ├── QDrone_1_batteries.pdf
+│           │   │   │   └── QDrone_2_batteries.pdf
+│           │   │   ├── step_3_camera_mounting
+│           │   │   │   ├── supplementary_material
+│           │   │   │   │   └── OptiHub Quick Start Guide.pdf
+│           │   │   │   └── camera_hardware.pdf
+│           │   │   ├── step_4_pc_setup
+│           │   │   │   └── ground_PC_setup.pdf
+│           │   │   ├── step_5_software
+│           │   │   │   └── software_quarc_testing.pdf
+│           │   │   ├── step_6_joystick
+│           │   │   │   ├── Joystick_Visualization_Demo
+│           │   │   │   │   ├── meshes
+│           │   │   │   │   │   ├── arrows.x3d
+│           │   │   │   │   │   ├── box.x3d
+│           │   │   │   │   │   └── cylinder.x3d
+│           │   │   │   │   ├── frsky.jpg
+│           │   │   │   │   ├── Joystick_Visualization_2019a.slx
+│           │   │   │   │   ├── Quadrotor_Simplified.xml
+│           │   │   │   │   └── spektrum.jpg
+│           │   │   │   ├── supplementary_material
+│           │   │   │   │   ├── FrSKY Dongle Manual.pdf
+│           │   │   │   │   ├── Joystick Troubleshooting.pdf
+│           │   │   │   │   └── Spektrum Dongle Manual.pdf
+│           │   │   │   ├── FrSKY_joystick_setup.pdf
+│           │   │   │   └── spektrum_joystick_setup_discontinued.pdf
+│           │   │   ├── step_7_router_pc_connection
+│           │   │   │   └── router_to_pc_connection.pdf
+│           │   │   ├── step_8_vehicle_comms
+│           │   │   │   ├── supplementary_material
+│           │   │   │   │   └── setting_fixed_ip.pdf
+│           │   │   │   ├── 01-QBot_2_2e_communication.pdf
+│           │   │   │   ├── 01-QDrone_1_communication.pdf
+│           │   │   │   ├── 01-QDrone_2_communication.pdf
+│           │   │   │   └── 02-communication_infrastructure.pdf
+│           │   │   ├── step_9_orient_cameras
+│           │   │   │   └── orienting_cameras.pdf
+│           │   │   └── Safety Instructions for AVRS.pdf
+│           │   ├── mobile_robotics
+│           │   │   ├── Welcome Guide.pdf
+│           │   │   └── Welcome Guide_student.pdf
+│           │   ├── raspberry_pi
+│           │   │   ├── pi_setup.pdf
+│           │   │   ├── system_setup.sh
+│           │   │   └── venv_setup.sh
+│           │   ├── self_driving_car_studio
+│           │   │   ├── setup_guide_general.pdf
+│           │   │   └── setup_guide_student.pdf
+│           │   ├── configure_matlab.bat
+│           │   ├── configure_python.bat
+│           │   ├── requirements.txt
+│           │   ├── step_1_check_requirements.bat
+│           │   └── updatebashrc_qcar2.sh
+│           ├── 2_quick_start_guides
+│           │   ├── aero2
+│           │   │   ├── digital_twin
+│           │   │   │   ├── Quanser Aero 2 Virtual Model Quick Start Guide.pdf
+│           │   │   │   └── virtual_aero2_quick_start.slx
+│           │   │   └── hardware
+│           │   │       ├── Aero 2 Quick Start Guide.pdf
+│           │   │       └── aero2_quick_start.slx
+│           │   ├── mech_actuators_trainer
+│           │   │   ├── actuators_quick_start_guide_python.pdf
+│           │   │   └── quick_start_actuators.py
+│           │   ├── mech_sensors_trainer
+│           │   │   ├── quick_start_sensors.py
+│           │   │   └── sensors_quick_start_guide_python.pdf
+│           │   ├── qarm
+│           │   │   ├── qarm_quick_start_guide_hardware.pdf
+│           │   │   ├── qarm_quick_start_guide_virtual.pdf
+│           │   │   ├── qarm_quick_start_model_hardware.slx
+│           │   │   └── qarm_quick_start_model_virtual.slx
+│           │   ├── qarm_mini
+│           │   │   └── hardware
+│           │   │       ├── matlab
+│           │   │       │   ├── qarm_mini_quick_start.slx
+│           │   │       │   └── quick_start_guide_hardware_simulink.pdf
+│           │   │       └── python
+│           │   │           ├── qarm_mini_quick_start.py
+│           │   │           └── quick_start_guide_hardware_python.pdf
+│           │   ├── qbot3
+│           │   │   ├── qbot3_quick_start_guide_virtual.pdf
+│           │   │   └── qbot3_quick_start_model_virtual.slx
+│           │   ├── qbot_platform
+│           │   │   ├── digital_twin
+│           │   │   │   ├── matlab
+│           │   │   │   │   ├── qlabs_setup.m
+│           │   │   │   │   ├── quick_start_guide_virtual_simulink.pdf
+│           │   │   │   │   └── quick_start_qbot_platform.slx
+│           │   │   │   └── python
+│           │   │   │       ├── observer.py
+│           │   │   │       ├── qlabs_setup.py
+│           │   │   │       ├── quick_start_guide_virtual_python.pdf
+│           │   │   │       └── quick_start_qbot_platform.py
+│           │   │   └── hardware
+│           │   │       ├── matlab
+│           │   │       │   ├── qbot_platform_driver_physical.rt-linux_qbot_platform
+│           │   │       │   ├── quick_start_guide_hardware_simulink.pdf
+│           │   │       │   └── quick_start_qbot_platform.slx
+│           │   │       └── python
+│           │   │           ├── observer.py
+│           │   │           ├── qbot_platform_driver_physical.rt-linux_qbot_platform
+│           │   │           ├── quick_start_guide_hardware_python.pdf
+│           │   │           └── quick_start_qbot_platform.py
+│           │   ├── qcar2
+│           │   │   └── hardware
+│           │   │       ├── Qcar2_Quick_Start_Demo_V2.rt-linux_qcar2
+│           │   │       └── quick_start_guide_hardware_qcar2.pdf
+│           │   └── qube_servo3
+│           │       ├── software
+│           │       │   ├── pdcontroller.py
+│           │       │   ├── qs3_qsg.slx
+│           │       │   ├── qs3_qsg_noMask.slx
+│           │       │   └── testQuarc.py
+│           │       ├── qs3_quick_start_guide_python.pdf
+│           │       └── qs3_quick_start_guide_simulink.pdf
+│           ├── 3_user_manuals
+│           │   ├── aero2
+│           │   │   └── aero2_user_manual.pdf
+│           │   ├── mech_actuators_trainer
+│           │   │   ├── actuators_datasheets
+│           │   │   │   ├── bldc_ datasheet.pdf
+│           │   │   │   ├── bldc_motor_inspection.pdf
+│           │   │   │   ├── dc_motor_datasheet.pdf
+│           │   │   │   ├── dc_motor_encoder_datasheet.pdf
+│           │   │   │   ├── servo_datasheet.pdf
+│           │   │   │   └── stepper_datasheet.pdf
+│           │   │   └── actuators_user_manual.pdf
+│           │   ├── mech_sensors_trainer
+│           │   │   ├── sensors_datasheets
+│           │   │   │   ├── buttons_SW-SPST-BLACK-TH-320.03E11BLK.pdf
+│           │   │   │   ├── camera_OV5640.pdf
+│           │   │   │   ├── color_sensor_veml3328.pdf
+│           │   │   │   ├── encoder_ENC-PEC12R-4225F-N0024.pdf
+│           │   │   │   ├── force_resistor_F-02 FSR-Specifications.pdf
+│           │   │   │   ├── imu_DS-000189-ICM-20948-v1.6.pdf
+│           │   │   │   ├── infrared_distance_GP2Y0A21YK0F_Spec_Sheet.pdf
+│           │   │   │   ├── joystick_JOY-TH-THB001P.pdf
+│           │   │   │   ├── lcd_srg0500B.pdf
+│           │   │   │   ├── LED_AAAF5050_MC_K12-1667955.pdf
+│           │   │   │   ├── light_resistor_DS-PDV-P8104.pdf
+│           │   │   │   ├── load_cell_TAL220P-5Kg.pdf
+│           │   │   │   ├── microphone_ICS-41351.pdf
+│           │   │   │   ├── passive_ir_PIR-PL-Q873-02.pdf
+│           │   │   │   ├── potentiometer_PTV09A-4020U-B104.pdf
+│           │   │   │   ├── radar_RADAR-A111-001-T&R.pdf
+│           │   │   │   ├── speaker_specs-AST-01508MR-R.pdf
+│           │   │   │   ├── thermocouple_max31855.pdf
+│           │   │   │   ├── tof_timeofflight_OPT-VL53L8CHV0GC-1.pdf
+│           │   │   │   ├── ultrasonic_ULTRA-CH201-00ABR.pdf
+│           │   │   │   └── weather_sensor_bst-bme280-ds002.pdf
+│           │   │   ├── buildingLoadcellScale.pdf
+│           │   │   └── sensors_user_manual.pdf
+│           │   ├── qarm
+│           │   │   ├── ancillaryMaterial
+│           │   │   │   ├── 1. Frame Assignments.pdf
+│           │   │   │   ├── 2. Forward Kinematics.pdf
+│           │   │   │   ├── 3. Inverse Kinematics.pdf
+│           │   │   │   ├── 4. Differential Kinematics.pdf
+│           │   │   │   ├── 5. Dynamics - Lagrangian.pdf
+│           │   │   │   ├── 6. Dynamics - Torque Equations.pdf
+│           │   │   │   └── 7. Dynamic Parameters.pdf
+│           │   │   └── qarm_user_manual.pdf
+│           │   ├── qarm_mini
+│           │   │   └── user_manual_qarm_mini.pdf
+│           │   ├── qbot2
+│           │   │   ├── 0. Introduction.pdf
+│           │   │   ├── 1. Kobuki Base.pdf
+│           │   │   ├── 2. Embedded Compute Module.pdf
+│           │   │   ├── 3. Localization Markers.pdf
+│           │   │   └── 4. Camera.pdf
+│           │   ├── qbot2e
+│           │   │   ├── 0. Introduction.pdf
+│           │   │   ├── 1. Kobuki Base.pdf
+│           │   │   ├── 2. Embedded Compute Module.pdf
+│           │   │   ├── 3. Localization Markers.pdf
+│           │   │   └── 4. Camera.pdf
+│           │   ├── qbot_platform
+│           │   │   ├── ancillary material
+│           │   │   │   ├── Battery Charger Manual -TM390-IN1-210812.pdf
+│           │   │   │   ├── D131L product datasheet v1r3 20230711.pdf
+│           │   │   │   ├── IMU Spec Sheet - ds-000440_iim-42652-datasheet.pdf
+│           │   │   │   ├── LSLiDAR M10P User Manual - v2.0.0_20220716.pdf
+│           │   │   │   ├── Motor & Encoder Spec Sheet - CHP-42GP-775-5-ABHL 12V 820rpm.pdf
+│           │   │   │   └── Motor Test Report - 42GP-775-5-12V-EN.pdf
+│           │   │   ├── user_manual_connectivity.pdf
+│           │   │   ├── user_manual_power.pdf
+│           │   │   ├── user_manual_software_python.pdf
+│           │   │   ├── user_manual_software_simulink.pdf
+│           │   │   └── user_manual_system_hardware.pdf
+│           │   ├── qbot_platform_alpha
+│           │   │   ├── ancillary material
+│           │   │   │   ├── Battery Charger Manual -TM390-IN1-210812.pdf
+│           │   │   │   ├── IMU Spec Sheet - ds-000440_iim-42652-datasheet.pdf
+│           │   │   │   ├── LSLiDAR M10P User Manual - v2.0.0_20220716.pdf
+│           │   │   │   ├── Motor & Encoder Spec Sheet - CHP-42GP-775-5-ABHL 12V 820rpm.pdf
+│           │   │   │   └── Motor Test Report - 42GP-775-5-12V-EN.pdf
+│           │   │   ├── user_manual_connectivity.pdf
+│           │   │   ├── user_manual_power.pdf
+│           │   │   └── user_manual_system_hardware.pdf
+│           │   ├── qcar
+│           │   │   ├── user_manual_connectivity.pdf
+│           │   │   ├── user_manual_customizing_the_qcar.pdf
+│           │   │   ├── user_manual_power.pdf
+│           │   │   ├── user_manual_software_python.pdf
+│           │   │   ├── user_manual_software_ros.pdf
+│           │   │   ├── user_manual_software_simulink.pdf
+│           │   │   ├── user_manual_system_hardware.pdf
+│           │   │   └── user_manual_troubleshooting.pdf
+│           │   ├── qcar2
+│           │   │   ├── supplementary_material
+│           │   │   │   ├── imu_datasheet.pdf
+│           │   │   │   ├── motorEncoder_E8T-Datasheet.pdf
+│           │   │   │   └── QCar 2 Mechanical Breadboard.dxf
+│           │   │   ├── user_manual_connectivity.pdf
+│           │   │   ├── user_manual_customizing_qcar2.pdf
+│           │   │   ├── user_manual_power.pdf
+│           │   │   ├── user_manual_software_python.pdf
+│           │   │   ├── user_manual_software_simulink.pdf
+│           │   │   ├── user_manual_system_hardware.pdf
+│           │   │   └── user_manual_troubleshooting.pdf
+│           │   ├── qdrone
+│           │   │   ├── Drone Parametrization
+│           │   │   │   ├── Cobra_2208
+│           │   │   │   │   ├── Cobra Motor Drone Parametrization.pdf
+│           │   │   │   │   ├── Cobra_data.mat
+│           │   │   │   │   ├── QDrone1_Cobra_Motor_Parametrization.m
+│           │   │   │   │   └── StepsTest_2021-10-20_114905.csv
+│           │   │   │   ├── CM_2100_2206_DP6045_3S.mat
+│           │   │   │   ├── Drone Parametrization.pdf
+│           │   │   │   └── Drone_Parametrization.m
+│           │   │   ├── 0. Introduction.pdf
+│           │   │   ├── 1. Embedded Compute Module.pdf
+│           │   │   ├── 2. Propulsion System.pdf
+│           │   │   ├── 3. Battery.pdf
+│           │   │   ├── 4. Localization Markers.pdf
+│           │   │   └── 5. Cameras.pdf
+│           │   ├── qdrone2
+│           │   │   ├── qdrone2_parametrization
+│           │   │   │   ├── 2020-10-02_7_1300_HQ.xlsx
+│           │   │   │   ├── BrotherHobby_7inch.mat
+│           │   │   │   ├── Motor_Mapping_7_Inch.m
+│           │   │   │   ├── Motor_Parametrization.m
+│           │   │   │   └── qdrone2_thrust_parametrization.pdf
+│           │   │   ├── user_manual_connectivity.pdf
+│           │   │   ├── user_manual_power.pdf
+│           │   │   └── user_manual_system_hardware.pdf
+│           │   ├── qube_servo3
+│           │   │   ├── Technical_References
+│           │   │   │   ├── Qube-Servo 3 DC Motor Specs.pdf
+│           │   │   │   └── Qube-Servo 3 Encoder Specs.pdf
+│           │   │   └── Qube_Servo3_user_manual.pdf
+│           │   └── traffic_light
+│           │       └── user_manual_traffic_light.pdf
+│           ├── 4_concept_reviews
+│           │   ├── Controls
+│           │   │   ├── 001_introduction_to_control.pdf
+│           │   │   ├── 002_pid_control.pdf
+│           │   │   ├── 003_longitudinal_speed_control.pdf
+│           │   │   ├── 004_geometric_lateral_control.pdf
+│           │   │   ├── 005_routh_hurwitz.pdf
+│           │   │   ├── 006_steady_state_error.pdf
+│           │   │   └── 007_lead_lag_compensators.pdf
+│           │   ├── Mechatronics
+│           │   │   ├── 001_hardware_interfacing.pdf
+│           │   │   ├── 002_motor_dc.pdf
+│           │   │   ├── 003_motor_servo.pdf
+│           │   │   ├── 004_motor_bldc.pdf
+│           │   │   ├── 005_motor_stepper.pdf
+│           │   │   ├── 006_inertial_measurement_units.pdf
+│           │   │   ├── 007_rotary_sensors.pdf
+│           │   │   ├── 008_sensor_noise.pdf
+│           │   │   ├── 009_filtering.pdf
+│           │   │   ├── 010_load_cell.pdf
+│           │   │   ├── 011_force_resistor.pdf
+│           │   │   ├── 012_potentiometers.pdf
+│           │   │   ├── 013_light_resistor.pdf
+│           │   │   ├── 014_push_button.pdf
+│           │   │   ├── 017_infrared_distance.pdf
+│           │   │   ├── 018_passive_infrared.pdf
+│           │   │   ├── 019_thermocouple.pdf
+│           │   │   ├── 020_weather_sensor.pdf
+│           │   │   ├── 021_color_sensor.pdf
+│           │   │   ├── 022_lcd_touch_display.pdf
+│           │   │   ├── 023_time_of_flight.pdf
+│           │   │   ├── 024_microphone_speaker.pdf
+│           │   │   ├── 025_radar.pdf
+│           │   │   ├── 026_ultrasonic.pdf
+│           │   │   └── 027_rotary_encoders.pdf
+│           │   ├── Modeling
+│           │   │   ├── 001_modeling.pdf
+│           │   │   ├── 005_kinematic_bicycle_model.pdf
+│           │   │   ├── 006_pendulum_free_body_diagram.pdf
+│           │   │   ├── 007_pendulum_state_space_model.pdf
+│           │   │   └── 010_lidar_inverse_measurement_model.pdf
+│           │   ├── Perception
+│           │   │   ├── 001_camera_model.pdf
+│           │   │   ├── 002_calibration_images.pdf
+│           │   │   ├── 003_colour_spaces.pdf
+│           │   │   ├── 004_image_filters.pdf
+│           │   │   ├── 005_blob_detection.pdf
+│           │   │   ├── 006_sensor_fusion.pdf
+│           │   │   ├── 007_kalman_filters.pdf
+│           │   │   └── 008_occupancy_grid_mapping.pdf
+│           │   └── Robotics
+│           │       ├── 001_frames_of_reference.pdf
+│           │       ├── 002_orientation_and_position.pdf
+│           │       ├── 003_position_kinematics.pdf
+│           │       ├── 004_differential_kinematics.pdf
+│           │       ├── 005_denavit_hartenberg_framework.pdf
+│           │       ├── 006_manipulator_lead_through.pdf
+│           │       └── 007_trajectory_generation.pdf
+│           ├── 5_research
+│           │   ├── aero2
+│           │   │   ├── python
+│           │   │   │   ├── aero2_1dof_rotor_0_pi_control_immediate.py
+│           │   │   │   ├── aero2_read_all_sensor_data_task.py
+│           │   │   │   └── aero2_read_all_sensor_data_task_qscope.py
+│           │   │   └── simulink
+│           │   │       └── 2dof_heli_PD
+│           │   │           ├── aero2_2dof_pd_control.mlx
+│           │   │           ├── aero2_2dof_pd_control.pdf
+│           │   │           ├── aero2_parameters.m
+│           │   │           ├── aero2_parameters_id.m
+│           │   │           ├── DataPDControlRef.mat
+│           │   │           ├── q_aero2_2dof_pd.slx
+│           │   │           └── s_aero2_2dof_pd.slx
+│           │   ├── applied_ai
+│           │   │   └── inference
+│           │   │       ├── actionNet_csi.py
+│           │   │       ├── actionNet_realsense.py
+│           │   │       ├── depthNet_csi.py
+│           │   │       ├── depthNet_realsense.py
+│           │   │       ├── detectNet_csi.py
+│           │   │       ├── detectNet_realsense.py
+│           │   │       ├── imageNet_csi.py
+│           │   │       ├── imageNet_realsense.py
+│           │   │       ├── installModules.py
+│           │   │       ├── jetson-inference_setup_examples.pdf
+│           │   │       ├── poseNet_csi.py
+│           │   │       ├── poseNet_realsense.py
+│           │   │       ├── RunModules.sh
+│           │   │       ├── segNet_csi.py
+│           │   │       └── segNet_realsense.py
+│           │   ├── autonomous_vehicles
+│           │   │   ├── mission_server_snippets
+│           │   │   │   ├── Joystick.slx
+│           │   │   │   └── Position_Generator.slx
+│           │   │   ├── multivehicle
+│           │   │   │   ├── ldrQB2_flwrQD1
+│           │   │   │   │   ├── joystick_commands
+│           │   │   │   │   │   ├── scripts
+│           │   │   │   │   │   │   ├── plot_data_commander.m
+│           │   │   │   │   │   │   ├── plot_data_mission_server.m
+│           │   │   │   │   │   │   ├── plot_data_QBot2e.m
+│           │   │   │   │   │   │   ├── plot_data_QDrone.m
+│           │   │   │   │   │   │   └── plot_data_stabilizer.m
+│           │   │   │   │   │   ├── Commander_Stabilizer_QDrone_Follower.mdl
+│           │   │   │   │   │   ├── Joystick_Stabilizer_QBot2e_Leader.mdl
+│           │   │   │   │   │   ├── MissionServer_QBot2_QDrone_Joystick.mdl
+│           │   │   │   │   │   ├── MissionServer_QBot2_QDrone_Joystick_FrSky.mdl
+│           │   │   │   │   │   ├── MissionServer_QBot2_QDrone_Joystick_Vicon.mdl
+│           │   │   │   │   │   └── MissionServer_QBot2_QDrone_Joystick_Vicon_FrSky.mdl
+│           │   │   │   │   └── waypoints
+│           │   │   │   │       ├── scripts
+│           │   │   │   │       │   ├── Swarm_QDrones
+│           │   │   │   │       │   │   ├── 2QDrones
+│           │   │   │   │       │   │   │   ├── Close_QUARC_Windows.bat
+│           │   │   │   │       │   │   │   ├── Commander_Stabilizer_QDrone.mdl
+│           │   │   │   │       │   │   │   ├── Launch_All_Drone_Models.bat
+│           │   │   │   │       │   │   │   ├── Mission_Server_Swarm_2QDrone.mdl
+│           │   │   │   │       │   │   │   ├── Mission_Server_Swarm_2QDrone_FrSky.mdl
+│           │   │   │   │       │   │   │   ├── Mission_Server_Swarm_2QDrone_Vicon.mdl
+│           │   │   │   │       │   │   │   └── Mission_Server_Swarm_2QDrone_Vicon_FrSky.mdl
+│           │   │   │   │       │   │   ├── 4QDrones
+│           │   │   │   │       │   │   │   ├── Close_QUARC_Windows.bat
+│           │   │   │   │       │   │   │   ├── Commander_Stabilizer_QDrone.mdl
+│           │   │   │   │       │   │   │   ├── Launch_4_Drone_Models.bat
+│           │   │   │   │       │   │   │   ├── Mission_Server_Swarm_4QDrone.mdl
+│           │   │   │   │       │   │   │   ├── Mission_Server_Swarm_4QDrone_FrSky.mdl
+│           │   │   │   │       │   │   │   ├── Mission_Server_Swarm_4QDrone_Vicon.mdl
+│           │   │   │   │       │   │   │   └── Mission_Server_Swarm_4QDrone_Vicon_FrSky.mdl
+│           │   │   │   │       │   │   ├── saved_data
+│           │   │   │   │       │   │   │   ├── data_def_Mission_Server.csv
+│           │   │   │   │       │   │   │   ├── generate_breakout_script.awk
+│           │   │   │   │       │   │   │   ├── parse_vars_mission_server.m
+│           │   │   │   │       │   │   │   ├── plot_data_mission_server_2QDrones.m
+│           │   │   │   │       │   │   │   ├── plot_data_mission_server_4QDrones.m
+│           │   │   │   │       │   │   │   └── plot_data_mission_server_6QDrones.m
+│           │   │   │   │       │   │   ├── Close_QUARC_Windows.bat
+│           │   │   │   │       │   │   ├── Commander_Stabilizer_QDrone.mdl
+│           │   │   │   │       │   │   ├── Launch_All_Drone_Models.bat
+│           │   │   │   │       │   │   ├── Mission_Server_Swarm.mdl
+│           │   │   │   │       │   │   ├── Mission_Server_Swarm_FrSky.mdl
+│           │   │   │   │       │   │   ├── Mission_Server_Swarm_Vicon.mdl
+│           │   │   │   │       │   │   └── Mission_Server_Swarm_Vicon_FrSky.mdl
+│           │   │   │   │       │   ├── plot_data_commander.m
+│           │   │   │   │       │   ├── plot_data_mission_server.m
+│           │   │   │   │       │   ├── plot_data_QBot2e.m
+│           │   │   │   │       │   ├── plot_data_QBot2e_commander.m
+│           │   │   │   │       │   ├── plot_data_QDrone.m
+│           │   │   │   │       │   └── plot_data_stabilizer.m
+│           │   │   │   │       ├── Commander_Stabilizer_QBot2e_Leader.mdl
+│           │   │   │   │       ├── Commander_Stabilizer_QDrone_Follower.mdl
+│           │   │   │   │       ├── MissionServer_QBot2_QDrone.mdl
+│           │   │   │   │       ├── MissionServer_QBot2_QDrone_FrSky.mdl
+│           │   │   │   │       ├── MissionServer_QBot2_QDrone_Vicon.mdl
+│           │   │   │   │       └── MissionServer_QBot2_QDrone_Vicon_FrSky.mdl
+│           │   │   │   ├── ldrQBP_flwrQD2
+│           │   │   │   │   ├── Close_Stop_All.bat
+│           │   │   │   │   ├── LeaderFollower_QDrone2-QbotPlat.bat
+│           │   │   │   │   ├── Motor_Mapping_7_Inch.m
+│           │   │   │   │   ├── MS_QD2_QBPlat_R2021a.slx
+│           │   │   │   │   ├── qbot_driver.rt-linux_qbot_platform
+│           │   │   │   │   ├── qbot_driver.slx
+│           │   │   │   │   └── QD2_DroneStack_PID_R2023a.slx
+│           │   │   │   ├── ldrQBP_flwrQD2_virt
+│           │   │   │   │   ├── Motor_Mapping_7_Inch.m
+│           │   │   │   │   ├── MS_QD2_QBP_joystick_R2023.slx
+│           │   │   │   │   ├── MS_QD2_QBP_manual_R2023.slx
+│           │   │   │   │   ├── QD2_DroneStack_PID_virt_R2023.slx
+│           │   │   │   │   ├── README.txt
+│           │   │   │   │   ├── setup_python.py
+│           │   │   │   │   └── THIS EXAMPLE IS FOR VIRTUAL DEVICES ONLY
+│           │   │   │   ├── swarm_QD1
+│           │   │   │   │   ├── 2x
+│           │   │   │   │   │   ├── Scripts
+│           │   │   │   │   │   │   ├── parse_vars_mission_server_2QDrones.m
+│           │   │   │   │   │   │   └── plot_data_mission_server_2QDrones.m
+│           │   │   │   │   │   ├── Close_QUARC_Windows.bat
+│           │   │   │   │   │   ├── Commander_Stabilizer_QDrone.mdl
+│           │   │   │   │   │   ├── Launch_All_Drone_Models.bat
+│           │   │   │   │   │   ├── Mission_Server_Swarm_2QDrone.mdl
+│           │   │   │   │   │   ├── Mission_Server_Swarm_2QDrone_FrSky.mdl
+│           │   │   │   │   │   ├── Mission_Server_Swarm_2QDrone_Vicon.mdl
+│           │   │   │   │   │   └── Mission_Server_Swarm_2QDrone_Vicon_FrSky.mdl
+│           │   │   │   │   ├── 3x
+│           │   │   │   │   │   ├── Scripts
+│           │   │   │   │   │   │   ├── parse_vars_mission_server_3QDrones.m
+│           │   │   │   │   │   │   └── plot_data_mission_server_3QDrones.m
+│           │   │   │   │   │   ├── Close_QUARC_Windows.bat
+│           │   │   │   │   │   ├── Commander_Stabilizer_QDrone.mdl
+│           │   │   │   │   │   ├── Launch_3_QDrone_Models.bat
+│           │   │   │   │   │   ├── Mission_Server_Swarm_3QDrone.mdl
+│           │   │   │   │   │   ├── Mission_Server_Swarm_3QDrone_FrSky.mdl
+│           │   │   │   │   │   ├── Mission_Server_Swarm_3QDrone_Vicon.mdl
+│           │   │   │   │   │   └── Mission_Server_Swarm_3QDrone_Vicon_FrSky.mdl
+│           │   │   │   │   ├── 4x
+│           │   │   │   │   │   ├── Scripts
+│           │   │   │   │   │   │   ├── parse_vars_mission_server_4QDrones.m
+│           │   │   │   │   │   │   └── plot_data_mission_server_4QDrones.m
+│           │   │   │   │   │   ├── Close_QUARC_Windows.bat
+│           │   │   │   │   │   ├── Commander_Stabilizer_QDrone.mdl
+│           │   │   │   │   │   ├── Launch_4_QDrone_Models.bat
+│           │   │   │   │   │   ├── Mission_Server_Swarm_4QDrone.mdl
+│           │   │   │   │   │   ├── Mission_Server_Swarm_4QDrone_FrSky.mdl
+│           │   │   │   │   │   ├── Mission_Server_Swarm_4QDrone_Vicon.mdl
+│           │   │   │   │   │   └── Mission_Server_Swarm_4QDrone_Vicon_FrSky.mdl
+│           │   │   │   │   └── 6x
+│           │   │   │   │       ├── Scripts
+│           │   │   │   │       │   ├── parse_vars_mission_server_6QDrones.m
+│           │   │   │   │       │   └── plot_data_mission_server_6QDrones.m
+│           │   │   │   │       ├── Close_QUARC_Windows.bat
+│           │   │   │   │       ├── Commander_Stabilizer_QDrone.mdl
+│           │   │   │   │       ├── Launch_All_Drone_Models.bat
+│           │   │   │   │       ├── Mission_Server_Swarm.mdl
+│           │   │   │   │       ├── Mission_Server_Swarm_FrSky.mdl
+│           │   │   │   │       ├── Mission_Server_Swarm_Vicon.mdl
+│           │   │   │   │       └── Mission_Server_Swarm_Vicon_FrSky.mdl
+│           │   │   │   ├── swarm_QD2
+│           │   │   │   │   ├── 2x
+│           │   │   │   │   │   ├── hw
+│           │   │   │   │   │   │   ├── scripts
+│           │   │   │   │   │   │   │   ├── parse_vars_mission_server_2QDrones.m
+│           │   │   │   │   │   │   │   └── plot_data_mission_server_2QDrones.m
+│           │   │   │   │   │   │   ├── Close_QUARC_Windows.bat
+│           │   │   │   │   │   │   ├── Launch_All_Drone_Models.bat
+│           │   │   │   │   │   │   ├── Motor_Mapping_7_Inch.m
+│           │   │   │   │   │   │   ├── QD2_DroneStack_PID_2021a.slx
+│           │   │   │   │   │   │   └── QD2_MissionCtrl_Swarm_2x_R2021a.slx
+│           │   │   │   │   │   └── virt
+│           │   │   │   │   │       ├── rt_models
+│           │   │   │   │   │       │   ├── DStack_18981.rt-win64
+│           │   │   │   │   │       │   ├── DStack_18991.rt-win64
+│           │   │   │   │   │       │   ├── QDrone2_Virtual_0_qd2.rt-win64
+│           │   │   │   │   │       │   └── QDrone2_Virtual_1_qd2.rt-win64
+│           │   │   │   │   │       ├── Simulink
+│           │   │   │   │   │       │   ├── DStack_18981.slx
+│           │   │   │   │   │       │   ├── DStack_18991.slx
+│           │   │   │   │   │       │   ├── MControl.slx
+│           │   │   │   │   │       │   └── Motor_Mapping_7_Inch.m
+│           │   │   │   │   │       ├── clean_all.bat
+│           │   │   │   │   │       ├── qlabs_setup.py
+│           │   │   │   │   │       ├── README.txt
+│           │   │   │   │   │       └── run_example_2x_QDrone2.bat
+│           │   │   │   │   ├── 3x
+│           │   │   │   │   │   ├── scripts
+│           │   │   │   │   │   │   ├── parse_vars_mission_server_3QDrones.m
+│           │   │   │   │   │   │   └── plot_data_mission_server_3QDrones.m
+│           │   │   │   │   │   ├── Close_QUARC_Windows.bat
+│           │   │   │   │   │   ├── Launch_3_QDrone_Models.bat
+│           │   │   │   │   │   ├── Motor_Mapping_7_Inch.m
+│           │   │   │   │   │   ├── QD2_DroneStack_PID_2021a.slx
+│           │   │   │   │   │   └── QD2_MissionCtrl_Swarm_3x_R2021a.slx
+│           │   │   │   │   ├── 4x
+│           │   │   │   │   │   ├── scripts
+│           │   │   │   │   │   │   ├── parse_vars_mission_server_4QDrones.m
+│           │   │   │   │   │   │   └── plot_data_mission_server_4QDrones.m
+│           │   │   │   │   │   ├── Close_QUARC_Windows.bat
+│           │   │   │   │   │   ├── Launch_4_QDrone_Models.bat
+│           │   │   │   │   │   ├── Motor_Mapping_7_Inch.m
+│           │   │   │   │   │   ├── QD2_DroneStack_PID_2021a.slx
+│           │   │   │   │   │   └── QD2_MissionCtrl_Swarm_4x_R2021a.slx
+│           │   │   │   │   └── 6x
+│           │   │   │   │       ├── scrips
+│           │   │   │   │       │   ├── parse_vars_mission_server_6QDrones.m
+│           │   │   │   │       │   └── plot_data_mission_server_6QDrones.m
+│           │   │   │   │       ├── Close_QUARC_Windows.bat
+│           │   │   │   │       ├── Launch_All_Drone_Models.bat
+│           │   │   │   │       ├── Motor_Mapping_7_Inch.m
+│           │   │   │   │       ├── QD2_DroneStack_PID_2021a.slx
+│           │   │   │   │       └── QD2_MissionCtrl_Swarm_6x_R2021a.slx
+│           │   │   │   └── AvailableVirtualSwarms.txt
+│           │   │   ├── qbot2
+│           │   │   │   └── hardware_tests
+│           │   │   │       ├── 0. Introduction.pdf
+│           │   │   │       ├── 1. Motors.pdf
+│           │   │   │       ├── 2. LEDs.pdf
+│           │   │   │       ├── 3. Sensors.pdf
+│           │   │   │       ├── 4. Cameras.pdf
+│           │   │   │       ├── Read_Cameras.slx
+│           │   │   │       ├── Read_Sensors.slx
+│           │   │   │       ├── Write_LEDs.slx
+│           │   │   │       └── Write_Motors.slx
+│           │   │   ├── qbot2e
+│           │   │   │   └── hardware_tests
+│           │   │   │       ├── 0. Introduction.pdf
+│           │   │   │       ├── 1. Motors.pdf
+│           │   │   │       ├── 2. LEDs.pdf
+│           │   │   │       ├── 3. Sensors.pdf
+│           │   │   │       ├── 4. Cameras.pdf
+│           │   │   │       ├── Read_Cameras.slx
+│           │   │   │       ├── Read_Sensors.slx
+│           │   │   │       ├── Write_LEDs.slx
+│           │   │   │       └── Write_Motors.slx
+│           │   │   ├── qbot3
+│           │   │   │   ├── hardware_tests
+│           │   │   │   │   ├── 1. Motors.pdf
+│           │   │   │   │   ├── 2. LEDs.pdf
+│           │   │   │   │   ├── 3. Sensors.pdf
+│           │   │   │   │   ├── 4. Cameras.pdf
+│           │   │   │   │   ├── Read_Cameras.mdl
+│           │   │   │   │   ├── Read_Sensors.mdl
+│           │   │   │   │   ├── Write_LEDs.mdl
+│           │   │   │   │   └── Write_Motors.mdl
+│           │   │   │   └── python
+│           │   │   │       ├── tests
+│           │   │   │       │   ├── qbot_camera.py
+│           │   │   │       │   └── qbot_io.py
+│           │   │   │       └── virtual_qbot_line_following.py
+│           │   │   ├── qdrone1
+│           │   │   │   ├── hardware_tests
+│           │   │   │   │   ├── 0. Introduction.pdf
+│           │   │   │   │   ├── 1. Motors.pdf
+│           │   │   │   │   ├── 2. LEDs.pdf
+│           │   │   │   │   ├── 3. IMU.pdf
+│           │   │   │   │   ├── 4. Cameras.pdf
+│           │   │   │   │   ├── Read_Cameras.slx
+│           │   │   │   │   ├── Read_IMU.slx
+│           │   │   │   │   ├── Save_Aligned_RGB_Depth_Videos.slx
+│           │   │   │   │   ├── Save_RGB_Video.slx
+│           │   │   │   │   ├── Write_LEDs.slx
+│           │   │   │   │   └── Write_Motors.slx
+│           │   │   │   ├── manual_flight
+│           │   │   │   │   ├── scripts
+│           │   │   │   │   │   ├── Mission_Server_QDrone_Manual_Flight
+│           │   │   │   │   │   │   └── plot_data_mission_server.m
+│           │   │   │   │   │   └── Stabilizer_QDrone
+│           │   │   │   │   │       ├── plot_data_QDrone.m
+│           │   │   │   │   │       └── plot_data_stabilizer.m
+│           │   │   │   │   ├── Mission_Server_QDrone_Manual_Flight.mdl
+│           │   │   │   │   ├── Mission_Server_QDrone_Manual_Flight_FrSky.mdl
+│           │   │   │   │   └── Stabilizer_QDrone.mdl
+│           │   │   │   └── position_control
+│           │   │   │       ├── scripts
+│           │   │   │       │   ├── plot_data_commander.m
+│           │   │   │       │   ├── plot_data_mission_server.m
+│           │   │   │       │   ├── plot_data_QDrone.m
+│           │   │   │       │   └── plot_data_stabilizer.m
+│           │   │   │       ├── Commander_Stabilizer_QDrone.mdl
+│           │   │   │       ├── MissionServer_QDrone_Position_Control.mdl
+│           │   │   │       ├── MissionServer_QDrone_Position_Control_FrSky.mdl
+│           │   │   │       ├── MissionServer_QDrone_Position_Control_Vicon.mdl
+│           │   │   │       └── MissionServer_QDrone_Position_Control_Vicon_FrSky.mdl
+│           │   │   └── qdrone2
+│           │   │       ├── hardware_tests
+│           │   │       │   ├── QD2_cameras.pdf
+│           │   │       │   ├── QD2_cameras_2021a.slx
+│           │   │       │   ├── QD2_height.pdf
+│           │   │       │   ├── QD2_height_2021a.slx
+│           │   │       │   ├── QD2_IMU.pdf
+│           │   │       │   ├── QD2_IMU_2021a.slx
+│           │   │       │   ├── QD2_LED_2021a.slx
+│           │   │       │   ├── QD2_LEDs.pdf
+│           │   │       │   ├── QD2_motors.pdf
+│           │   │       │   ├── QD2_motors_2021a.slx
+│           │   │       │   ├── QD2_opticalflow.pdf
+│           │   │       │   └── QD2_opticalflow_2021a.slx
+│           │   │       ├── manual_flight_attitude_command
+│           │   │       │   ├── scripts
+│           │   │       │   │   ├── plot_daq_qdrone2.m
+│           │   │       │   │   └── plot_data_stabilizer.m
+│           │   │       │   ├── Motor_Mapping_7_Inch.m
+│           │   │       │   ├── QD2_DroneStack_Manual_2021a.slx
+│           │   │       │   └── QD2_MissionCtrl_Manual_2021a.slx
+│           │   │       ├── manual_flight_position_command
+│           │   │       │   ├── scripts
+│           │   │       │   │   ├── plot_daq_qdrone2.m
+│           │   │       │   │   ├── plot_data_commander.m
+│           │   │       │   │   ├── plot_data_mission_server.m
+│           │   │       │   │   └── plot_data_stabilizer.m
+│           │   │       │   ├── Motor_Mapping_7_Inch.m
+│           │   │       │   ├── QD2_DroneStack_PID_2021a.slx
+│           │   │       │   └── QD2_MissionCtrl_ManualPC_2021a.slx
+│           │   │       ├── position_control
+│           │   │       │   ├── scripts
+│           │   │       │   │   ├── plot_daq_qdrone2.m
+│           │   │       │   │   ├── plot_data_commander.m
+│           │   │       │   │   ├── plot_data_mission_server.m
+│           │   │       │   │   └── plot_data_stabilizer.m
+│           │   │       │   ├── Motor_Mapping_7_Inch.m
+│           │   │       │   ├── QD2_DroneStack_PID_2021a.slx
+│           │   │       │   └── QD2_MissionCtrl_2021a.slx
+│           │   │       ├── python_to_simulink
+│           │   │       │   ├── hardware
+│           │   │       │   │   ├── rtmodels
+│           │   │       │   │   │   └── MissionServerVRPN.rt-win64
+│           │   │       │   │   ├── Simulink
+│           │   │       │   │   │   ├── DroneStack.slx
+│           │   │       │   │   │   ├── MissionServerLegacy.slx
+│           │   │       │   │   │   ├── MissionServerVRPN.slx
+│           │   │       │   │   │   └── Motor_Mapping_7_Inch.m
+│           │   │       │   │   ├── commander.py
+│           │   │       │   │   ├── joystick_commands.py
+│           │   │       │   │   ├── q_setup.py
+│           │   │       │   │   ├── README.txt
+│           │   │       │   │   ├── stream_stack_client_qd2.py
+│           │   │       │   │   └── waypoint_commands.py
+│           │   │       │   └── virtual
+│           │   │       │       ├── rtmodels
+│           │   │       │       │   ├── DroneStack.rt-win64
+│           │   │       │       │   ├── MissionServerLegacy.rt-win64
+│           │   │       │       │   └── MissionServerVRPN.rt-win64
+│           │   │       │       ├── Simulink
+│           │   │       │       │   ├── DroneStack.slx
+│           │   │       │       │   ├── MissionServerLegacy.slx
+│           │   │       │       │   ├── MissionServerVRPN.slx
+│           │   │       │       │   └── Motor_Mapping_7_Inch.m
+│           │   │       │       ├── commander.py
+│           │   │       │       ├── joystick_commands.py
+│           │   │       │       ├── qlabs_setup.py
+│           │   │       │       ├── README.txt
+│           │   │       │       ├── stream_stack_client_qd2.py
+│           │   │       │       └── waypoint_commands.py
+│           │   │       ├── read_cameras
+│           │   │       │   └── QD2_ReadCameras_2021b.slx
+│           │   │       ├── save_aligned_rgb_depth_videos
+│           │   │       │   └── QD2_SaveVideos_2021b.slx
+│           │   │       ├── virtual
+│           │   │       │   ├── manual_flight_attitude
+│           │   │       │   │   ├── scripts
+│           │   │       │   │   │   ├── plot_daq_qdrone2.m
+│           │   │       │   │   │   └── plot_data_stabilizer.m
+│           │   │       │   │   ├── Motor_Mapping_7_Inch.m
+│           │   │       │   │   ├── spawn_qdrone2.py
+│           │   │       │   │   ├── virtual_QD2_DroneStack_Manual_2024a.slx
+│           │   │       │   │   └── virtual_QD2_MissionCtrl_Manual_2024a.slx
+│           │   │       │   ├── manual_flight_position
+│           │   │       │   │   ├── scripts
+│           │   │       │   │   │   ├── plot_daq_qdrone2.m
+│           │   │       │   │   │   ├── plot_data_commander.m
+│           │   │       │   │   │   ├── plot_data_mission_server.m
+│           │   │       │   │   │   └── plot_data_stabilizer.m
+│           │   │       │   │   ├── Motor_Mapping_7_Inch.m
+│           │   │       │   │   ├── spawn_qdrone2.py
+│           │   │       │   │   ├── virtual_QD2_DroneStack4PID_2024a.slx
+│           │   │       │   │   └── virtual_QD2_MissionCtrl_ManualPC_2024a.slx
+│           │   │       │   ├── position_control
+│           │   │       │   │   ├── scripts
+│           │   │       │   │   │   ├── plot_daq_qdrone2.m
+│           │   │       │   │   │   ├── plot_data_commander.m
+│           │   │       │   │   │   ├── plot_data_mission_server.m
+│           │   │       │   │   │   └── plot_data_stabilizer.m
+│           │   │       │   │   ├── Motor_Mapping_7_Inch.m
+│           │   │       │   │   ├── spawn_qdrone2.py
+│           │   │       │   │   ├── virtual_QD2_DroneStack_PID_2024a.slx
+│           │   │       │   │   └── virtual_QD2_MissionCtrl_2024a.slx
+│           │   │       │   └── read_cameras
+│           │   │       │       ├── spawn_qdrone2.py
+│           │   │       │       └── virtual_QD2_ReadCameras_2023a.slx
+│           │   │       └── virtual_and_hardware_position
+│           │   │           ├── DroneStack_Hardware.slx
+│           │   │           ├── DroneStack_Virtual.slx
+│           │   │           ├── MissionServerCombined.slx
+│           │   │           ├── Motor_Mapping_7_Inch.m
+│           │   │           └── Spawn_QDrone.m
+│           │   ├── mechatronic_trainers
+│           │   │   ├── actuatorsSensorlessBLDC.py
+│           │   │   ├── actuatorsWriteAllBlocks.py
+│           │   │   ├── sensorsAndActuators.py
+│           │   │   └── sensorsCameraMultiRate.py
+│           │   ├── multi_agent
+│           │   │   ├── QBP_multi-line_following
+│           │   │   │   ├── line_following_2023a.slx
+│           │   │   │   ├── setup_matlab.m
+│           │   │   │   └── setup_python.py
+│           │   │   ├── QCar2_multi-vehicle_control
+│           │   │   │   ├── cityscape.png
+│           │   │   │   ├── initCars.py
+│           │   │   │   ├── run.bat
+│           │   │   │   ├── SDCS_RoadMap_RightHandTraffic.png
+│           │   │   │   ├── vehicle_control.py
+│           │   │   │   └── vehicle_control2.py
+│           │   │   └── testingMultiAgent.py
+│           │   ├── pal_utilities
+│           │   │   ├── peripherals
+│           │   │   │   └── keyboardTest.py
+│           │   │   ├── probe
+│           │   │   │   ├── Receive
+│           │   │   │   │   └── receive.py
+│           │   │   │   └── Send
+│           │   │   │       ├── probesSendDoubles.py
+│           │   │   │       ├── probesSendImages.py
+│           │   │   │       ├── probesSendLidar.py
+│           │   │   │       ├── probesSendMulti.py
+│           │   │   │       └── test.png
+│           │   │   ├── scope
+│           │   │   │   └── example_scope.py
+│           │   │   ├── stream
+│           │   │   │   ├── python2Simulink
+│           │   │   │   │   ├── stream_client.py
+│           │   │   │   │   └── stream_server.slx
+│           │   │   │   ├── simulink2python
+│           │   │   │   │   ├── stream_client.slx
+│           │   │   │   │   └── stream_server.py
+│           │   │   │   ├── stream_client.py
+│           │   │   │   └── stream_server.py
+│           │   │   ├── timing
+│           │   │   │   ├── timing
+│           │   │   │   │   ├── 0_timing_test.py
+│           │   │   │   │   ├── 1_timing_blind.py
+│           │   │   │   │   ├── 2_timing_relative.py
+│           │   │   │   │   ├── 3_timing_absolute.py
+│           │   │   │   │   ├── 4_quanser_timing.py
+│           │   │   │   │   └── readMe.txt
+│           │   │   │   ├── 0_timing_test.py
+│           │   │   │   ├── 1_timing_blind.py
+│           │   │   │   ├── 2_timing_relative.py
+│           │   │   │   ├── 3_timing_absolute.py
+│           │   │   │   ├── 4_quanser_timing.py
+│           │   │   │   └── readMe.txt
+│           │   │   └── vision
+│           │   │       ├── vision2D.py
+│           │   │       ├── vision_3D_ir.py
+│           │   │       └── vision_3D_rgb_depth.py
+│           │   ├── qarm
+│           │   │   ├── basic
+│           │   │   │   ├── BasicIO_position_mode_joint_space.py
+│           │   │   │   ├── BasicIO_position_mode_joint_space.slx
+│           │   │   │   ├── BasicIO_position_mode_task_space.py
+│           │   │   │   ├── BasicIO_position_mode_task_space.slx
+│           │   │   │   ├── DepthFiltering.slx
+│           │   │   │   ├── RGBD_Imaging.slx
+│           │   │   │   ├── RGBD_Imaging_readMode0.py
+│           │   │   │   └── RGBD_Imaging_readMode1.py
+│           │   │   ├── Dynamics
+│           │   │   │   └── QArm_with_Dynamic_Model.slx
+│           │   │   ├── Gain Scheduling
+│           │   │   │   └── GainScheduling.slx
+│           │   │   ├── hd2_teleoperation
+│           │   │   │   ├── HD2_Driver_PY_v3.slx
+│           │   │   │   ├── HD2_QArmTeleopClient.slx
+│           │   │   │   ├── HD2_QArmTeleopDemo.pdf
+│           │   │   │   ├── QArm_TeleopServer.slx
+│           │   │   │   └── QArm_TeleopServer_Virtual.slx
+│           │   │   ├── Iterative Inverse Kinematics
+│           │   │   │   └── Iterative_Inverse_Kinematics.slx
+│           │   │   ├── ROS Examples
+│           │   │   │   ├── ros1
+│           │   │   │   │   └── src
+│           │   │   │   │       └── quanser_core
+│           │   │   │   │           └── src
+│           │   │   │   │               └── quanser_core
+│           │   │   │   │                   └── q_misc.py
+│           │   │   │   └── ros2
+│           │   │   │       ├── src
+│           │   │   │       │   ├── qarm_interfaces
+│           │   │   │       │   │   ├── action
+│           │   │   │       │   │   │   └── MoveQArm.action
+│           │   │   │       │   │   ├── msg
+│           │   │   │       │   │   │   └── QArmDiagnostics.msg
+│           │   │   │       │   │   ├── CMakeLists.txt
+│           │   │   │       │   │   └── package.xml
+│           │   │   │       │   └── qarm_nodes
+│           │   │   │       │       ├── launch
+│           │   │   │       │       │   └── move_qarm.py
+│           │   │   │       │       ├── qarm_nodes
+│           │   │   │       │       │   ├── __init__.py
+│           │   │   │       │       │   ├── move_qarm_client.py
+│           │   │   │       │       │   ├── move_qarm_server.py
+│           │   │   │       │       │   ├── qarm_hardware.py
+│           │   │   │       │       │   └── rgbd.py
+│           │   │   │       │       ├── resource
+│           │   │   │       │       │   └── qarm_nodes
+│           │   │   │       │       ├── package.xml
+│           │   │   │       │       ├── setup.cfg
+│           │   │   │       │       └── setup.py
+│           │   │   │       └── ROS 2 QArm Guide.pdf
+│           │   │   ├── Vision Examples
+│           │   │   │   ├── DepthFiltering.slx
+│           │   │   │   └── ImageAcquisition.slx
+│           │   │   └── RGBD_Imaging.py
+│           │   ├── qarm_mini
+│           │   │   ├── qarm_mini_basic_io.py
+│           │   │   ├── qarm_mini_basic_io.slx
+│           │   │   ├── qarm_mini_basic_io_pwm.slx
+│           │   │   ├── qarm_mini_face_detect.py
+│           │   │   └── qarm_mini_pick_and_place.slx
+│           │   ├── qbot_platform
+│           │   │   ├── IO_examples
+│           │   │   │   ├── matlab
+│           │   │   │   │   ├── basic_IO_qarm_mini.slx
+│           │   │   │   │   ├── basic_IO_qbot_platform.slx
+│           │   │   │   │   └── qbot_platform_driver_physical.rt-linux_qbot_platform
+│           │   │   │   └── python
+│           │   │   │       ├── basic_IO.py
+│           │   │   │       ├── observer.py
+│           │   │   │       └── qbot_platform_driver_physical.rt-linux_qbot_platform
+│           │   │   ├── localization
+│           │   │   │   ├── angle_control_check.slx
+│           │   │   │   ├── localization_and_state_estimation.slx
+│           │   │   │   └── qbot_platform_driver_physical.rt-linux_qbot_platform
+│           │   │   └── ros2
+│           │   │       ├── src
+│           │   │       │   └── qbot_platform
+│           │   │       │       ├── config
+│           │   │       │       │   ├── qbot_platform_2d.lua
+│           │   │       │       │   └── qbot_platform_slam_and_nav.yaml
+│           │   │       │       ├── launch
+│           │   │       │       │   ├── qbot_platform_cartographer_launch.py
+│           │   │       │       │   ├── qbot_platform_launch.py
+│           │   │       │       │   ├── qbot_platform_manual_drive_launch.py
+│           │   │       │       │   ├── qbot_platform_manual_map_launch.py
+│           │   │       │       │   └── qbot_platform_slam_and_nav_bringup_launch.py
+│           │   │       │       ├── rt_models
+│           │   │       │       │   └── qbot_platform_driver_physical.rt-linux_qbot_platform
+│           │   │       │       ├── src
+│           │   │       │       │   ├── command.cpp
+│           │   │       │       │   ├── csi.cpp
+│           │   │       │       │   ├── fixed_lidar_frame.cpp
+│           │   │       │       │   ├── lidar.cpp
+│           │   │       │       │   ├── qbot_platform_driver_interface.cpp
+│           │   │       │       │   └── rgbd.cpp
+│           │   │       │       ├── CMakeLists.txt
+│           │   │       │       ├── LICENSE
+│           │   │       │       └── package.xml
+│           │   │       └── ROS 2 QBot Platform.pdf
+│           │   ├── qbot_platform_alpha
+│           │   │   ├── IO_examples
+│           │   │   │   ├── python
+│           │   │   │   │   ├── io_example.py
+│           │   │   │   │   ├── io_instructions.md
+│           │   │   │   │   └── qbot_driver_v_1_22.rt-linux_pi_arm64
+│           │   │   │   └── simulink
+│           │   │   │       ├── camera_lidar_IOTest.slx
+│           │   │   │       ├── hardware_IOTest.slx
+│           │   │   │       └── qbot_driver_v_1_22.rt-linux_pi_arm64
+│           │   │   ├── line_follower
+│           │   │   │   ├── qbot_driver_v_1_22.rt-linux_pi_arm64
+│           │   │   │   ├── qbot_driver_v_1_22.slx
+│           │   │   │   └── qbot_platform_line_follower.slx
+│           │   │   ├── object_detection
+│           │   │   │   ├── qbot_driver_v_1_22.rt-linux_pi_arm64
+│           │   │   │   ├── qbot_driver_v_1_22.slx
+│           │   │   │   └── qbot_platform_obstacle_detection.slx
+│           │   │   └── obstacle_detection
+│           │   │       ├── qbot_driver_v_1_22.rt-linux_pi_arm64
+│           │   │       ├── qbot_driver_v_1_22.slx
+│           │   │       └── qbot_platform_obstacle_detection.slx
+│           │   ├── qube_servo
+│           │   │   ├── python
+│           │   │   │   ├── balance_control_qube.py
+│           │   │   │   ├── pd_control_qube_immediate.py
+│           │   │   │   ├── pd_control_qube_task.py
+│           │   │   │   ├── read_write_qube2.py
+│           │   │   │   └── read_write_qube3.py
+│           │   │   └── simulink
+│           │   │       └── pd_control_qs3.slx
+│           │   ├── sdcs
+│           │   │   ├── qcar
+│           │   │   │   ├── hardware
+│           │   │   │   │   ├── applications
+│           │   │   │   │   │   ├── 360_vision
+│           │   │   │   │   │   │   ├── 360_vision.pdf
+│           │   │   │   │   │   │   ├── QCar1_imaging360.py
+│           │   │   │   │   │   │   └── QCar1_imaging360.slx
+│           │   │   │   │   │   ├── lane_following
+│           │   │   │   │   │   │   ├── lane_following.pdf
+│           │   │   │   │   │   │   ├── QCar1_autonomous_driving_example1.slx
+│           │   │   │   │   │   │   ├── QCar1_autonomous_driving_example2.slx
+│           │   │   │   │   │   │   ├── QCar1_HSV_selection.slx
+│           │   │   │   │   │   │   └── QCar1_task_lane_following.py
+│           │   │   │   │   │   ├── manual_drive
+│           │   │   │   │   │   │   ├── manual_drive.pdf
+│           │   │   │   │   │   │   ├── QCar1_manual_drive.slx
+│           │   │   │   │   │   │   └── QCar1_task_manual_drive.py
+│           │   │   │   │   │   ├── point_cloud_generation
+│           │   │   │   │   │   │   ├── LIDAR_point_cloud.pdf
+│           │   │   │   │   │   │   ├── QCar1_lidar_point_cloud.py
+│           │   │   │   │   │   │   └── QCar1_lidar_point_cloud.slx
+│           │   │   │   │   │   └── rgbd_imaging
+│           │   │   │   │   │       ├── QCar1_rgbd_imaging.py
+│           │   │   │   │   │       ├── QCar1_RGBD_imaging.slx
+│           │   │   │   │   │       └── RGBD_imaging.pdf
+│           │   │   │   │   ├── hardware_tests
+│           │   │   │   │   │   ├── QCar1_hardware_stop.py
+│           │   │   │   │   │   ├── QCar1_hardware_test_basic_io.py
+│           │   │   │   │   │   ├── QCar1_hardware_test_basic_IO.slx
+│           │   │   │   │   │   ├── QCar1_hardware_test_csi_cameras.py
+│           │   │   │   │   │   ├── QCar1_hardware_test_csi_cameras.slx
+│           │   │   │   │   │   ├── QCar1_hardware_test_gamepad.py
+│           │   │   │   │   │   ├── QCar1_hardware_test_intel_realsense.slx
+│           │   │   │   │   │   ├── QCar1_hardware_test_intelrealsense.py
+│           │   │   │   │   │   ├── QCar1_hardware_test_intelrealsense_IR.py
+│           │   │   │   │   │   ├── QCar1_hardware_test_rp_lidar_a2.py
+│           │   │   │   │   │   ├── QCar1_hardware_test_rp_lidar_a2.slx
+│           │   │   │   │   │   ├── QCar1_Hardware_Tests.pdf
+│           │   │   │   │   │   └── QCar1_qlabs_setup.py
+│           │   │   │   │   ├── ros1_cpp
+│           │   │   │   │   │   └── src
+│           │   │   │   │   │       └── qcar
+│           │   │   │   │   │           ├── C++libraries
+│           │   │   │   │   │           │   ├── hil.h
+│           │   │   │   │   │           │   ├── quanser_errors.h
+│           │   │   │   │   │           │   ├── quanser_extern.h
+│           │   │   │   │   │           │   ├── quanser_hid.h
+│           │   │   │   │   │           │   ├── quanser_host.h
+│           │   │   │   │   │           │   ├── quanser_host_game_controller.h
+│           │   │   │   │   │           │   ├── quanser_inline.h
+│           │   │   │   │   │           │   ├── quanser_memory.h
+│           │   │   │   │   │           │   ├── quanser_messages.h
+│           │   │   │   │   │           │   ├── quanser_mutex.h
+│           │   │   │   │   │           │   ├── quanser_packing.h
+│           │   │   │   │   │           │   ├── quanser_process.h
+│           │   │   │   │   │           │   ├── quanser_ranging_sensor.h
+│           │   │   │   │   │           │   ├── quanser_runtime.h
+│           │   │   │   │   │           │   ├── quanser_scheduler.h
+│           │   │   │   │   │           │   ├── quanser_signal.h
+│           │   │   │   │   │           │   ├── quanser_thread.h
+│           │   │   │   │   │           │   ├── quanser_time.h
+│           │   │   │   │   │           │   ├── quanser_timer.h
+│           │   │   │   │   │           │   ├── quanser_types.h
+│           │   │   │   │   │           │   ├── quanser_version.h
+│           │   │   │   │   │           │   ├── quanser_video.h
+│           │   │   │   │   │           │   └── quanser_video3d.h
+│           │   │   │   │   │           ├── launch
+│           │   │   │   │   │           │   └── cpp.launch
+│           │   │   │   │   │           ├── src
+│           │   │   │   │   │           │   ├── commandcpp.cpp
+│           │   │   │   │   │           │   ├── csicpp.cpp
+│           │   │   │   │   │           │   ├── lidarcpp.cpp
+│           │   │   │   │   │           │   ├── qcarcpp.cpp
+│           │   │   │   │   │           │   ├── readme.txt
+│           │   │   │   │   │           │   └── rgbdcpp.cpp
+│           │   │   │   │   │           ├── CMakeLists.txt
+│           │   │   │   │   │           ├── package.xml
+│           │   │   │   │   │           └── readme.txt
+│           │   │   │   │   ├── ros1_python
+│           │   │   │   │   │   ├── src
+│           │   │   │   │   │   │   ├── qcar
+│           │   │   │   │   │   │   │   ├── launch
+│           │   │   │   │   │   │   │   │   ├── qcar.launch
+│           │   │   │   │   │   │   │   │   ├── slam.launch
+│           │   │   │   │   │   │   │   │   └── slam.rviz
+│           │   │   │   │   │   │   │   ├── meshes
+│           │   │   │   │   │   │   │   │   ├── QCarBody.dae
+│           │   │   │   │   │   │   │   │   ├── QCarBody.stl
+│           │   │   │   │   │   │   │   │   ├── QCarLidar.dae
+│           │   │   │   │   │   │   │   │   ├── QCarLidar.stl
+│           │   │   │   │   │   │   │   │   ├── QCarSteeringHubL.dae
+│           │   │   │   │   │   │   │   │   ├── QCarSteeringHubL.stl
+│           │   │   │   │   │   │   │   │   ├── QCarSteeringHubR.dae
+│           │   │   │   │   │   │   │   │   ├── QCarSteeringHubR.stl
+│           │   │   │   │   │   │   │   │   ├── QCarWheel.dae
+│           │   │   │   │   │   │   │   │   └── QCarWheel.stl
+│           │   │   │   │   │   │   │   ├── src
+│           │   │   │   │   │   │   │   │   ├── commandnode.py
+│           │   │   │   │   │   │   │   │   ├── csinode.py
+│           │   │   │   │   │   │   │   │   ├── lidarnode.py
+│           │   │   │   │   │   │   │   │   ├── qcarnode.py
+│           │   │   │   │   │   │   │   │   ├── rgbdnode.py
+│           │   │   │   │   │   │   │   │   └── SLAMCorrect.py
+│           │   │   │   │   │   │   │   ├── urdf
+│           │   │   │   │   │   │   │   │   ├── materials.xacro
+│           │   │   │   │   │   │   │   │   └── qcar_model.xacro
+│           │   │   │   │   │   │   │   ├── worlds
+│           │   │   │   │   │   │   │   │   └── empty.world
+│           │   │   │   │   │   │   │   ├── CMakeLists.txt
+│           │   │   │   │   │   │   │   ├── epydoc.config
+│           │   │   │   │   │   │   │   ├── model.config
+│           │   │   │   │   │   │   │   ├── package.xml
+│           │   │   │   │   │   │   │   ├── rosdoc.yaml
+│           │   │   │   │   │   │   │   └── setup.py
+│           │   │   │   │   │   │   ├── rplidar_ros
+│           │   │   │   │   │   │   │   ├── launch
+│           │   │   │   │   │   │   │   │   ├── rplidar.launch
+│           │   │   │   │   │   │   │   │   ├── rplidar_a3.launch
+│           │   │   │   │   │   │   │   │   ├── rplidar_s1.launch
+│           │   │   │   │   │   │   │   │   ├── rplidar_s1_tcp.launch
+│           │   │   │   │   │   │   │   │   ├── test_rplidar.launch
+│           │   │   │   │   │   │   │   │   ├── test_rplidar_a3.launch
+│           │   │   │   │   │   │   │   │   ├── view_rplidar.launch
+│           │   │   │   │   │   │   │   │   ├── view_rplidar_a3.launch
+│           │   │   │   │   │   │   │   │   ├── view_rplidar_s1.launch
+│           │   │   │   │   │   │   │   │   └── view_rplidar_s1_tcp.launch
+│           │   │   │   │   │   │   │   ├── rviz
+│           │   │   │   │   │   │   │   │   └── rplidar.rviz
+│           │   │   │   │   │   │   │   ├── scripts
+│           │   │   │   │   │   │   │   │   ├── create_udev_rules.sh
+│           │   │   │   │   │   │   │   │   ├── delete_udev_rules.sh
+│           │   │   │   │   │   │   │   │   └── rplidar.rules
+│           │   │   │   │   │   │   │   ├── sdk
+│           │   │   │   │   │   │   │   │   ├── include
+│           │   │   │   │   │   │   │   │   │   ├── rplidar.h
+│           │   │   │   │   │   │   │   │   │   ├── rplidar_cmd.h
+│           │   │   │   │   │   │   │   │   │   ├── rplidar_driver.h
+│           │   │   │   │   │   │   │   │   │   ├── rplidar_protocol.h
+│           │   │   │   │   │   │   │   │   │   └── rptypes.h
+│           │   │   │   │   │   │   │   │   ├── src
+│           │   │   │   │   │   │   │   │   │   ├── arch
+│           │   │   │   │   │   │   │   │   │   │   ├── linux
+│           │   │   │   │   │   │   │   │   │   │   │   ├── arch_linux.h
+│           │   │   │   │   │   │   │   │   │   │   │   ├── net_serial.cpp
+│           │   │   │   │   │   │   │   │   │   │   │   ├── net_serial.h
+│           │   │   │   │   │   │   │   │   │   │   │   ├── net_socket.cpp
+│           │   │   │   │   │   │   │   │   │   │   │   ├── thread.hpp
+│           │   │   │   │   │   │   │   │   │   │   │   ├── timer.cpp
+│           │   │   │   │   │   │   │   │   │   │   │   └── timer.h
+│           │   │   │   │   │   │   │   │   │   │   ├── macOS
+│           │   │   │   │   │   │   │   │   │   │   │   ├── arch_macOS.h
+│           │   │   │   │   │   │   │   │   │   │   │   ├── net_serial.cpp
+│           │   │   │   │   │   │   │   │   │   │   │   ├── net_serial.h
+│           │   │   │   │   │   │   │   │   │   │   │   ├── net_socket.cpp
+│           │   │   │   │   │   │   │   │   │   │   │   ├── thread.hpp
+│           │   │   │   │   │   │   │   │   │   │   │   ├── timer.cpp
+│           │   │   │   │   │   │   │   │   │   │   │   └── timer.h
+│           │   │   │   │   │   │   │   │   │   │   └── win32
+│           │   │   │   │   │   │   │   │   │   │       ├── arch_win32.h
+│           │   │   │   │   │   │   │   │   │   │       ├── net_serial.cpp
+│           │   │   │   │   │   │   │   │   │   │       ├── net_serial.h
+│           │   │   │   │   │   │   │   │   │   │       ├── net_socket.cpp
+│           │   │   │   │   │   │   │   │   │   │       ├── timer.cpp
+│           │   │   │   │   │   │   │   │   │   │       ├── timer.h
+│           │   │   │   │   │   │   │   │   │   │       └── winthread.hpp
+│           │   │   │   │   │   │   │   │   │   ├── hal
+│           │   │   │   │   │   │   │   │   │   │   ├── abs_rxtx.h
+│           │   │   │   │   │   │   │   │   │   │   ├── assert.h
+│           │   │   │   │   │   │   │   │   │   │   ├── byteops.h
+│           │   │   │   │   │   │   │   │   │   │   ├── event.h
+│           │   │   │   │   │   │   │   │   │   │   ├── locker.h
+│           │   │   │   │   │   │   │   │   │   │   ├── socket.h
+│           │   │   │   │   │   │   │   │   │   │   ├── thread.cpp
+│           │   │   │   │   │   │   │   │   │   │   ├── thread.h
+│           │   │   │   │   │   │   │   │   │   │   ├── types.h
+│           │   │   │   │   │   │   │   │   │   │   └── util.h
+│           │   │   │   │   │   │   │   │   │   ├── rplidar_driver.cpp
+│           │   │   │   │   │   │   │   │   │   ├── rplidar_driver_impl.h
+│           │   │   │   │   │   │   │   │   │   ├── rplidar_driver_serial.h
+│           │   │   │   │   │   │   │   │   │   ├── rplidar_driver_TCP.h
+│           │   │   │   │   │   │   │   │   │   └── sdkcommon.h
+│           │   │   │   │   │   │   │   │   └── README.txt
+│           │   │   │   │   │   │   │   ├── src
+│           │   │   │   │   │   │   │   │   ├── client.cpp
+│           │   │   │   │   │   │   │   │   └── node.cpp
+│           │   │   │   │   │   │   │   ├── CHANGELOG.rst
+│           │   │   │   │   │   │   │   ├── CMakeLists.txt
+│           │   │   │   │   │   │   │   ├── LICENSE
+│           │   │   │   │   │   │   │   ├── package.xml
+│           │   │   │   │   │   │   │   ├── README.md
+│           │   │   │   │   │   │   │   ├── rplidar_A1.png
+│           │   │   │   │   │   │   │   └── rplidar_A2.png
+│           │   │   │   │   │   │   └── vision_opencv
+│           │   │   │   │   │   │       ├── cv_bridge
+│           │   │   │   │   │   │       │   ├── cmake
+│           │   │   │   │   │   │       │   │   └── cv_bridge-extras.cmake.in
+│           │   │   │   │   │   │       │   ├── doc
+│           │   │   │   │   │   │       │   │   ├── conf.py
+│           │   │   │   │   │   │       │   │   ├── index.rst
+│           │   │   │   │   │   │       │   │   └── mainpage.dox
+│           │   │   │   │   │   │       │   ├── include
+│           │   │   │   │   │   │       │   │   └── cv_bridge
+│           │   │   │   │   │   │       │   │       ├── cv_bridge.h
+│           │   │   │   │   │   │       │   │       └── rgb_colors.h
+│           │   │   │   │   │   │       │   ├── python
+│           │   │   │   │   │   │       │   │   ├── cv_bridge
+│           │   │   │   │   │   │       │   │   │   ├── __init__.py
+│           │   │   │   │   │   │       │   │   │   └── core.py
+│           │   │   │   │   │   │       │   │   ├── __init__.py.plain.in
+│           │   │   │   │   │   │       │   │   └── CMakeLists.txt
+│           │   │   │   │   │   │       │   ├── src
+│           │   │   │   │   │   │       │   │   ├── boost
+│           │   │   │   │   │   │       │   │   │   ├── core
+│           │   │   │   │   │   │       │   │   │   │   └── scoped_enum.hpp
+│           │   │   │   │   │   │       │   │   │   ├── endian
+│           │   │   │   │   │   │       │   │   │   │   ├── detail
+│           │   │   │   │   │   │       │   │   │   │   │   └── intrinsic.hpp
+│           │   │   │   │   │   │       │   │   │   │   └── conversion.hpp
+│           │   │   │   │   │   │       │   │   │   ├── predef
+│           │   │   │   │   │   │       │   │   │   │   ├── detail
+│           │   │   │   │   │   │       │   │   │   │   │   ├── _cassert.h
+│           │   │   │   │   │   │       │   │   │   │   │   ├── endian_compat.h
+│           │   │   │   │   │   │       │   │   │   │   │   └── test.h
+│           │   │   │   │   │   │       │   │   │   │   ├── library
+│           │   │   │   │   │   │       │   │   │   │   │   └── c
+│           │   │   │   │   │   │       │   │   │   │   │       ├── _prefix.h
+│           │   │   │   │   │   │       │   │   │   │   │       └── gnu.h
+│           │   │   │   │   │   │       │   │   │   │   ├── os
+│           │   │   │   │   │   │       │   │   │   │   │   ├── bsd
+│           │   │   │   │   │   │       │   │   │   │   │   │   ├── bsdi.h
+│           │   │   │   │   │   │       │   │   │   │   │   │   ├── dragonfly.h
+│           │   │   │   │   │   │       │   │   │   │   │   │   ├── free.h
+│           │   │   │   │   │   │       │   │   │   │   │   │   ├── net.h
+│           │   │   │   │   │   │       │   │   │   │   │   │   └── open.h
+│           │   │   │   │   │   │       │   │   │   │   │   ├── android.h
+│           │   │   │   │   │   │       │   │   │   │   │   ├── bsd.h
+│           │   │   │   │   │   │       │   │   │   │   │   ├── ios.h
+│           │   │   │   │   │   │       │   │   │   │   │   └── macos.h
+│           │   │   │   │   │   │       │   │   │   │   ├── other
+│           │   │   │   │   │   │       │   │   │   │   │   └── endian.h
+│           │   │   │   │   │   │       │   │   │   │   ├── make.h
+│           │   │   │   │   │   │       │   │   │   │   └── version_number.h
+│           │   │   │   │   │   │       │   │   │   └── README
+│           │   │   │   │   │   │       │   │   ├── CMakeLists.txt
+│           │   │   │   │   │   │       │   │   ├── cv_bridge.cpp
+│           │   │   │   │   │   │       │   │   ├── module.cpp
+│           │   │   │   │   │   │       │   │   ├── module.hpp
+│           │   │   │   │   │   │       │   │   ├── module_opencv2.cpp
+│           │   │   │   │   │   │       │   │   ├── module_opencv3.cpp
+│           │   │   │   │   │   │       │   │   ├── pycompat.hpp
+│           │   │   │   │   │   │       │   │   └── rgb_colors.cpp
+│           │   │   │   │   │   │       │   ├── test
+│           │   │   │   │   │   │       │   │   ├── CMakeLists.txt
+│           │   │   │   │   │   │       │   │   ├── conversions.py
+│           │   │   │   │   │   │       │   │   ├── enumerants.py
+│           │   │   │   │   │   │       │   │   ├── python_bindings.py
+│           │   │   │   │   │   │       │   │   ├── test_compression.cpp
+│           │   │   │   │   │   │       │   │   ├── test_endian.cpp
+│           │   │   │   │   │   │       │   │   ├── test_rgb_colors.cpp
+│           │   │   │   │   │   │       │   │   ├── utest.cpp
+│           │   │   │   │   │   │       │   │   └── utest2.cpp
+│           │   │   │   │   │   │       │   ├── CHANGELOG.rst
+│           │   │   │   │   │   │       │   ├── CMakeLists.txt
+│           │   │   │   │   │   │       │   ├── package.xml
+│           │   │   │   │   │   │       │   ├── rosdoc.yaml
+│           │   │   │   │   │   │       │   └── setup.py
+│           │   │   │   │   │   │       ├── image_geometry
+│           │   │   │   │   │   │       │   ├── doc
+│           │   │   │   │   │   │       │   │   ├── conf.py
+│           │   │   │   │   │   │       │   │   ├── index.rst
+│           │   │   │   │   │   │       │   │   └── mainpage.dox
+│           │   │   │   │   │   │       │   ├── include
+│           │   │   │   │   │   │       │   │   └── image_geometry
+│           │   │   │   │   │   │       │   │       ├── pinhole_camera_model.h
+│           │   │   │   │   │   │       │   │       └── stereo_camera_model.h
+│           │   │   │   │   │   │       │   ├── src
+│           │   │   │   │   │   │       │   │   ├── image_geometry
+│           │   │   │   │   │   │       │   │   │   ├── __init__.py
+│           │   │   │   │   │   │       │   │   │   └── cameramodels.py
+│           │   │   │   │   │   │       │   │   ├── pinhole_camera_model.cpp
+│           │   │   │   │   │   │       │   │   └── stereo_camera_model.cpp
+│           │   │   │   │   │   │       │   ├── test
+│           │   │   │   │   │   │       │   │   ├── CMakeLists.txt
+│           │   │   │   │   │   │       │   │   ├── directed.py
+│           │   │   │   │   │   │       │   │   └── utest.cpp
+│           │   │   │   │   │   │       │   ├── CHANGELOG.rst
+│           │   │   │   │   │   │       │   ├── CMakeLists.txt
+│           │   │   │   │   │   │       │   ├── package.xml
+│           │   │   │   │   │   │       │   ├── rosdoc.yaml
+│           │   │   │   │   │   │       │   └── setup.py
+│           │   │   │   │   │   │       ├── opencv_tests
+│           │   │   │   │   │   │       │   ├── launch
+│           │   │   │   │   │   │       │   │   └── pong.launch
+│           │   │   │   │   │   │       │   ├── nodes
+│           │   │   │   │   │   │       │   │   ├── broadcast.py
+│           │   │   │   │   │   │       │   │   ├── rosfacedetect.py
+│           │   │   │   │   │   │       │   │   └── source.py
+│           │   │   │   │   │   │       │   ├── CHANGELOG.rst
+│           │   │   │   │   │   │       │   ├── CMakeLists.txt
+│           │   │   │   │   │   │       │   ├── mainpage.dox
+│           │   │   │   │   │   │       │   └── package.xml
+│           │   │   │   │   │   │       ├── vision_opencv
+│           │   │   │   │   │   │       │   ├── CHANGELOG.rst
+│           │   │   │   │   │   │       │   ├── CMakeLists.txt
+│           │   │   │   │   │   │       │   └── package.xml
+│           │   │   │   │   │   │       └── README.rst
+│           │   │   │   │   │   ├── HardwareStop.py
+│           │   │   │   │   │   ├── Localization via LIDAR SLAM.pdf
+│           │   │   │   │   │   ├── mapping_default.launch
+│           │   │   │   │   │   └── slam.sh
+│           │   │   │   │   └── ros2
+│           │   │   │   │       └── src
+│           │   │   │   │           └── qcar
+│           │   │   │   │               ├── gazebo
+│           │   │   │   │               │   ├── qcar.gazebo.xacro
+│           │   │   │   │               │   └── qcar.materials.xacro
+│           │   │   │   │               ├── launch
+│           │   │   │   │               │   └── qcar_launch.py
+│           │   │   │   │               ├── meshes
+│           │   │   │   │               │   ├── QCarBody.dae
+│           │   │   │   │               │   ├── QCarBody.stl
+│           │   │   │   │               │   ├── QCarLidar.dae
+│           │   │   │   │               │   ├── QCarLidar.stl
+│           │   │   │   │               │   ├── QCarSteeringHubL.dae
+│           │   │   │   │               │   ├── QCarSteeringHubL.stl
+│           │   │   │   │               │   ├── QCarSteeringHubR.dae
+│           │   │   │   │               │   ├── QCarSteeringHubR.stl
+│           │   │   │   │               │   ├── QCarWheel.dae
+│           │   │   │   │               │   └── QCarWheel.stl
+│           │   │   │   │               ├── node
+│           │   │   │   │               │   └── ackermann_controller_ros2.py
+│           │   │   │   │               ├── qcar
+│           │   │   │   │               │   ├── __init__.py
+│           │   │   │   │               │   ├── commandnode.py
+│           │   │   │   │               │   ├── csinode.py
+│           │   │   │   │               │   ├── Imageviewer.py
+│           │   │   │   │               │   ├── lidarnode.py
+│           │   │   │   │               │   ├── qcarnode.py
+│           │   │   │   │               │   └── rgbdnode.py
+│           │   │   │   │               ├── resource
+│           │   │   │   │               │   └── qcar
+│           │   │   │   │               ├── test
+│           │   │   │   │               │   ├── test_copyright.py
+│           │   │   │   │               │   ├── test_flake8.py
+│           │   │   │   │               │   └── test_pep257.py
+│           │   │   │   │               ├── urdf
+│           │   │   │   │               │   ├── materials.xacro
+│           │   │   │   │               │   ├── qcar.gazebo
+│           │   │   │   │               │   ├── qcar.gazebo.xacro
+│           │   │   │   │               │   ├── qcar.materials.xacro
+│           │   │   │   │               │   ├── qcar.urdf.xacro
+│           │   │   │   │               │   ├── qcar_ros2.urdf.xacro
+│           │   │   │   │               │   ├── qcar_ros2_original.urdf.xacro
+│           │   │   │   │               │   └── qcar_system.urdf.xacro
+│           │   │   │   │               ├── package.xml
+│           │   │   │   │               ├── setup.cfg
+│           │   │   │   │               └── setup.py
+│           │   │   │   └── virtual
+│           │   │   │       ├── applications
+│           │   │   │       │   ├── 360_vision
+│           │   │   │       │   │   ├── QCar1_360_Vision.pdf
+│           │   │   │       │   │   ├── QCar1_imaging360.py
+│           │   │   │       │   │   └── QCar1_Imaging360.slx
+│           │   │   │       │   ├── lane_following
+│           │   │   │       │   │   ├── QCar1_autonomous_driving_car_example1.slx
+│           │   │   │       │   │   ├── QCar1_autonomous_driving_car_example2.slx
+│           │   │   │       │   │   ├── QCar1_HSV_Selection.slx
+│           │   │   │       │   │   ├── QCar1_lane_following.pdf
+│           │   │   │       │   │   └── QCar1_lane_following.py
+│           │   │   │       │   ├── manual_drive
+│           │   │   │       │   │   ├── QCar1_manual_drive.pdf
+│           │   │   │       │   │   ├── QCar1_manual_drive.py
+│           │   │   │       │   │   └── QCar1_Manual_Drive.slx
+│           │   │   │       │   ├── point_cloud_generation
+│           │   │   │       │   │   ├── QCar1_lidar_point_cloud.pdf
+│           │   │   │       │   │   ├── QCar1_lidar_point_cloud.py
+│           │   │   │       │   │   └── QCar1_Lidar_Point_Cloud.slx
+│           │   │   │       │   └── rgbd_imaging
+│           │   │   │       │       ├── QCar1_RGBD_imaging.pdf
+│           │   │   │       │       ├── QCar1_rgbd_imaging.py
+│           │   │   │       │       └── QCar1_RGBD_Imaging.slx
+│           │   │   │       ├── hardware_tests
+│           │   │   │       │   ├── QCar1_Basic_IO.slx
+│           │   │   │       │   ├── QCar1_Basic_IO_Full.slx
+│           │   │   │       │   ├── QCar1_CSI_Cameras.slx
+│           │   │   │       │   ├── QCar1_Hardware Tests.pdf
+│           │   │   │       │   ├── QCar1_hardware_test_basic_io.py
+│           │   │   │       │   ├── QCar1_hardware_test_csi_cameras.py
+│           │   │   │       │   ├── QCar1_hardware_test_intelrealsense.py
+│           │   │   │       │   ├── QCar1_hardware_test_rp_lidar_a2.py
+│           │   │   │       │   ├── QCar1_Intel_Realsense.slx
+│           │   │   │       │   └── QCar1_RP_LIDAR_A2.slx
+│           │   │   │       └── qlabs_setup_applications.py
+│           │   │   ├── qcar2
+│           │   │   │   ├── hardware
+│           │   │   │   │   ├── applications
+│           │   │   │   │   │   ├── 360_vision
+│           │   │   │   │   │   │   ├── QCar2_360 Vision.pdf
+│           │   │   │   │   │   │   ├── QCar2_Imaging_360.slx
+│           │   │   │   │   │   │   ├── QCar2_imaging_360_observer.py
+│           │   │   │   │   │   │   └── QCar2_imaging_360_probe.py
+│           │   │   │   │   │   ├── lane_following
+│           │   │   │   │   │   │   ├── QCar2_autonomous_driving_example1.slx
+│           │   │   │   │   │   │   ├── QCar2_autonomous_driving_example2.slx
+│           │   │   │   │   │   │   ├── QCar2_HSV_selection.slx
+│           │   │   │   │   │   │   ├── QCar2_Lane Following.pdf
+│           │   │   │   │   │   │   ├── QCar2_task_lane_following_observer.py
+│           │   │   │   │   │   │   └── QCar2_task_lane_following_probe.py
+│           │   │   │   │   │   ├── lanenet
+│           │   │   │   │   │   │   ├── QCar2_LaneNet_lane_estimation.pdf
+│           │   │   │   │   │   │   └── QCar2_LaneNet_lane_estimation.py
+│           │   │   │   │   │   ├── manual_drive
+│           │   │   │   │   │   │   ├── Manual Drive.pdf
+│           │   │   │   │   │   │   ├── QCar2_manual_drive.slx
+│           │   │   │   │   │   │   └── QCar2_task_manual_drive.py
+│           │   │   │   │   │   ├── multi_vehicle_self_driving
+│           │   │   │   │   │   │   ├── python
+│           │   │   │   │   │   │   │   ├── calibrate.py
+│           │   │   │   │   │   │   │   ├── observer.py
+│           │   │   │   │   │   │   │   ├── start.py
+│           │   │   │   │   │   │   │   └── stop.py
+│           │   │   │   │   │   │   ├── qcar
+│           │   │   │   │   │   │   │   ├── utils.py
+│           │   │   │   │   │   │   │   ├── vehicle_control.py
+│           │   │   │   │   │   │   │   └── yolo_server.py
+│           │   │   │   │   │   │   ├── reference_scan
+│           │   │   │   │   │   │   │   └── calibrate.bat
+│           │   │   │   │   │   │   ├── config.txt
+│           │   │   │   │   │   │   ├── QCar2 multi vehicle self driving.pdf
+│           │   │   │   │   │   │   ├── run_all_cars.bat
+│           │   │   │   │   │   │   ├── ssh_setup.bat
+│           │   │   │   │   │   │   └── stop_all_cars.bat
+│           │   │   │   │   │   ├── point_cloud_generation
+│           │   │   │   │   │   │   ├── QCar2_LIDAR Point Cloud.pdf
+│           │   │   │   │   │   │   ├── QCar2_lidar_point_cloud.py
+│           │   │   │   │   │   │   └── QCar2_lidar_point_cloud.slx
+│           │   │   │   │   │   ├── rgbd_imaging
+│           │   │   │   │   │   │   ├── QCar2_RGBD Imaging.pdf
+│           │   │   │   │   │   │   ├── QCar2_rgbd_imaging.py
+│           │   │   │   │   │   │   └── QCar2_RGBD_Imaging.slx
+│           │   │   │   │   │   └── yolo
+│           │   │   │   │   │       ├── QCar2_YOLO_object_segmentation.pdf
+│           │   │   │   │   │       └── QCar2_YOLOv8_object_segmentation.py
+│           │   │   │   │   └── hardware_tests
+│           │   │   │   │       ├── QCar2_Hardware Tests.pdf
+│           │   │   │   │       ├── QCar2_hardware_stop.py
+│           │   │   │   │       ├── QCar2_hardware_test_basic_io.py
+│           │   │   │   │       ├── QCar2_hardware_test_basic_io.slx
+│           │   │   │   │       ├── QCar2_hardware_test_csi_cameras.slx
+│           │   │   │   │       ├── QCar2_hardware_test_csi_cameras_observer.py
+│           │   │   │   │       ├── QCar2_hardware_test_csi_cameras_probe.py
+│           │   │   │   │       ├── QCar2_hardware_test_gamepad.py
+│           │   │   │   │       ├── QCar2_hardware_test_intel_realsense.slx
+│           │   │   │   │       ├── QCar2_hardware_test_intelrealsense.py
+│           │   │   │   │       ├── QCar2_hardware_test_intelrealsense_IR.py
+│           │   │   │   │       ├── QCar2_hardware_test_rp_lidar_a2.py
+│           │   │   │   │       ├── QCar2_hardware_test_rp_lidar_a2.slx
+│           │   │   │   │       └── Qcar2_harware_initial_test.rt-linux_qcar2
+│           │   │   │   ├── ros2
+│           │   │   │   │   ├── src
+│           │   │   │   │   │   ├── qcar2_autonomy
+│           │   │   │   │   │   │   ├── autonomy
+│           │   │   │   │   │   │   │   ├── __init__.py
+│           │   │   │   │   │   │   │   ├── nav_to_pose.py
+│           │   │   │   │   │   │   │   ├── traffic_system_detector.py
+│           │   │   │   │   │   │   │   ├── trip_planner.py
+│           │   │   │   │   │   │   │   └── yolo_detector.py
+│           │   │   │   │   │   │   ├── launch
+│           │   │   │   │   │   │   │   └── autonomy_planner_launch.py
+│           │   │   │   │   │   │   ├── resource
+│           │   │   │   │   │   │   │   └── qcar2_autonomy
+│           │   │   │   │   │   │   ├── test
+│           │   │   │   │   │   │   │   ├── test_copyright.py
+│           │   │   │   │   │   │   │   ├── test_flake8.py
+│           │   │   │   │   │   │   │   └── test_pep257.py
+│           │   │   │   │   │   │   ├── package.xml
+│           │   │   │   │   │   │   ├── setup.cfg
+│           │   │   │   │   │   │   └── setup.py
+│           │   │   │   │   │   ├── qcar2_interfaces
+│           │   │   │   │   │   │   ├── msg
+│           │   │   │   │   │   │   │   ├── BooleanLeds.msg
+│           │   │   │   │   │   │   │   └── MotorCommands.msg
+│           │   │   │   │   │   │   ├── CMakeLists.txt
+│           │   │   │   │   │   │   └── package.xml
+│           │   │   │   │   │   └── qcar2_nodes
+│           │   │   │   │   │       ├── config
+│           │   │   │   │   │       │   ├── qcar2_2d.lua
+│           │   │   │   │   │       │   ├── qcar2_slam_and_nav.yaml
+│           │   │   │   │   │       │   └── qcar2_slam_and_nav_virtual.yaml
+│           │   │   │   │   │       ├── launch
+│           │   │   │   │   │       │   ├── qcar2_cartographer_launch.py
+│           │   │   │   │   │       │   ├── qcar2_cartographer_virtual_launch.py
+│           │   │   │   │   │       │   ├── qcar2_launch.py
+│           │   │   │   │   │       │   ├── qcar2_manual_cartographer_launch.py
+│           │   │   │   │   │       │   ├── qcar2_manual_drive_launch.py
+│           │   │   │   │   │       │   ├── qcar2_slam_and_nav_bringup_launch.py
+│           │   │   │   │   │       │   ├── qcar2_slam_and_nav_bringup_virtual_launch.py
+│           │   │   │   │   │       │   └── qcar2_virtual_launch.py
+│           │   │   │   │   │       ├── rt_models
+│           │   │   │   │   │       │   └── dummy_model
+│           │   │   │   │   │       ├── src
+│           │   │   │   │   │       │   ├── command.cpp
+│           │   │   │   │   │       │   ├── csi.cpp
+│           │   │   │   │   │       │   ├── fixed_lidar_frame.cpp
+│           │   │   │   │   │       │   ├── fixed_lidar_frame_virtual.cpp
+│           │   │   │   │   │       │   ├── lidar.cpp
+│           │   │   │   │   │       │   ├── nav2_qcar_command_convert.cpp
+│           │   │   │   │   │       │   ├── qcar2_hardware.cpp
+│           │   │   │   │   │       │   └── rgbd.cpp
+│           │   │   │   │   │       ├── CMakeLists.txt
+│           │   │   │   │   │       ├── LICENSE
+│           │   │   │   │   │       └── package.xml
+│           │   │   │   │   └── ROS 2 QCar2.pdf
+│           │   │   │   └── virtual
+│           │   │   │       ├── applications
+│           │   │   │       │   ├── 360_vision
+│           │   │   │       │   │   ├── QCar2_Imagin_360.pdf
+│           │   │   │       │   │   ├── QCar2_imagin_360.py
+│           │   │   │       │   │   └── QCar2_imagin_360.slx
+│           │   │   │       │   ├── lane_following
+│           │   │   │       │   │   ├── QCar2_autonomous_driving_example1.slx
+│           │   │   │       │   │   ├── QCar2_autonomous_driving_example2.slx
+│           │   │   │       │   │   ├── QCar2_HSV_Selection.slx
+│           │   │   │       │   │   ├── QCar2_lane_following.pdf
+│           │   │   │       │   │   └── QCar2_lane_following.py
+│           │   │   │       │   ├── manual_drive
+│           │   │   │       │   │   ├── QCar2_manual_drive.pdf
+│           │   │   │       │   │   ├── QCar2_manual_drive.py
+│           │   │   │       │   │   └── QCar2_Manual_Drive.slx
+│           │   │   │       │   ├── point_cloud_generation
+│           │   │   │       │   │   ├── QCar2_lidar_point_cloud.pdf
+│           │   │   │       │   │   ├── QCar2_lidar_point_cloud.py
+│           │   │   │       │   │   └── QCar2_Lidar_Point_Cloud.slx
+│           │   │   │       │   └── rgbd_imaging
+│           │   │   │       │       ├── QCar2_RGBD_imaging.pdf
+│           │   │   │       │       ├── QCar2_rgbd_imaging.py
+│           │   │   │       │       └── QCar2_RGBD_Imaging.slx
+│           │   │   │       ├── hardware_tests
+│           │   │   │       │   ├── QCar2_Hardware Tests.pdf
+│           │   │   │       │   ├── QCar2_hardware_test_basic_io.py
+│           │   │   │       │   ├── QCar2_hardware_test_basic_io.slx
+│           │   │   │       │   ├── QCar2_hardware_test_csi_cameras.py
+│           │   │   │       │   ├── QCar2_hardware_test_csi_cameras.slx
+│           │   │   │       │   ├── QCar2_hardware_test_intelrealsense.py
+│           │   │   │       │   ├── QCar2_hardware_test_intelrealsense.slx
+│           │   │   │       │   ├── QCar2_hardware_test_rp_lidar_a2.py
+│           │   │   │       │   └── QCar2_hardware_test_rp_lidar_a2.slx
+│           │   │   │       ├── qlabs_setup_applications.m
+│           │   │   │       └── qlabs_setup_applications.py
+│           │   │   ├── roadmap
+│           │   │   │   ├── path_planning_example.py
+│           │   │   │   ├── SDCS_MapLayout.png
+│           │   │   │   └── SDCS_SmallMapLayout.png
+│           │   │   ├── traffic_light
+│           │   │   │   ├── start_stream.bat
+│           │   │   │   ├── stop_stream.bat
+│           │   │   │   ├── traffic_light_commands_example.py
+│           │   │   │   ├── traffic_light_stream.rt-win64
+│           │   │   │   ├── traffic_light_stream.slx
+│           │   │   │   └── Traffic_light_stream_example.py
+│           │   │   └── read before starting.txt
+│           │   └── research_content_guide.pdf
+│           ├── 6_teaching
+│           │   ├── 1_Controls
+│           │   │   ├── Aero_2
+│           │   │   │   ├── l0_hardware_interfacing
+│           │   │   │   │   ├── digital_twin
+│           │   │   │   │   │   └── virtual_aero2_integration.slx
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── lab_procedure_hardware_interfacing.pdf
+│           │   │   │   │   │   └── q_aero2_integration.slx
+│           │   │   │   │   ├── application_guide_hardware_interfacing.pdf
+│           │   │   │   │   └── recommended_assesment_hardware_interfacing.pdf
+│           │   │   │   ├── l1_block_diagram_modeling
+│           │   │   │   │   ├── digital_twin
+│           │   │   │   │   │   ├── aero2_param.m
+│           │   │   │   │   │   ├── lab_procedure_block_diagram_modeling.pdf
+│           │   │   │   │   │   └── virtual_aero2_thruster_model.slx
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── aero2_param.m
+│           │   │   │   │   │   ├── lab_procedure_block_diagram_modeling.pdf
+│           │   │   │   │   │   └── q_aero2_thruster_model.slx
+│           │   │   │   │   ├── application_guide_block_diagram_modeling.pdf
+│           │   │   │   │   └── recommended_assesment_block_diagram_modeling.pdf
+│           │   │   │   ├── l2_rotor_step_response_modeling
+│           │   │   │   │   ├── digital_twin
+│           │   │   │   │   │   ├── lab_procedure_rotor_step_response_modeling.pdf
+│           │   │   │   │   │   ├── virtual_aero2_rotor_model_val.slx
+│           │   │   │   │   │   ├── virtual_aero2_rotor_step.slx
+│           │   │   │   │   │   └── virtual_aero2_rotor_step_reponse_modelling.mlx
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── aero2_rotor_step_reponse_modelling.mlx
+│           │   │   │   │   │   ├── lab_procedure_rotor_step_response_modeling.pdf
+│           │   │   │   │   │   ├── q_aero2_rotor_model_val.slx
+│           │   │   │   │   │   └── q_aero2_rotor_step.slx
+│           │   │   │   │   ├── application_guide_rotor_step_response_modeling.pdf
+│           │   │   │   │   └── recommended_assessment_rotor_step_response_modeling.pdf
+│           │   │   │   ├── l3_pitch_parameter_estimation
+│           │   │   │   │   ├── digital_twin
+│           │   │   │   │   │   ├── aero2_parameters.m
+│           │   │   │   │   │   ├── lab_procedure_pitch_parameter_estimation.pdf
+│           │   │   │   │   │   ├── virtual_aero2_pitch_model_val.slx
+│           │   │   │   │   │   ├── virtual_aero2_pitch_parameter_estimation.mlx
+│           │   │   │   │   │   └── virtual_aero2_pitch_step.slx
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── aero2_parameters.m
+│           │   │   │   │   │   ├── aero2_pitch_parameter_estimation.mlx
+│           │   │   │   │   │   ├── lab_procedure_pitch_parameter_estimation.pdf
+│           │   │   │   │   │   ├── q_aero2_pitch_model_val.slx
+│           │   │   │   │   │   └── q_aero2_pitch_step.slx
+│           │   │   │   │   ├── application_guide_pitch_parameter_estimation.pdf
+│           │   │   │   │   └── recommended_assessment_pitch_parameter_estimation.pdf
+│           │   │   │   ├── l4_system_block_diagram_modeling
+│           │   │   │   │   ├── digital_twin
+│           │   │   │   │   │   ├── aero2_parameters.m
+│           │   │   │   │   │   ├── lab_procedure_system_block_diagram_modeling.pdf
+│           │   │   │   │   │   └── virtual_aero2_system_block_diagram.slx
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── aero2_param.m
+│           │   │   │   │   │   ├── lab_procedure_system_block_diagram_modeling.pdf
+│           │   │   │   │   │   └── q_aero2_system_block_diagram.slx
+│           │   │   │   │   ├── application_guide_system_block_diagram_modeling.pdf
+│           │   │   │   │   └── recommended_assessment_system_block_diagram_modeling.pdf
+│           │   │   │   ├── l5_measuring_and_filtering
+│           │   │   │   │   ├── digital_twin
+│           │   │   │   │   │   ├── lab_procedure_measuring_and_filtering.pdf
+│           │   │   │   │   │   ├── Power_Spectrum.m
+│           │   │   │   │   │   └── virtual_aero2_measurement_and_filtering.slx
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── lab_procedure_measuring_and_filtering.pdf
+│           │   │   │   │   │   ├── Power_Spectrum.m
+│           │   │   │   │   │   └── q_aero2_measurement_and_filtering.slx
+│           │   │   │   │   ├── application_guide_measuring_and_filtering.pdf
+│           │   │   │   │   └── recommended_assessment_measuring_and_filtering.pdf
+│           │   │   │   ├── l6_rotor_speed_control
+│           │   │   │   │   ├── digital_twin
+│           │   │   │   │   │   ├── lab_procedure_rotor_speed_control.pdf
+│           │   │   │   │   │   ├── s_aero_rotor_pi.slx
+│           │   │   │   │   │   ├── virtual_aero2_rotor_pi.slx
+│           │   │   │   │   │   └── virtual_aero2_rotor_speed_control.mlx
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── aero2_rotor_speed_control.mlx
+│           │   │   │   │   │   ├── lab_procedure_rotor_speed_control.pdf
+│           │   │   │   │   │   ├── q_aero2_rotor_pi.slx
+│           │   │   │   │   │   └── s_aero_rotor_pi.slx
+│           │   │   │   │   ├── application_guide_rotor_speed_control.pdf
+│           │   │   │   │   └── recommended_assessment_rotor_speed_control.pdf
+│           │   │   │   ├── l7_PID_control_design
+│           │   │   │   │   ├── digital_twin
+│           │   │   │   │   │   ├── aero2_1dof_PID_3rd_order_design.mlx
+│           │   │   │   │   │   ├── aero2_parameters.m
+│           │   │   │   │   │   ├── lab_procedure_PID_control_design.pdf
+│           │   │   │   │   │   ├── s_aero2_pid.slx
+│           │   │   │   │   │   ├── virtual_aero2_pid.slx
+│           │   │   │   │   │   └── virtual_aero2_pitch_1dof_control.mlx
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── aero2_1dof_PID_3rd_order_design.mlx
+│           │   │   │   │   │   ├── aero2_parameters.m
+│           │   │   │   │   │   ├── aero2_pitch_1dof_control.mlx
+│           │   │   │   │   │   ├── lab_procedure_PID_control_design.pdf
+│           │   │   │   │   │   ├── q_aero2_pid.slx
+│           │   │   │   │   │   └── s_aero2_pid.slx
+│           │   │   │   │   ├── application_guide_PID_control_design.pdf
+│           │   │   │   │   ├── concept_review.pdf
+│           │   │   │   │   └── recommended_assessment_PID_control_design.pdf
+│           │   │   │   ├── l8_qualitative_PID_tuning
+│           │   │   │   │   ├── digital_twin
+│           │   │   │   │   │   ├── lab_procedure_qualitative_PID_tuning.pdf
+│           │   │   │   │   │   └── virtual_aero2_qualitative_PID_control.slx
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── lab_procedure_qualitative_PID_tuning.pdf
+│           │   │   │   │   │   └── q_aero2_qualitative_PID_control.slx
+│           │   │   │   │   ├── application_guide_qualitative_PID_tuning.pdf
+│           │   │   │   │   └── recommended_assessment_qualitative_PID_tuning.pdf
+│           │   │   │   └── l9_gain_scheduling
+│           │   │   │       ├── digital_twin
+│           │   │   │       │   ├── lab_procedure_gain_scheduling.pdf
+│           │   │   │       │   └── virtual_aero2_gain_scheduling.slx
+│           │   │   │       ├── hardware
+│           │   │   │       │   ├── lab_procedure_gain_scheduling.pdf
+│           │   │   │       │   └── q_aero2_gain_scheduling.slx
+│           │   │   │       ├── application_guide_gain_scheduling.pdf
+│           │   │   │       └── recommended_assessment_gain_scheduling.pdf
+│           │   │   └── Qube_Servo_3
+│           │   │       ├── sp0_instrumentation
+│           │   │       │   ├── 1_Interfacing
+│           │   │       │   │   ├── digital_twin
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── lab_procedure_interfacing.pdf
+│           │   │       │   │   │       └── qs3_interfacing.slx
+│           │   │       │   │   ├── hardware
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── lab_procedure_interfacing.pdf
+│           │   │       │   │   │       ├── qs3_interfacing.rt-win64
+│           │   │       │   │   │       └── qs3_interfacing.slx
+│           │   │       │   │   ├── application_guide_interfacing.pdf
+│           │   │       │   │   └── recommended_assessment_interfacing.pdf
+│           │   │       │   └── 2_Filtering
+│           │   │       │       ├── digital_twin
+│           │   │       │       │   └── matlab
+│           │   │       │       │       ├── lab_procedure_filtering.pdf
+│           │   │       │       │       └── qs3_filtering.slx
+│           │   │       │       ├── hardware
+│           │   │       │       │   └── matlab
+│           │   │       │       │       ├── lab_procedure_filtering.pdf
+│           │   │       │       │       └── qs3_filtering.slx
+│           │   │       │       ├── application_guide_filtering.pdf
+│           │   │       │       └── recommended_assessment_filtering.pdf
+│           │   │       ├── sp1_modeling
+│           │   │       │   ├── block_diagram_modeling
+│           │   │       │   │   ├── digital_twin
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── lab_procedure_block_diagram_modeling.pdf
+│           │   │       │   │   │       ├── qs3_block_modeling.slx
+│           │   │       │   │   │       └── qube3_param.m
+│           │   │       │   │   ├── hardware
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── lab_procedure_block_diagram_modeling.pdf
+│           │   │       │   │   │       ├── qs3_block_modeling.slx
+│           │   │       │   │   │       └── qube3_param.m
+│           │   │       │   │   ├── application_guide_block_diagram_modeling.pdf
+│           │   │       │   │   ├── Qube_Servo3_user_manual.pdf
+│           │   │       │   │   └── recommended_assessment_block_modeling.pdf
+│           │   │       │   ├── frequency_response_modeling
+│           │   │       │   │   ├── digital_twin
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── freq_rsp.m
+│           │   │       │   │   │       ├── lab_procedure_freq_response_simulink.pdf
+│           │   │       │   │   │       └── qs3_frequency_response.slx
+│           │   │       │   │   ├── hardware
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── freq_rsp.m
+│           │   │       │   │   │       ├── lab_procedure_freq_response_simulink.pdf
+│           │   │       │   │   │       └── qs3_frequency_response.slx
+│           │   │       │   │   ├── application_guide_freq_response.pdf
+│           │   │       │   │   └── recommended_assessment_freq_response.pdf
+│           │   │       │   ├── parameter_estimation
+│           │   │       │   │   ├── digital_twin
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── lab_procedure_parameter_estimation.pdf
+│           │   │       │   │   │       └── qs3_parameter_estimation.slx
+│           │   │       │   │   ├── hardware
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── lab_procedure_parameter_estimation.pdf
+│           │   │       │   │   │       └── qs3_parameter_estimation.slx
+│           │   │       │   │   ├── application_guide_parameter_estimation.pdf
+│           │   │       │   │   ├── Qube_Servo3_user_manual.pdf
+│           │   │       │   │   └── recommended_assessment_parameter_estimation.pdf
+│           │   │       │   ├── state_space_modeling
+│           │   │       │   │   ├── digital_twin
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── lab_procedure_state_space_modeling.pdf
+│           │   │       │   │   │       ├── qs3_ss_model.slx
+│           │   │       │   │   │       ├── qs3_ss_script.m
+│           │   │       │   │   │       └── qube3_param.m
+│           │   │       │   │   ├── hardware
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── lab_procedure_state_space_modeling.pdf
+│           │   │       │   │   │       ├── qs3_ss_model.slx
+│           │   │       │   │   │       ├── qs3_ss_script.m
+│           │   │       │   │   │       └── qube3_param.m
+│           │   │       │   │   ├── application_guide_state_space_modeling.pdf
+│           │   │       │   │   ├── Qube_Servo3_user_manual.pdf
+│           │   │       │   │   └── recommended_assessment_state_space_modeling.pdf
+│           │   │       │   └── step_response_modeling
+│           │   │       │       ├── digital_twin
+│           │   │       │       │   └── matlab
+│           │   │       │       │       ├── lab_procedure_step_response.pdf
+│           │   │       │       │       ├── plot_step_response.m
+│           │   │       │       │       └── qs3_step_response.slx
+│           │   │       │       ├── hardware
+│           │   │       │       │   └── matlab
+│           │   │       │       │       ├── lab_procedure_step_response.pdf
+│           │   │       │       │       ├── plot_step_response.m
+│           │   │       │       │       └── qs3_step_response.slx
+│           │   │       │       ├── application_guide_step_response.pdf
+│           │   │       │       └── recommended_assessment_step_response.pdf
+│           │   │       ├── sp2_analysis
+│           │   │       │   ├── 1_stability_analysis
+│           │   │       │   │   ├── digital_twin
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── lab_procedure_stability.pdf
+│           │   │       │   │   │       └── qs3_stability.slx
+│           │   │       │   │   ├── hardware
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── lab_procedure_stability.pdf
+│           │   │       │   │   │       └── qs3_stability.slx
+│           │   │       │   │   ├── application_guide_stability.pdf
+│           │   │       │   │   └── recommended_assessment_stability.pdf
+│           │   │       │   └── 2_routh_hurwitz
+│           │   │       │       ├── digital_twin
+│           │   │       │       │   └── matlab
+│           │   │       │       │       ├── lab_procedure_routh_hurwitz_stability.pdf
+│           │   │       │       │       └── qs3_routh_hurwitz.slx
+│           │   │       │       ├── hardware
+│           │   │       │       │   └── matlab
+│           │   │       │       │       ├── lab_procedure_routh_hurwitz_stability.pdf
+│           │   │       │       │       └── qs3_routh_hurwitz.slx
+│           │   │       │       ├── application_guide_routh_hurwitz.pdf
+│           │   │       │       └── recommended_assessment_routh_hurwitz.pdf
+│           │   │       ├── sp3_fundamental_control
+│           │   │       │   ├── 1_proportional_control
+│           │   │       │   │   ├── digital_twin
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── lab_procedure_proportional_control.pdf
+│           │   │       │   │   │       ├── peak_time_and_overshoot.m
+│           │   │       │   │   │       ├── qs3_proportional_position.slx
+│           │   │       │   │   │       └── qs3_proportional_speed.slx
+│           │   │       │   │   ├── hardware
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── lab_procedure_proportional_control.pdf
+│           │   │       │   │   │       ├── peak_time_and_overshoot.m
+│           │   │       │   │   │       ├── qs3_proportional_position.slx
+│           │   │       │   │   │       └── qs3_proportional_speed.slx
+│           │   │       │   │   ├── application_guide_proportional_control.pdf
+│           │   │       │   │   └── recommended_assessment_proportional_control.pdf
+│           │   │       │   ├── 2_pd_control
+│           │   │       │   │   ├── digital_twin
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── lab_procedure_pd_control.pdf
+│           │   │       │   │   │       └── qs3_pd.slx
+│           │   │       │   │   ├── hardware
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── lab_procedure_pd_control.pdf
+│           │   │       │   │   │       └── qs3_pd.slx
+│           │   │       │   │   ├── application_guide_pd.pdf
+│           │   │       │   │   └── recommended_assessment_pd.pdf
+│           │   │       │   ├── 3a_steady_state_error
+│           │   │       │   │   ├── digital_twin
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── lab_procedure_steady_state_error.pdf
+│           │   │       │   │   │       └── qs3_sse.slx
+│           │   │       │   │   ├── hardware
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── lab_procedure_steady_state_error.pdf
+│           │   │       │   │   │       └── qs3_sse.slx
+│           │   │       │   │   ├── application_guide_steady_state_error.pdf
+│           │   │       │   │   └── recommended_assessment_steady_state_error.pdf
+│           │   │       │   └── lead_compensator
+│           │   │       │       ├── digital_twin
+│           │   │       │       │   └── matlab
+│           │   │       │       │       ├── lab_procedure_lead_compensator.pdf
+│           │   │       │       │       ├── lead_design.m
+│           │   │       │       │       └── qs3_lead.slx
+│           │   │       │       ├── hardware
+│           │   │       │       │   └── matlab
+│           │   │       │       │       ├── lab_procedure_lead_compensator.pdf
+│           │   │       │       │       ├── lead_design.m
+│           │   │       │       │       └── qs3_lead.slx
+│           │   │       │       ├── application_guide_lead_compensator.pdf
+│           │   │       │       └── recommended_assessment_lead_compensator.pdf
+│           │   │       ├── sp5_pendulum_modeling
+│           │   │       │   ├── 1_interfacing_and_intertia
+│           │   │       │   │   ├── digital_twin
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── find_inertia.m
+│           │   │       │   │   │       ├── lab_procedure_pendulum_interfacing.pdf
+│           │   │       │   │   │       ├── qs3_moment_of_inertia.slx
+│           │   │       │   │   │       ├── qs3_pendulum_interfacing.slx
+│           │   │       │   │   │       └── qs3_rotpen_param.m
+│           │   │       │   │   ├── hardware
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── find_inertia.m
+│           │   │       │   │   │       ├── lab_procedure_pendulum_interfacing_inertia.pdf
+│           │   │       │   │   │       ├── qs3_moment_of_inertia.slx
+│           │   │       │   │   │       ├── qs3_pendulum_interfacing.slx
+│           │   │       │   │   │       └── qs3_rotpen_param.m
+│           │   │       │   │   ├── application_guide_pendulum_interfacing_inertia.pdf
+│           │   │       │   │   ├── Qube_Servo3_user_manual.pdf
+│           │   │       │   │   └── recommended_assessment_pendulum_interfacing_inertia.pdf
+│           │   │       │   └── 2_state_space_modeling
+│           │   │       │       ├── digital_twin
+│           │   │       │       │   └── matlab
+│           │   │       │       │       ├── lab_procedure_state_space_modeling.pdf
+│           │   │       │       │       ├── qs3_pen_ss_model.slx
+│           │   │       │       │       ├── qs3_rotpen_ABCD_eqns_down.m
+│           │   │       │       │       ├── qs3_rotpen_param.m
+│           │   │       │       │       └── qs3_setup_rotpen_ss_model.m
+│           │   │       │       ├── hardware
+│           │   │       │       │   └── matlab
+│           │   │       │       │       ├── lab_procedure_state_space_modeling.pdf
+│           │   │       │       │       ├── qs3_pen_ss_model.slx
+│           │   │       │       │       ├── qs3_rotpen_ABCD_eqns_down.m
+│           │   │       │       │       ├── qs3_rotpen_param.m
+│           │   │       │       │       └── qs3_setup_rotpen_ss_model.m
+│           │   │       │       ├── application_guide_state_space_modeling.pdf
+│           │   │       │       └── recommended_assessment_state_space_modeling.pdf
+│           │   │       ├── sp6_pendulum_control
+│           │   │       │   ├── 1a_balance_control
+│           │   │       │   │   ├── digital_twin
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── lab_procedure_balance.pdf
+│           │   │       │   │   │       └── qs3_balance.slx
+│           │   │       │   │   ├── hardware
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── lab_procedure_balance.pdf
+│           │   │       │   │   │       └── qs3_balance.slx
+│           │   │       │   │   ├── application_guide_balance.pdf
+│           │   │       │   │   └── recommended_assessment_balance.pdf
+│           │   │       │   ├── 1b_lqr_control
+│           │   │       │   │   ├── digital_twin
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── lab_procedure_lqr_control.pdf
+│           │   │       │   │   │       ├── qs3_lqr_ctrl.slx
+│           │   │       │   │   │       ├── qube3_rotpen_param.m
+│           │   │       │   │   │       ├── rotpen_ABCD_eqns_ip.m
+│           │   │       │   │   │       └── setup_qube3_lqr.m
+│           │   │       │   │   ├── hardware
+│           │   │       │   │   │   └── matlab
+│           │   │       │   │   │       ├── lab_procedure_lqr_control.pdf
+│           │   │       │   │   │       ├── qs3_lqr_ctrl.slx
+│           │   │       │   │   │       ├── qube3_rotpen_param.m
+│           │   │       │   │   │       ├── rotpen_ABCD_eqns_ip.m
+│           │   │       │   │   │       └── setup_qube3_lqr.m
+│           │   │       │   │   ├── application_guide_lqr_control.pdf
+│           │   │       │   │   └── recommended_assessment_lqr_control.pdf
+│           │   │       │   └── 2_swingup_control
+│           │   │       │       ├── digital_twin
+│           │   │       │       │   └── matlab
+│           │   │       │       │       ├── lab_procedure_swingup_ctrl.pdf
+│           │   │       │       │       ├── qs3_swingup.slx
+│           │   │       │       │       ├── qube3_rotpen_param.m
+│           │   │       │       │       └── setup_swingup.m
+│           │   │       │       ├── hardware
+│           │   │       │       │   └── matlab
+│           │   │       │       │       ├── lab_procedure_swingup_ctrl.pdf
+│           │   │       │       │       ├── qs3_swingup.slx
+│           │   │       │       │       ├── qube3_rotpen_param.m
+│           │   │       │       │       └── setup_swingup.m
+│           │   │       │       ├── application_guide_swingup_ctrl.pdf
+│           │   │       │       └── recommended_assessment_swingup.pdf
+│           │   │       ├── supplementary_material
+│           │   │       │   ├── Pendulum Equations.pdf
+│           │   │       │   ├── PID Control.pdf
+│           │   │       │   └── Swing-up Pendulum Energy Control.pdf
+│           │   │       └── curriculum_pipelines.pdf
+│           │   ├── 2_Mechatronics
+│           │   │   ├── actuators_trainer
+│           │   │   │   └── 1_fundamentals
+│           │   │   │       ├── brushed_dc
+│           │   │   │       │   ├── hardware
+│           │   │   │       │   │   └── python
+│           │   │   │       │   │       ├── dc_motor_drive.py
+│           │   │   │       │   │       ├── dc_motor_raw.py
+│           │   │   │       │   │       ├── lab_procedure_dc.pdf
+│           │   │   │       │   │       └── observer.py
+│           │   │   │       │   ├── application_guide_dc.pdf
+│           │   │   │       │   ├── dc_motor - datasheet.pdf
+│           │   │   │       │   ├── dc_motor_encoder - datasheet.pdf
+│           │   │   │       │   └── recommended_assessment_dc.pdf
+│           │   │   │       ├── brushless_dc
+│           │   │   │       │   ├── hardware
+│           │   │   │       │   │   └── python
+│           │   │   │       │   │       ├── bldc.py
+│           │   │   │       │   │       ├── bldc_hall.py
+│           │   │   │       │   │       └── lab_procedure_bldc.pdf
+│           │   │   │       │   ├── application_guide_bldc.pdf
+│           │   │   │       │   ├── bldc - datasheet.pdf
+│           │   │   │       │   └── recommended_assessment_bldc.pdf
+│           │   │   │       ├── servo
+│           │   │   │       │   ├── hardware
+│           │   │   │       │   │   └── python
+│           │   │   │       │   │       ├── src
+│           │   │   │       │   │       │   ├── pwm_led.png
+│           │   │   │       │   │       │   └── visualization.py
+│           │   │   │       │   │       ├── lab_procedure_servo.pdf
+│           │   │   │       │   │       ├── pwm_exploration.py
+│           │   │   │       │   │       └── servomotor.py
+│           │   │   │       │   ├── application_guide_servo.pdf
+│           │   │   │       │   ├── recommended_assessment_servo.pdf
+│           │   │   │       │   └── servo - datasheet.pdf
+│           │   │   │       └── stepper
+│           │   │   │           ├── hardware
+│           │   │   │           │   └── python
+│           │   │   │           │       ├── lab_procedure_stepper.pdf
+│           │   │   │           │       ├── microstepping.py
+│           │   │   │           │       └── stepper.py
+│           │   │   │           ├── application_guide_stepper.pdf
+│           │   │   │           ├── recommended_assessment_stepper.pdf
+│           │   │   │           └── stepper - datasheet.pdf
+│           │   │   └── sensors_trainer
+│           │   │       └── 1_fundamentals
+│           │   │           ├── camera
+│           │   │           │   ├── hardware
+│           │   │           │   │   └── python
+│           │   │           │   │       ├── camera_calibration.py
+│           │   │           │   │       ├── camera_display.py
+│           │   │           │   │       ├── color_detection.py
+│           │   │           │   │       └── lab_procedure_camera.pdf
+│           │   │           │   ├── application_guide_camera.pdf
+│           │   │           │   ├── camera-calibration-checker-board_9x7.pdf
+│           │   │           │   ├── CameraSpec66FOV.url
+│           │   │           │   ├── OV5640_datasheet.pdf
+│           │   │           │   └── recommended_assessment_camera.pdf
+│           │   │           ├── color_sensor
+│           │   │           │   ├── hardware
+│           │   │           │   │   └── python
+│           │   │           │   │       ├── calibrate.py
+│           │   │           │   │       ├── CIE_xyz_1931_2deg.csv
+│           │   │           │   │       ├── color_match.py
+│           │   │           │   │       ├── lab_procedure_color_sensor.pdf
+│           │   │           │   │       ├── observer_sensor.py
+│           │   │           │   │       ├── read_color.py
+│           │   │           │   │       ├── read_sensor.py
+│           │   │           │   │       └── visualizer.py
+│           │   │           │   ├── application_guide_color_sensor.pdf
+│           │   │           │   ├── designingveml3328.pdf
+│           │   │           │   ├── LED_AAAF5050_MC_K12-1667955.pdf
+│           │   │           │   ├── recommended_assessment_color_sensor.pdf
+│           │   │           │   └── veml3328.pdf
+│           │   │           ├── encoder
+│           │   │           │   ├── hardware
+│           │   │           │   │   └── python
+│           │   │           │   │       ├── encoder.py
+│           │   │           │   │       ├── lab_procedure_encoder.pdf
+│           │   │           │   │       └── observer.py
+│           │   │           │   ├── application_guide_encoder.pdf
+│           │   │           │   ├── ENC-PEC12R-4225F-N0024.pdf
+│           │   │           │   └── recommended_assessment_encoder.pdf
+│           │   │           ├── force_resistor
+│           │   │           │   ├── hardware
+│           │   │           │   │   └── python
+│           │   │           │   │       ├── force_resistor.py
+│           │   │           │   │       ├── lab_procedure_force_resistor.pdf
+│           │   │           │   │       └── observer.py
+│           │   │           │   ├── application_guide_force_resistor.pdf
+│           │   │           │   ├── F-02 FSR-Specifications.pdf
+│           │   │           │   └── recommended_assessment_force_resistor.pdf
+│           │   │           ├── imu
+│           │   │           │   ├── hardware
+│           │   │           │   │   └── python
+│           │   │           │   │       ├── imu_attitude_estimation.py
+│           │   │           │   │       ├── imu_scope.py
+│           │   │           │   │       ├── imu_visualization.py
+│           │   │           │   │       ├── lab_procedure_IMU.pdf
+│           │   │           │   │       ├── library_visualization.py
+│           │   │           │   │       ├── observer_attitude_estimation.py
+│           │   │           │   │       └── observer_scope.py
+│           │   │           │   ├── application_guide_imu.pdf
+│           │   │           │   ├── DS-000189-ICM-20948-v1.6.pdf
+│           │   │           │   └── recommended_assessment_imu.pdf
+│           │   │           ├── infrared_distance
+│           │   │           │   ├── hardware
+│           │   │           │   │   └── python
+│           │   │           │   │       ├── infrared_display.py
+│           │   │           │   │       ├── infrared_distance.py
+│           │   │           │   │       ├── infrared_record.py
+│           │   │           │   │       └── lab_procedure_infrared_distance.pdf
+│           │   │           │   ├── application_guide_infrared_distance.pdf
+│           │   │           │   ├── GP2Y0A21YK0F_Spec_Sheet.pdf
+│           │   │           │   └── recommended_assessment_infrared_distance.pdf
+│           │   │           ├── joystick_potentiometer
+│           │   │           │   ├── hardware
+│           │   │           │   │   └── python
+│           │   │           │   │       ├── joystick.py
+│           │   │           │   │       ├── lab_procedure_joystick_potentiometer.pdf
+│           │   │           │   │       └── observer.py
+│           │   │           │   ├── application_guide_joystick_potentiometer.pdf
+│           │   │           │   ├── JOY-TH-THB001P.pdf
+│           │   │           │   ├── POT_PTV09A-4020U-B104.pdf
+│           │   │           │   └── recommended_assessment_joystick_potentiometer.pdf
+│           │   │           ├── lcd_input
+│           │   │           │   ├── hardware
+│           │   │           │   │   └── python
+│           │   │           │   │       ├── blue_pic.png
+│           │   │           │   │       ├── lab_procedure_lcd.pdf
+│           │   │           │   │       ├── lcd_draw_touch.py
+│           │   │           │   │       ├── lcd_input.py
+│           │   │           │   │       ├── mask.png
+│           │   │           │   │       ├── test_draw_modes.py
+│           │   │           │   │       └── yellow_pic.png
+│           │   │           │   ├── application_guide_lcd.pdf
+│           │   │           │   ├── LCD_datasheet.pdf
+│           │   │           │   └── recommended_assessment_lcd.pdf
+│           │   │           ├── light_resistor
+│           │   │           │   ├── hardware
+│           │   │           │   │   └── python
+│           │   │           │   │       ├── lab_procedure_light_resistor.pdf
+│           │   │           │   │       ├── light_resistor.py
+│           │   │           │   │       └── observer.py
+│           │   │           │   ├── application_guide_light_resistor.pdf
+│           │   │           │   ├── DS-PDV-P8104.pdf
+│           │   │           │   └── recommended_assessment_light_resistor.pdf
+│           │   │           ├── load_cell
+│           │   │           │   ├── hardware
+│           │   │           │   │   └── python
+│           │   │           │   │       ├── lab_procedure_loadcell.pdf
+│           │   │           │   │       ├── load_cell_calibrate.py
+│           │   │           │   │       ├── load_cell_measure.py
+│           │   │           │   │       ├── load_cell_scope.py
+│           │   │           │   │       └── observer_scope.py
+│           │   │           │   ├── application_guide_loadcell.pdf
+│           │   │           │   ├── buildingLoadcellScale.pdf
+│           │   │           │   ├── recommended_assessment_loadcell.pdf
+│           │   │           │   └── TAL220P-5Kg.pdf
+│           │   │           ├── microphone_speaker
+│           │   │           │   ├── hardware
+│           │   │           │   │   └── python
+│           │   │           │   │       ├── lab_procedure_mic.pdf
+│           │   │           │   │       ├── microphone_clap_detect.py
+│           │   │           │   │       ├── microphone_frequency_detect.py
+│           │   │           │   │       ├── microphone_visualization.py
+│           │   │           │   │       ├── speaker.py
+│           │   │           │   │       └── visualizer.py
+│           │   │           │   ├── application_guide_mic.pdf
+│           │   │           │   ├── ICS-41351_microphone.pdf
+│           │   │           │   ├── recommended_assessment_mic.pdf
+│           │   │           │   └── specs-AST-01508MR-R.pdf
+│           │   │           ├── passive_infrared
+│           │   │           │   ├── hardware
+│           │   │           │   │   └── python
+│           │   │           │   │       ├── lab_procedure_passive_infrared.pdf
+│           │   │           │   │       ├── observer.py
+│           │   │           │   │       └── passive_infrared.py
+│           │   │           │   ├── application_guide_passive_infrared.pdf
+│           │   │           │   ├── Example-Fillable-Printable-Protractor.jpg
+│           │   │           │   ├── PIR-PL-Q873-02.pdf
+│           │   │           │   └── recommended_assessment_passive_infrared.pdf
+│           │   │           ├── push_button
+│           │   │           │   ├── hardware
+│           │   │           │   │   └── python
+│           │   │           │   │       ├── buttons.py
+│           │   │           │   │       ├── lab_procedure_push_button.pdf
+│           │   │           │   │       └── observer.py
+│           │   │           │   ├── application_guide_push_button.pdf
+│           │   │           │   ├── recommended_assessment_push_button.pdf
+│           │   │           │   └── SW-SPST-BLACK-TH-320.03E11BLK.pdf
+│           │   │           ├── radar
+│           │   │           │   ├── hardware
+│           │   │           │   │   └── python
+│           │   │           │   │       ├── lab_procedure_radar.pdf
+│           │   │           │   │       ├── radar_envelope.py
+│           │   │           │   │       ├── radar_IQ.py
+│           │   │           │   │       └── radar_presence.py
+│           │   │           │   ├── application_guide_radar.pdf
+│           │   │           │   ├── RADAR-A111-001-T&R.pdf
+│           │   │           │   └── recommended_assessment_radar.pdf
+│           │   │           ├── thermocouple
+│           │   │           │   ├── hardware
+│           │   │           │   │   └── python
+│           │   │           │   │       ├── lab_procedure_thermocouple.pdf
+│           │   │           │   │       ├── observer.py
+│           │   │           │   │       └── thermocouple.py
+│           │   │           │   ├── application_guide_thermocouple.pdf
+│           │   │           │   ├── max31855.pdf
+│           │   │           │   └── recommended_assessment_thermocouple.pdf
+│           │   │           ├── time_of_flight
+│           │   │           │   ├── advanced_docs
+│           │   │           │   │   ├── 26oct2023-TOF-sensors-with-cnh-data.pdf
+│           │   │           │   │   ├── an5894-description-FOV_TOF.pdf
+│           │   │           │   │   ├── oct24th-2023-TOF-sensor-applications.pdf
+│           │   │           │   │   └── um3183-TOF__usage_guide.pdf
+│           │   │           │   ├── hardware
+│           │   │           │   │   └── python
+│           │   │           │   │       ├── lab_procedure_time_of_flight.pdf
+│           │   │           │   │       ├── TOF_3D.py
+│           │   │           │   │       ├── TOF_colorized.py
+│           │   │           │   │       └── TOF_single_beam.py
+│           │   │           │   ├── application_guide_time_of_flight.pdf
+│           │   │           │   ├── OPT-VL53L8CHV0GC-1.pdf
+│           │   │           │   └── recommended_assessment_time_of_flight.pdf
+│           │   │           ├── ultrasonic
+│           │   │           │   ├── hardware
+│           │   │           │   │   └── python
+│           │   │           │   │       ├── lab_procedure_ultrasonic.pdf
+│           │   │           │   │       ├── ultrasonic_IQ.py
+│           │   │           │   │       └── ultrasonic_single_distance.py
+│           │   │           │   ├── application_guide_ultrasonic.pdf
+│           │   │           │   ├── recommended_assessment_ultrasonic.pdf
+│           │   │           │   └── ULTRA-CH201-00ABR.pdf
+│           │   │           └── weather_sensor
+│           │   │               ├── hardware
+│           │   │               │   └── python
+│           │   │               │       ├── lab_procedure_weather.pdf
+│           │   │               │       ├── observer.py
+│           │   │               │       └── weather.py
+│           │   │               ├── application_guide_weather.pdf
+│           │   │               ├── bst-bme280-ds002.pdf
+│           │   │               ├── bst-bme280-fl000_short.pdf
+│           │   │               └── recommended_assessment_weather.pdf
+│           │   ├── 3_Robotics
+│           │   │   ├── sp0_play
+│           │   │   │   ├── play_qarm
+│           │   │   │   │   ├── digital_twin
+│           │   │   │   │   │   ├── BasicIO_position_mode.slx
+│           │   │   │   │   │   ├── BasicIO_pwm_mode.slx
+│           │   │   │   │   │   └── lab_procedure_virtual.pdf
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── lab_procedure_hardware.pdf
+│           │   │   │   │   │   ├── play_position_mode.slx
+│           │   │   │   │   │   └── play_pwm_mode.slx
+│           │   │   │   │   ├── application_guide.pdf
+│           │   │   │   │   └── recommended_assessment.pdf
+│           │   │   │   ├── play_qarm_mini
+│           │   │   │   │   └── hardware
+│           │   │   │   │       ├── matlab
+│           │   │   │   │       │   ├── lab_procedure_simulink.pdf
+│           │   │   │   │       │   └── play.slx
+│           │   │   │   │       └── python
+│           │   │   │   │           ├── lab_procedure_python.pdf
+│           │   │   │   │           └── play.py
+│           │   │   │   └── play_qbot
+│           │   │   │       ├── digital_twin
+│           │   │   │       │   ├── matlab
+│           │   │   │       │   │   ├── lab_procedure_simulink.pdf
+│           │   │   │       │   │   ├── play.slx
+│           │   │   │       │   │   └── qlabs_setup.m
+│           │   │   │       │   └── python
+│           │   │   │       │       ├── lab_procedure_python.pdf
+│           │   │   │       │       ├── observer.py
+│           │   │   │       │       ├── play.py
+│           │   │   │       │       └── qlabs_setup.py
+│           │   │   │       ├── hardware
+│           │   │   │       │   ├── matlab
+│           │   │   │       │   │   ├── lab_procedure_simulink.pdf
+│           │   │   │       │   │   ├── play.slx
+│           │   │   │       │   │   └── qbot_platform_driver_physical.rt-linux_qbot_platform
+│           │   │   │       │   └── python
+│           │   │   │       │       ├── lab_procedure_python.pdf
+│           │   │   │       │       ├── observer.py
+│           │   │   │       │       ├── play.py
+│           │   │   │       │       └── qbot_platform_driver_physical.rt-linux_qbot_platform
+│           │   │   │       ├── application_guide.pdf
+│           │   │   │       └── recommended_assessment.pdf
+│           │   │   ├── sp1_task_automation
+│           │   │   │   ├── l1_forward_kinematics
+│           │   │   │   │   ├── digital_twin
+│           │   │   │   │   │   ├── matlab
+│           │   │   │   │   │   │   ├── for_kin.slx
+│           │   │   │   │   │   │   ├── lab_procedure_simulink.pdf
+│           │   │   │   │   │   │   └── qlabs_setup.m
+│           │   │   │   │   │   └── python
+│           │   │   │   │   │       ├── for_kin.py
+│           │   │   │   │   │       ├── lab_procedure_python.pdf
+│           │   │   │   │   │       ├── observer.py
+│           │   │   │   │   │       └── qlabs_setup.py
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── matlab
+│           │   │   │   │   │   │   ├── for_kin.slx
+│           │   │   │   │   │   │   ├── lab_procedure_simulink.pdf
+│           │   │   │   │   │   │   └── qbot_platform_driver_physical.rt-linux_qbot_platform
+│           │   │   │   │   │   └── python
+│           │   │   │   │   │       ├── for_kin.py
+│           │   │   │   │   │       ├── lab_procedure_python.pdf
+│           │   │   │   │   │       ├── observer.py
+│           │   │   │   │   │       └── qbot_platform_driver_physical.rt-linux_qbot_platform
+│           │   │   │   │   ├── application_guide.pdf
+│           │   │   │   │   └── recommended_assessment.pdf
+│           │   │   │   ├── l2_inverse_kinematics
+│           │   │   │   │   ├── digital_twin
+│           │   │   │   │   │   ├── matlab
+│           │   │   │   │   │   │   ├── inv_kin.slx
+│           │   │   │   │   │   │   ├── lab_procedure_simulink.pdf
+│           │   │   │   │   │   │   └── qlabs_setup.m
+│           │   │   │   │   │   └── python
+│           │   │   │   │   │       ├── inv_kin.py
+│           │   │   │   │   │       ├── lab_procedure_python.pdf
+│           │   │   │   │   │       ├── observer.py
+│           │   │   │   │   │       └── qlabs_setup.py
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── matlab
+│           │   │   │   │   │   │   ├── inv_kin.slx
+│           │   │   │   │   │   │   ├── lab_procedure_simulink.pdf
+│           │   │   │   │   │   │   └── qbot_platform_driver_physical.rt-linux_qbot_platform
+│           │   │   │   │   │   └── python
+│           │   │   │   │   │       ├── inv_kin.py
+│           │   │   │   │   │       ├── lab_procedure_python.pdf
+│           │   │   │   │   │       ├── observer.py
+│           │   │   │   │   │       └── qbot_platform_driver_physical.rt-linux_qbot_platform
+│           │   │   │   │   ├── application_guide.pdf
+│           │   │   │   │   └── recommended_assessment.pdf
+│           │   │   │   ├── l3_line_following
+│           │   │   │   │   ├── digital_twin
+│           │   │   │   │   │   ├── matlab
+│           │   │   │   │   │   │   ├── lab_procedure_simulink.pdf
+│           │   │   │   │   │   │   ├── line_following.slx
+│           │   │   │   │   │   │   └── qlabs_setup.m
+│           │   │   │   │   │   └── python
+│           │   │   │   │   │       ├── lab_procedure_python.pdf
+│           │   │   │   │   │       ├── line_following.py
+│           │   │   │   │   │       ├── observer.py
+│           │   │   │   │   │       └── qlabs_setup.py
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── matlab
+│           │   │   │   │   │   │   ├── lab_procedure_simulink.pdf
+│           │   │   │   │   │   │   ├── line_following.slx
+│           │   │   │   │   │   │   └── qbot_platform_driver_physical.rt-linux_qbot_platform
+│           │   │   │   │   │   └── python
+│           │   │   │   │   │       ├── lab_procedure_python.pdf
+│           │   │   │   │   │       ├── line_following.py
+│           │   │   │   │   │       ├── observer.py
+│           │   │   │   │   │       └── qbot_platform_driver_physical.rt-linux_qbot_platform
+│           │   │   │   │   ├── application_guide.pdf
+│           │   │   │   │   └── recommended_assessment.pdf
+│           │   │   │   └── l4_object_detection
+│           │   │   │       ├── digital_twin
+│           │   │   │       │   ├── matlab
+│           │   │   │       │   │   ├── lab_procedure_simulink.pdf
+│           │   │   │       │   │   ├── obstacle_detection.slx
+│           │   │   │       │   │   └── qlabs_setup.m
+│           │   │   │       │   └── python
+│           │   │   │       │       ├── lab_procedure_python.pdf
+│           │   │   │       │       ├── observer.py
+│           │   │   │       │       ├── obstacle_detection.py
+│           │   │   │       │       └── qlabs_setup.py
+│           │   │   │       ├── hardware
+│           │   │   │       │   ├── matlab
+│           │   │   │       │   │   ├── lab_procedure_simulink.pdf
+│           │   │   │       │   │   ├── obstacle_detection.slx
+│           │   │   │       │   │   └── qbot_platform_driver_physical.rt-linux_qbot_platform
+│           │   │   │       │   └── python
+│           │   │   │       │       ├── lab_procedure_python.pdf
+│           │   │   │       │       ├── observer.py
+│           │   │   │       │       ├── obstacle_detection.py
+│           │   │   │       │       └── qbot_platform_driver_physical.rt-linux_qbot_platform
+│           │   │   │       ├── application_guide.pdf
+│           │   │   │       └── recommended_assessment.pdf
+│           │   │   ├── sp2_surveying
+│           │   │   │   └── placeholder.txt
+│           │   │   ├── sp3_pick_and_place
+│           │   │   │   ├── l1_forward_kinematics
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── matlab
+│           │   │   │   │   │   │   ├── lab_procedure_simulink.pdf
+│           │   │   │   │   │   │   ├── lead_follow.slx
+│           │   │   │   │   │   │   ├── lead_learn.slx
+│           │   │   │   │   │   │   └── workspace_identification.slx
+│           │   │   │   │   │   └── python
+│           │   │   │   │   │       ├── lab_procedure_python.pdf
+│           │   │   │   │   │       ├── lead_through_follow.py
+│           │   │   │   │   │       ├── lead_through_learn.py
+│           │   │   │   │   │       └── worksapce_identification.py
+│           │   │   │   │   ├── application_guide_forward_kinematics.pdf
+│           │   │   │   │   └── recommended_assessment.pdf
+│           │   │   │   ├── l2_inverse_kinematics
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── matlab
+│           │   │   │   │   │   │   ├── lab_procedure_simulink.pdf
+│           │   │   │   │   │   │   ├── teach_follow.slx
+│           │   │   │   │   │   │   ├── teach_learn.slx
+│           │   │   │   │   │   │   └── trajectory_gen.slx
+│           │   │   │   │   │   └── python
+│           │   │   │   │   │       ├── lab_procedure_python.pdf
+│           │   │   │   │   │       ├── teach_pendant_follow.py
+│           │   │   │   │   │       ├── teach_pendant_learn.py
+│           │   │   │   │   │       └── trajectory_generation.py
+│           │   │   │   │   ├── application_guide_inverse_kinematics.pdf
+│           │   │   │   │   └── recommended_assessment.pdf
+│           │   │   │   ├── l3_vision
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── matlab
+│           │   │   │   │   │   │   ├── lab_procedure_simulink.pdf
+│           │   │   │   │   │   │   └── vision.slx
+│           │   │   │   │   │   └── python
+│           │   │   │   │   │       ├── image_processing.py
+│           │   │   │   │   │       └── lab_procedure_python.pdf
+│           │   │   │   │   ├── application_guide_object_detection.pdf
+│           │   │   │   │   └── recommended_assessment.pdf
+│           │   │   │   └── l4_differential_kinematics
+│           │   │   │       ├── hardware
+│           │   │   │       │   ├── matlab
+│           │   │   │       │   │   ├── lab_procedure_simulink.pdf
+│           │   │   │       │   │   └── visual_servoing.slx
+│           │   │   │       │   └── python
+│           │   │   │       │       ├── lab_procedure_python.pdf
+│           │   │   │       │       └── visual_servoing.py
+│           │   │   │       ├── application_guide_visual_servoing.pdf
+│           │   │   │       └── recommended_assessment.pdf
+│           │   │   ├── sp4_kinematic_manipulation
+│           │   │   │   ├── l1_low_level_control
+│           │   │   │   │   ├── digital_twin
+│           │   │   │   │   │   ├── lab_procedure_virtual.pdf
+│           │   │   │   │   │   ├── LowLevelControlPositionMode.slx
+│           │   │   │   │   │   └── LowLevelControlPWMMode.slx
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── FuzzyControllers
+│           │   │   │   │   │   │   ├── LowLevelControlWristCurrentFuzzy.slx
+│           │   │   │   │   │   │   ├── LowLevelControlWristPWMFuzzy.slx
+│           │   │   │   │   │   │   └── qarm_fuzzy_controller.fis
+│           │   │   │   │   │   ├── lab_procedure_hardware.pdf
+│           │   │   │   │   │   ├── LowLevelControlNonLinearEffects.slx
+│           │   │   │   │   │   ├── LowLevelControlWristCurrent.slx
+│           │   │   │   │   │   ├── LowLevelControlWristPosition.slx
+│           │   │   │   │   │   └── LowLevelControlWristPWM.slx
+│           │   │   │   │   ├── application_guide.pdf
+│           │   │   │   │   └── recommended_assessment.pdf
+│           │   │   │   ├── l2_workspace_identification
+│           │   │   │   │   ├── digital_twin
+│           │   │   │   │   │   ├── ForwardKinematics.slx
+│           │   │   │   │   │   ├── lab_procedure_virtual.pdf
+│           │   │   │   │   │   ├── visualize_data.m
+│           │   │   │   │   │   └── WorkspaceIdentification.slx
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── ForwardKinematics.slx
+│           │   │   │   │   │   ├── lab_procedure_hardware.pdf
+│           │   │   │   │   │   ├── visualize_data.m
+│           │   │   │   │   │   └── WorkspaceIdentification.slx
+│           │   │   │   │   ├── application_guide.pdf
+│           │   │   │   │   └── recommended_assessment.pdf
+│           │   │   │   ├── l3_lead_through
+│           │   │   │   │   ├── digital_twin
+│           │   │   │   │   │   ├── checkKinematics.slxp
+│           │   │   │   │   │   ├── checkKinematics_msp.mexw64
+│           │   │   │   │   │   ├── lab_procedure_virtual.pdf
+│           │   │   │   │   │   ├── LeadThrough_Follow.slx
+│           │   │   │   │   │   └── LeadThrough_Learn.slx
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── lab_procedure_hardware.pdf
+│           │   │   │   │   │   ├── LeadThrough_Follow.slx
+│           │   │   │   │   │   └── LeadThrough_Learn.slx
+│           │   │   │   │   ├── application_guide.pdf
+│           │   │   │   │   └── recommended_assessment.pdf
+│           │   │   │   ├── l4_teach_pendant
+│           │   │   │   │   ├── digital_twin
+│           │   │   │   │   │   ├── InverseKinematics.slx
+│           │   │   │   │   │   ├── lab_procedure_virtual.pdf
+│           │   │   │   │   │   ├── TeachPendant_Follow .slx
+│           │   │   │   │   │   ├── TeachPendant_Follow.slx
+│           │   │   │   │   │   └── TeachPendant_Learn.slx
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── InverseKinematics.slx
+│           │   │   │   │   │   ├── lab_procedure_hardware.pdf
+│           │   │   │   │   │   ├── TeachPendant_Follow.slx
+│           │   │   │   │   │   └── TeachPendant_Learn.slx
+│           │   │   │   │   ├── application_guide.pdf
+│           │   │   │   │   └── recommended_assessment.pdf
+│           │   │   │   └── l5_trajectory_generation
+│           │   │   │       ├── digital_twin
+│           │   │   │       │   ├── Assembly.slx
+│           │   │   │       │   ├── lab_procedure_virtual.pdf
+│           │   │   │       │   ├── Navigate.slx
+│           │   │   │       │   ├── PickAndPlace.slx
+│           │   │   │       │   └── Welding.slx
+│           │   │   │       ├── hardware
+│           │   │   │       │   ├── Assembly.slx
+│           │   │   │       │   ├── lab_procedure_hardware.pdf
+│           │   │   │       │   ├── Navigate.slx
+│           │   │   │       │   ├── PickAndPlace.slx
+│           │   │   │       │   └── Welding.slx
+│           │   │   │       ├── application_guide.pdf
+│           │   │   │       └── recommended_assessment.pdf
+│           │   │   ├── sp5_velocity_manipulation
+│           │   │   │   ├── l1_tool_manipulation
+│           │   │   │   │   ├── digital_twin
+│           │   │   │   │   │   ├── CheckInvDiffKin_sf.mexw64
+│           │   │   │   │   │   ├── checkKinematics.slxp
+│           │   │   │   │   │   ├── Jacobian.slx
+│           │   │   │   │   │   ├── lab_procedure_virtual.pdf
+│           │   │   │   │   │   ├── ToolManipulation.slx
+│           │   │   │   │   │   └── Welding.slx
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── CheckInvDiffKin_sf.mexw64
+│           │   │   │   │   │   ├── checkKinematics.slxp
+│           │   │   │   │   │   ├── Jacobian.slx
+│           │   │   │   │   │   ├── lab_procedure_hardware.pdf
+│           │   │   │   │   │   ├── Welding_tool_man.slx
+│           │   │   │   │   │   └── Welding_traj_gen.slx
+│           │   │   │   │   ├── application_guide.pdf
+│           │   │   │   │   └── recommended_assessment.pdf
+│           │   │   │   ├── l2_singularity_identification
+│           │   │   │   │   ├── digital_twin
+│           │   │   │   │   │   ├── lab_procedure_virtual.pdf
+│           │   │   │   │   │   └── SingularityIdentification.slx
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── lab_procedure_hardware.pdf
+│           │   │   │   │   │   └── SingularityIdentification.slx
+│           │   │   │   │   ├── application_guide.pdf
+│           │   │   │   │   └── recommended_assessment.pdf
+│           │   │   │   └── l3_singularity_avoidance
+│           │   │   │       ├── digital_twin
+│           │   │   │       │   ├── lab_procedure_virtual.pdf
+│           │   │   │       │   ├── Navigate.slx
+│           │   │   │       │   └── SingularityAvoidance.slx
+│           │   │   │       ├── hardware
+│           │   │   │       │   ├── lab_procedure_hardware.pdf
+│           │   │   │       │   └── SingularityAvoidance.slx
+│           │   │   │       ├── application_guide.pdf
+│           │   │   │       └── recommended_assessment.pdf
+│           │   │   ├── sp6_visual_manipulation
+│           │   │   │   ├── l1_image_acquisition
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── ImageAcquisitionAndColorSpaces.slx
+│           │   │   │   │   │   ├── lab_procedure_hardware.pdf
+│           │   │   │   │   │   └── octopus.jpg
+│           │   │   │   │   ├── application_guide.pdf
+│           │   │   │   │   └── recommended_assessment.pdf
+│           │   │   │   ├── l2_object_detection
+│           │   │   │   │   ├── hardware
+│           │   │   │   │   │   ├── lab_procedure_hardware.pdf
+│           │   │   │   │   │   ├── object_detection.slx
+│           │   │   │   │   │   └── octopus.jpg
+│           │   │   │   │   ├── application_guide.pdf
+│           │   │   │   │   └── recommended_assessment.pdf
+│           │   │   │   └── l3_visual_servoing
+│           │   │   │       ├── hardware
+│           │   │   │       │   ├── lab_procedure_hardware.pdf
+│           │   │   │       │   └── VisualServoing.slx
+│           │   │   │       ├── application_guide.pdf
+│           │   │   │       └── recommended_assessment.pdf
+│           │   │   └── Getting Started.png
+│           │   └── 4_Autonomous_Systems
+│           │       └── SDCS
+│           │           ├── skills_activities
+│           │           │   ├── 01-sensor_interfacing
+│           │           │   │   ├── lab_guide_sensor_interfacing.pdf
+│           │           │   │   ├── qlabs_setup.py
+│           │           │   │   └── sensor_interfacing.py
+│           │           │   ├── 02-image_interpretation
+│           │           │   │   ├── image_interpretation.py
+│           │           │   │   ├── lab_guide_image_interpretation.pdf
+│           │           │   │   ├── qlabs_setup.py
+│           │           │   │   └── virtual_camera_calibration.py
+│           │           │   ├── 03-state_estimation
+│           │           │   │   ├── lab_guide_state_estimation.pdf
+│           │           │   │   ├── qlabs_setup.py
+│           │           │   │   └── state_estimation.py
+│           │           │   ├── 04-vehicle_control
+│           │           │   │   ├── cityscape.png
+│           │           │   │   ├── lab_guide_vehicle_control.pdf
+│           │           │   │   ├── qlabs_setup.py
+│           │           │   │   ├── SDCS_RoadMap_LeftHandTraffic.png
+│           │           │   │   ├── SDCS_RoadMap_RightHandTraffic.png
+│           │           │   │   └── vehicle_control.py
+│           │           │   ├── 05-environment_interpretation
+│           │           │   │   ├── environment_interpretation.py
+│           │           │   │   ├── lab_guide_environment_interpretation.pdf
+│           │           │   │   └── qlabs_setup.py
+│           │           │   ├── 06-lane_keeping
+│           │           │   │   ├── lab_guide_lane_keeping.pdf
+│           │           │   │   ├── lane_keeping.py
+│           │           │   │   └── qlabs_setup.py
+│           │           │   └── 07-object_detection
+│           │           │       ├── lab_guide_object_detection.pdf
+│           │           │       ├── object_detection.py
+│           │           │       └── virtual_road_signage.py
+│           │           └── read before starting.txt
+│           ├── 7_outreach
+│           │   └── STEM_Interactive_Exhibit
+│           │       ├── STEM_Experience
+│           │       │   ├── Cars
+│           │       │   │   ├── Reference_Scans
+│           │       │   │   │   ├── QCar1
+│           │       │   │   │   │   ├── angles_scanned.mat
+│           │       │   │   │   │   └── distances_scanned.mat
+│           │       │   │   │   ├── QCar2
+│           │       │   │   │   │   ├── angles_scanned.mat
+│           │       │   │   │   │   └── distances_scanned.mat
+│           │       │   │   │   ├── ReadMe.txt
+│           │       │   │   │   └── transfer_scans.bat
+│           │       │   │   ├── disable_run_on_boot_car_model.bat
+│           │       │   │   ├── download_car_model.bat
+│           │       │   │   ├── enable_run_on_boot_car_model.bat
+│           │       │   │   ├── ReadMe.txt
+│           │       │   │   ├── run_car_model.bat
+│           │       │   │   ├── STEM_Cars.rt-linux_nvidia
+│           │       │   │   ├── STEM_QCar2.rt-linux_qcar2
+│           │       │   │   └── stop_car_model.bat
+│           │       │   ├── Infrastructure
+│           │       │   │   ├── src
+│           │       │   │   │   ├── NN
+│           │       │   │   │   │   ├── start_yolo.bat
+│           │       │   │   │   │   ├── STEM_Infrastructure_NN.rt-win64
+│           │       │   │   │   │   └── yolo_client.py
+│           │       │   │   │   ├── STEM_Infrastructure_Main.rt-win64
+│           │       │   │   │   └── STEM_Infrastructure_V2V.rt-win64
+│           │       │   │   ├── disable_run_on_boot_infrastructure_models.bat
+│           │       │   │   ├── download_infrastructure_models.bat
+│           │       │   │   ├── enable_run_on_boot_infrastructure_models.bat
+│           │       │   │   ├── ReadMe.txt
+│           │       │   │   ├── run_infrastructure_models.bat
+│           │       │   │   └── stop_infrastructure_models.bat
+│           │       │   └── Traffic_Lights
+│           │       │       ├── disable_run_on_boot.bat
+│           │       │       ├── download_traffic_light_servers.bat
+│           │       │       ├── enable_run_on_boot.bat
+│           │       │       ├── ReadMe.txt
+│           │       │       ├── run_all_traffic_light.bat
+│           │       │       ├── stop_all_traffic_light.bat
+│           │       │       ├── traffic_light_target_20.rt-linux_raspbian
+│           │       │       └── traffic_light_target_21.rt-linux_raspbian
+│           │       ├── config.txt
+│           │       ├── Mat Setup Guide.pdf
+│           │       └── STEM_Experience_Operating_Manual.pdf
+│           ├── docs
+│           │   ├── images
+│           │   │   ├── addOnExplorer.png
+│           │   │   ├── aero_teaching.png
+│           │   │   ├── mdl_teaching.png
+│           │   │   ├── mrl_teaching.png
+│           │   │   ├── python_download.png
+│           │   │   ├── qarm_mini_teaching.png
+│           │   │   ├── qarm_teaching.png
+│           │   │   ├── qlabsAddOn.png
+│           │   │   ├── quanser-resources-header.png
+│           │   │   ├── quanser_content.png
+│           │   │   ├── qube_teaching.png
+│           │   │   └── sdcs_content.png
+│           │   ├── getting_started.md
+│           │   └── pc_setup.md
+│           ├── changelog.txt
+│           ├── GETTING STARTED.txt
+│           ├── LICENSE
+│           └── README.md
+├── .gitattributes
+├── .gitignore
+├── .gitmodules
+├── export_tree.py
+├── folder_structure.txt
+├── license.txt
+├── README.md
+└── SECURITY.md
