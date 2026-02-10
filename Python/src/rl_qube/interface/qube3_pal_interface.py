@@ -1,9 +1,11 @@
 # Python/src/rl_qube/interface/qube3_pal_interface.py
 from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Tuple, Optional, Any
 import math
 import numpy as np
+import time
 
 from pal.products.qube import QubeServo3
 
@@ -44,51 +46,62 @@ class Qube3State:
     backlog: int
     rt_ok: bool
 
-@dataclass
-class Qube3State_1:
-    theta: float
-    phi: float
-    theta_dot: float
-    phi_dot: float
-    current: float
-    fault: int
-    stall_detect: int
-    stall_error: int
-    motor_counts: int
-    pendulum_counts: int
-    motor_cps: float
-    pendulum_cps: float
-    theta_unwrapped: float
-    phi_unwrapped: float
+    # Monitoring / safety telemetry (determinism supervision)
+    dt_wall: float = 0.0
+    miss_count: int = 0
+    overflow_delta: int = 0
+    faulted: bool = False
+
 
 class Qube3PALInterface:
     """
     PAL-based QUBE-Servo 3 interface using task-based timing (readMode=1).
     Mimics a discrete Simulink-style step at a fixed frequency (e.g. 200 Hz).
+
+    Determinism supervision:
+      - dt_wall measured from perf_counter_ns
+      - buffer overflows detected via task_get_buffer_overflows(readTask)
+      - latched fault: keep returning safe outputs (0V) once faulted
+      - optional hardware watchdog (best-effort)
     """
 
     def __init__(
         self,
         frequency: int = 200,
         motor_voltage_limit: float = 8.0,
-        drop_old_samples: bool = True,
+        drop_old_samples: bool = True,  # kept for compatibility; no longer used for overwrite-mode backlog
+        *,
+        dt_hard_limit_mult: float = 10.0,   # hard-limit = mult * Ts
+        overflow_hard_limit: int = 5,       # allow N overflows total before latch
+        enable_watchdog: bool = True,
     ):
         self.frequency = int(frequency)
         self.dt = 1.0 / self.frequency
         self.motor_voltage_limit = float(motor_voltage_limit)
         self.drop_old_samples = bool(drop_old_samples)
 
+        # Determinism / safety monitoring configuration
+        self.dt_hard_limit_mult = float(dt_hard_limit_mult)
+        self.overflow_hard_limit = int(overflow_hard_limit)
+        self.enable_watchdog = bool(enable_watchdog)
+
+        # Runtime monitoring state (initialized in open() / first step)
+        self._last_step_t_ns: Optional[int] = None
+        self._miss_count: int = 0
+        self._faulted: bool = False
+
+        self._overflow_total: int = 0
+        self._last_overflows: Optional[int] = None
+
+        self._watchdog_started: bool = False
+
         self._qube: Optional[QubeServo3] = None
         self._cm_entered: bool = False
 
-        self._theta_prev = None
-        self._theta_unwrapped = 0.0
-        self._phi_prev = None
-        self._phi_unwrapped = 0.0
-        
-        self.max_backlog_warn = 2
-        self.max_backlog_flush = 3
-        self.max_backlog_failsafe = 5
+        self._theta_prev: Optional[float] = None
+        self._theta_unwrapped: float = 0.0
+        self._phi_prev: Optional[float] = None
+        self._phi_unwrapped: float = 0.0
 
     def open(self) -> None:
         # Create object
@@ -99,30 +112,102 @@ class Qube3PALInterface:
             readMode=1,   # task-based timing
         )
 
-        # Enter context manager explicitly (equivalent to: with QubeServo3(...) as q:)
+        # Enter context manager explicitly
         self._qube = q
         q.__enter__()
         self._cm_entered = True
 
+        # Reset monitoring state
+        self._last_step_t_ns = None
+        self._miss_count = 0
+        self._faulted = False
+        self._overflow_total = 0
+        self._last_overflows = None
+        self._watchdog_started = False
+
+        # Baseline overflow counter (best-effort)
+        try:
+            read_task = getattr(q, "_readTask", None)
+            card = getattr(q, "card", None)
+            if card is not None and read_task is not None:
+                self._last_overflows = int(card.task_get_buffer_overflows(read_task))
+        except Exception:
+            self._last_overflows = None
+
         # Safe initial outputs
-        q.write_voltage(0.0)
-        q.write_led(np.array([0.0, 0.0, 0.0], dtype=np.float64))
+        try:
+            q.write_voltage(0.0)
+            q.write_led(np.array([0.0, 0.0, 0.0], dtype=np.float64))
+        except Exception:
+            pass
+
+        # Optional hardware watchdog (best-effort; do not crash if unsupported)
+        if self.enable_watchdog:
+            try:
+                card = getattr(q, "card", None)
+                if card is not None:
+                    timeout_s = float(self.dt_hard_limit_mult) * float(self.dt)
+
+                    # Try to set analog expiration state to 0V
+                    try:
+                        chans = list(getattr(q, "WRITE_ANALOG_CHANNELS", []))
+                        print("chans: ", chans)
+                        if chans:
+                            card.watchdog_set_analog_expiration_state(
+                                chans,
+                                len(chans),
+                                np.array([0.0]*len(chans),dtype=np.float64),
+                            )
+                    except Exception as e:
+                        print(e)
+                        print("watchdog_set_analog_expiration_state failed ")
+                        # Some versions expose this differently or not at all
+                        pass
+                    # Set timeout and start watchdog
+                    is_watchdog_expired = card.watchdog_is_expired()
+                    print("is_watchdog_expired_0: ", is_watchdog_expired)
+                    print("timeout_s: ", timeout_s)
+                    print(card.watchdog_start(timeout_s))
+                    is_watchdog_expired = card.watchdog_is_expired()
+                    print("is_watchdog_expired_1: ", is_watchdog_expired)
+                    is_watchdog_expired = card.watchdog_is_expired()
+                    print("is_watchdog_expired_2: ", is_watchdog_expired)
+                    time.sleep(5)
+                    is_watchdog_expired = card.watchdog_is_expired()
+                    print("is_watchdog_expired_3: ", is_watchdog_expired)
+                    self._watchdog_started = True
+            except Exception:
+                self._watchdog_started = False
 
     def close(self) -> None:
         if self._qube is None:
             return
 
+        q = self._qube
+
+        # Try to stop watchdog first (avoid leaving device in watchdog mode)
         try:
-            self._qube.write_voltage(0.0)
+            if self._watchdog_started:
+                card = getattr(q, "card", None)
+                if card is not None:
+                    card.watchdog_stop()
+        except Exception:
+            pass
+        finally:
+            self._watchdog_started = False
+
+        # Force safe outputs
+        try:
+            q.write_voltage(0.0)
             # Red LED on stop (optional)
-            self._qube.write_led(np.array([1.0, 0.0, 0.0], dtype=np.float64))
+            q.write_led(np.array([1.0, 0.0, 0.0], dtype=np.float64))
         except Exception:
             pass
 
         # Exit context manager if we entered it
         try:
             if self._cm_entered:
-                self._qube.__exit__(None, None, None)
+                q.__exit__(None, None, None)
         finally:
             self._qube = None
             self._cm_entered = False
@@ -132,90 +217,23 @@ class Qube3PALInterface:
         if prev is None:
             return current, current
         d = current - prev
-        # unwrap by nearest 2*pi multiple
-        d = (d + math.pi) % (2*math.pi) - math.pi
+        d = (d + math.pi) % (2 * math.pi) - math.pi
         return current, unwrapped + d
-    
-    def step_1(
-        self,
-        motor_voltage: float,
-        motor_enable: bool = True,
-        led_rgb: Tuple[bool, bool, bool] = (False, True, False),
-    ) -> Qube3State_1:
-        if self._qube is None:
-            raise RuntimeError("Qube3PALInterface not opened. Call open() first.")
 
+    def _watchdog_reload_best_effort(self) -> None:
+        #print(self._watchdog_started)
+        if not self._watchdog_started:
+            return
         q = self._qube
-
-        # --- Read (task timed) ---
-        q.read_outputs()
-
-        # Best-effort backlog drop (only if PAL exposes a counter)
-        if self.drop_old_samples:
-            samples_avail = getattr(q, "samplesAvailable", None)
-            if samples_avail is None:
-                samples_avail = getattr(q, "samples_available", None)
-            if samples_avail is not None:
-                try:
-                    while int(samples_avail) > 1:
-                        q.read_outputs()
-                        # refresh
-                        samples_avail = getattr(q, "samplesAvailable", samples_avail)
-                        samples_avail = getattr(q, "samples_available", samples_avail)
-                except Exception:
-                    pass
-
-        # Pull signals (names match Quanser examples)
-        theta_u = to_float(getattr(q, "motorPosition"))
-        phi_u = to_float(getattr(q, "pendulumPosition"))
-        theta = wrap_to_pi(theta_u)
-        phi = wrap_to_pi(phi_u)
-
-        theta_dot = to_float(getattr(q, "motorSpeed"))
-        phi_dot = to_float(getattr(q, "pendulumSpeed"))
-        current = to_float(getattr(q, "motorCurrent"))
-
-        self._theta_prev, self._theta_unwrapped = self.unwrap_step(self._theta_prev, self._theta_unwrapped, theta_u)
-        self._phi_prev, self._phi_unwrapped = self.unwrap_step(self._phi_prev, self._phi_unwrapped, phi_u)
-
-
-        # Fault flags: attribute names vary a bit; handle both
-        fault = int(to_float(getattr(q, "motorFault", 0)))
-        stall_detect = int(to_float(getattr(q, "stallDetected", 0)))
-        stall_error = int(to_float(getattr(q, "stallError", 0)))
-
-        # --- Write (actuation) ---
-        v = float(motor_voltage)
-        v = max(-self.motor_voltage_limit, min(self.motor_voltage_limit, v))
-        if not motor_enable:
-            v = 0.0
-
-        q.write_voltage(v)
-
-        r, g, b = led_rgb
-        q.write_led(np.array([1.0 if r else 0.0, 1.0 if g else 0.0, 1.0 if b else 0.0], dtype=np.float64))
-
-        motor_counts = int(to_float(getattr(q, "motorEncoderCounts")))
-        pendulum_counts = int(to_float(getattr(q, "pendulumEncoderCounts")))
-        motor_cps = to_float(getattr(q, "motorCountsPerSecond"))
-        pendulum_cps = to_float(getattr(q, "pendulumCountsPerSecond"))
-
-        return Qube3State_1(
-            theta=theta,
-            phi=phi,
-            theta_dot=theta_dot,
-            phi_dot=phi_dot,
-            current=current,
-            fault=fault,
-            stall_detect=stall_detect,
-            stall_error=stall_error,
-            motor_counts=motor_counts,
-            pendulum_counts=pendulum_counts,
-            motor_cps=motor_cps,
-            pendulum_cps=pendulum_cps,
-            theta_unwrapped=self._theta_unwrapped,
-            phi_unwrapped=self._phi_unwrapped
-        )
+        if q is None:
+            return
+        try:
+            card = getattr(q, "card", None)
+            if card is not None:
+                card.watchdog_reload()
+                #print("Hello_1: ", card.watchdog_reload())
+        except Exception:
+            pass
 
     def step(
         self,
@@ -228,92 +246,119 @@ class Qube3PALInterface:
 
         q = self._qube
 
+        # --- Timing supervision (wall-clock) ---
+        now_ns = time.perf_counter_ns()
+        if self._last_step_t_ns is None:
+            dt_wall = float(self.dt)
+        else:
+            dt_wall = (now_ns - self._last_step_t_ns) * 1e-9
+        self._last_step_t_ns = now_ns
+
+        dt_hard_limit = float(self.dt_hard_limit_mult) * float(self.dt)
+        if dt_wall > dt_hard_limit:
+            self._miss_count += 1
+            self._faulted = True
+
         # --- Read (task timed) ---
-        q.read_outputs()
+        # PAL updates internal attributes on read_outputs()
+        try:
+            q.read_outputs()
+        except Exception:
+            # If reads fail, latch fault and force safe outputs
+            self._faulted = True
 
-        # --- Backlog / overrun handling (PAL task buffer) ---
-        # PAL exposes:
-        #   q.samplesToRead  -> how many samples we request per read (typically 1)
-        #   q.samples        -> samples available/returned since last read (backlog indicator)
-        #
-        # Interpretation:
-        #   backlog = max(0, samples - samplesToRead)
-        #
-        # Policy:
-        #   backlog <= 1 : ok
-        #   backlog == 2 : warn (late)
-        #   backlog >= 3 : flush to latest (drop old)
-        #   backlog >= 5 : fail-safe (disable motor this step)
-        samples_to_read = int(getattr(q, "samplesToRead", 1) or 1)
-        samples = int(getattr(q, "samples", samples_to_read) or samples_to_read)
-        backlog = max(0, samples - samples_to_read)
+        # --- Task buffer overflows (works with OVERWRITE_ON_OVERFLOW) ---
+        overflow_delta = 0
+        try:
+            read_task = getattr(q, "_readTask", None)
+            card = getattr(q, "card", None)
+            if card is not None and read_task is not None:
+                cur_overflows = int(card.task_get_buffer_overflows(read_task))
+                if self._last_overflows is not None:
+                    overflow_delta = max(0, cur_overflows - self._last_overflows)
+                self._last_overflows = cur_overflows
+        except Exception:
+            overflow_delta = 0
 
-        rt_ok = True
-        failsafe_disable = False
+        if overflow_delta > 0:
+            self._overflow_total += int(overflow_delta)
+            if self._overflow_total > self.overflow_hard_limit:
+                self._faulted = True
 
-        if self.drop_old_samples:
-            # If backlog is large, flush to the newest sample
-            if backlog >= self.max_backlog_flush:
-                # How many extra samples are we behind by
-                extra = backlog
-                try:
-                    # Read and discard extra samples, leaving us at most 0 backlog
-                    # Note: q.read_outputs() reads samples_to_read each call.
-                    # We loop until the reported backlog shrinks or we hit a cap.
-                    flush_cap = 50  # avoid infinite loops if attribute doesn't update as expected
-                    while extra > 0 and flush_cap > 0:
-                        q.read_outputs()
-                        flush_cap -= 1
-                        samples = int(getattr(q, "samples", samples_to_read) or samples_to_read)
-                        backlog = max(0, samples - samples_to_read)
-                        extra = backlog
-                except Exception:
-                    # If flushing fails, we'll mark not OK and continue with latest we have
-                    rt_ok = False
+        # backlog now represents cumulative overflow pressure (not "samples waiting")
+        backlog = int(self._overflow_total)
 
-        # If still badly behind after flushing (or if we were very behind), fail safe
-        if backlog >= self.max_backlog_failsafe:
-            rt_ok = False
-            failsafe_disable = True
-
-
-        # Pull signals (names match Quanser examples)
-        theta_u = to_float(getattr(q, "motorPosition"))
-        phi_u = to_float(getattr(q, "pendulumPosition"))
+        # --- Pull signals ---
+        theta_u = to_float(getattr(q, "motorPosition", 0.0))
+        phi_u = to_float(getattr(q, "pendulumPosition", 0.0))
         theta = wrap_to_pi(theta_u)
         phi = wrap_to_pi(phi_u)
 
-        theta_dot = to_float(getattr(q, "motorSpeed"))
-        phi_dot = to_float(getattr(q, "pendulumSpeed"))
-        current = to_float(getattr(q, "motorCurrent"))
+        theta_dot = to_float(getattr(q, "motorSpeed", 0.0))
+        phi_dot = to_float(getattr(q, "pendulumSpeed", 0.0))
+        current = to_float(getattr(q, "motorCurrent", 0.0))
 
-        self._theta_prev, self._theta_unwrapped = self.unwrap_step(self._theta_prev, self._theta_unwrapped, theta_u)
-        self._phi_prev, self._phi_unwrapped = self.unwrap_step(self._phi_prev, self._phi_unwrapped, phi_u)
+        self._theta_prev, self._theta_unwrapped = self.unwrap_step(
+            self._theta_prev, self._theta_unwrapped, theta_u
+        )
+        self._phi_prev, self._phi_unwrapped = self.unwrap_step(
+            self._phi_prev, self._phi_unwrapped, phi_u
+        )
 
-
-        # Fault flags: attribute names vary a bit; handle both
-        fault = int(to_float(getattr(q, "motorFault", 0)))
+        # Fault flags from PAL + our software latch
+        motor_fault = int(to_float(getattr(q, "motorFault", 0)))
         stall_detect = int(to_float(getattr(q, "stallDetected", 0)))
         stall_error = int(to_float(getattr(q, "stallError", 0)))
 
-        # --- Write (actuation) ---
+        # Latch if hardware says fault (optional: you can remove this if you want separate)
+        if motor_fault != 0:
+            self._faulted = True
+
+        # --- Fault action: latch + keep returning safe outputs (0V) ---
         v = float(motor_voltage)
         v = max(-self.motor_voltage_limit, min(self.motor_voltage_limit, v))
+
         if not motor_enable:
             v = 0.0
-        if failsafe_disable:
+        if self._faulted:
             v = 0.0
+            motor_enable = False
 
+        # --- Write (actuation) ---
+        try:
+            q.write_voltage(v)
+        except Exception:
+            self._faulted = True
+            try:
+                q.write_voltage(0.0)
+            except Exception:
+                pass
 
-        q.write_voltage(v)
+        # LED (optional: turn red when faulted)
+        try:
+            if self._faulted:
+                rgb = (True, False, False)
+            else:
+                rgb = led_rgb
+            r, g, b = rgb
+            q.write_led(np.array([1.0 if r else 0.0,
+                                  1.0 if g else 0.0,
+                                  1.0 if b else 0.0], dtype=np.float64))
+        except Exception:
+            pass
 
-        r, g, b = led_rgb
-        q.write_led(np.array([1.0 if r else 0.0, 1.0 if g else 0.0, 1.0 if b else 0.0], dtype=np.float64))
+        # Reload watchdog every step (best-effort)
+        self._watchdog_reload_best_effort()
 
-        motor_counts = int(to_float(getattr(q, "motorEncoderCounts")))
-        pendulum_counts = int(to_float(getattr(q, "pendulumEncoderCounts")))
-        motor_cps = to_float(getattr(q, "motorCountsPerSecond"))
-        pendulum_cps = to_float(getattr(q, "pendulumCountsPerSecond"))
+        motor_counts = int(to_float(getattr(q, "motorEncoderCounts", 0)))
+        pendulum_counts = int(to_float(getattr(q, "pendulumEncoderCounts", 0)))
+        motor_cps = to_float(getattr(q, "motorCountsPerSecond", 0.0))
+        pendulum_cps = to_float(getattr(q, "pendulumCountsPerSecond", 0.0))
+
+        rt_ok = (not self._faulted) and (dt_wall <= dt_hard_limit) and (overflow_delta == 0)
+
+        # fault output: keep your existing "fault int" semantics but include latch
+        fault_out = int(self._faulted or (motor_fault != 0))
 
         return Qube3State(
             theta=theta,
@@ -321,7 +366,7 @@ class Qube3PALInterface:
             theta_dot=theta_dot,
             phi_dot=phi_dot,
             current=current,
-            fault=fault,
+            fault=fault_out,
             stall_detect=stall_detect,
             stall_error=stall_error,
             motor_counts=motor_counts,
@@ -332,7 +377,9 @@ class Qube3PALInterface:
             phi_unwrapped=self._phi_unwrapped,
             backlog=backlog,
             rt_ok=rt_ok,
+
+            dt_wall=float(dt_wall),
+            miss_count=int(self._miss_count),
+            overflow_delta=int(overflow_delta),
+            faulted=bool(self._faulted),
         )
-    
-
-
