@@ -148,36 +148,52 @@ class Qube3PALInterface:
                 if card is not None:
                     timeout_s = float(self.dt_hard_limit_mult) * float(self.dt)
 
-                    # Try to set analog expiration state to 0V
+                    # Best-effort stop in case it's already running/expired
                     try:
-                        chans = list(getattr(q, "WRITE_ANALOG_CHANNELS", []))
-                        print("chans: ", chans)
-                        if chans:
-                            card.watchdog_set_analog_expiration_state(
-                                chans,
-                                len(chans),
-                                np.array([0.0]*len(chans),dtype=np.float64),
-                            )
+                        card.watchdog_stop()
+                    except Exception:
+                        pass
+
+                    # Configure analog expiration state to 0V on the write channels
+                    try:
+                        chans_raw = getattr(q, "WRITE_ANALOG_CHANNELS", None)
+                        if chans_raw is not None:
+                            chans = np.asarray(chans_raw, dtype=np.uint32).reshape(-1)
+                            if chans.size > 0:
+                                voltages = np.zeros(chans.size, dtype=np.float64)
+                                card.watchdog_set_analog_expiration_state(chans, int(chans.size), voltages)
+                    except Exception as e:
+                        # Leave watchdog running without analog expiration if not supported
+                        print("watchdog_set_analog_expiration_state failed:", e)
+
+                    # Start + immediately reload once (kick)
+                    print(timeout_s)
+                    card.watchdog_start(float(timeout_s))
+                    time.sleep(0.01)
+                    is_watchdog_expired = card.watchdog_is_expired()
+                    print("is_watchdog_expired_00:", is_watchdog_expired)
+                    for i in range(5):
+                        time.sleep(1)
+                        is_watchdog_expired = card.watchdog_is_expired()
+                        print("is_watchdog_expired_0:", is_watchdog_expired)
+                        if is_watchdog_expired:
+                            break        
+                    try:
+                        is_watchdog_expired = card.watchdog_is_expired()
+                        print("is_watchdog_expired_1:", is_watchdog_expired)
+                        print("watchdog_reload status:", card.watchdog_reload())
+                        is_watchdog_expired = card.watchdog_is_expired()
+                        print("is_watchdog_expired_2:", is_watchdog_expired)
                     except Exception as e:
                         print(e)
-                        print("watchdog_set_analog_expiration_state failed ")
-                        # Some versions expose this differently or not at all
                         pass
-                    # Set timeout and start watchdog
-                    is_watchdog_expired = card.watchdog_is_expired()
-                    print("is_watchdog_expired_0: ", is_watchdog_expired)
-                    print("timeout_s: ", timeout_s)
-                    print(card.watchdog_start(timeout_s))
-                    is_watchdog_expired = card.watchdog_is_expired()
-                    print("is_watchdog_expired_1: ", is_watchdog_expired)
-                    is_watchdog_expired = card.watchdog_is_expired()
-                    print("is_watchdog_expired_2: ", is_watchdog_expired)
-                    time.sleep(5)
-                    is_watchdog_expired = card.watchdog_is_expired()
-                    print("is_watchdog_expired_3: ", is_watchdog_expired)
+
                     self._watchdog_started = True
-            except Exception:
+
+            except Exception as e:
+                print("watchdog init failed:", e)
                 self._watchdog_started = False
+
 
     def close(self) -> None:
         if self._qube is None:
@@ -220,20 +236,30 @@ class Qube3PALInterface:
         d = (d + math.pi) % (2 * math.pi) - math.pi
         return current, unwrapped + d
 
-    def _watchdog_reload_best_effort(self) -> None:
-        #print(self._watchdog_started)
-        if not self._watchdog_started:
-            return
+    def _watchdog_reload_best_effort(self) -> bool:
+        """
+        Reload watchdog. Returns True if reload succeeded, False otherwise.
+        We DO NOT latch based solely on watchdog_is_expired() because some drivers
+        report it sticky/latched. We latch on reload failure instead.
+        """
+        if not (self.enable_watchdog and self._watchdog_started):
+            return True  # watchdog not in use
+
         q = self._qube
         if q is None:
-            return
+            return False
+
         try:
             card = getattr(q, "card", None)
-            if card is not None:
-                card.watchdog_reload()
-                #print("Hello_1: ", card.watchdog_reload())
+            if card is None:
+                return False
+
+            card.watchdog_reload()
+            return True
         except Exception:
-            pass
+            return False
+
+
 
     def step(
         self,
@@ -255,19 +281,24 @@ class Qube3PALInterface:
         self._last_step_t_ns = now_ns
 
         dt_hard_limit = float(self.dt_hard_limit_mult) * float(self.dt)
+
+        # Latch if we missed hard timing constraint
         if dt_wall > dt_hard_limit:
             self._miss_count += 1
             self._faulted = True
 
+        # --- Reload watchdog EARLY (before doing I/O) ---
+        # If reload fails, latch fault immediately.
+        if not self._watchdog_reload_best_effort():
+            self._faulted = True
+
         # --- Read (task timed) ---
-        # PAL updates internal attributes on read_outputs()
         try:
             q.read_outputs()
         except Exception:
-            # If reads fail, latch fault and force safe outputs
             self._faulted = True
 
-        # --- Task buffer overflows (works with OVERWRITE_ON_OVERFLOW) ---
+        # --- Task buffer overflow monitoring (recommended for OVERWRITE_ON_OVERFLOW) ---
         overflow_delta = 0
         try:
             read_task = getattr(q, "_readTask", None)
@@ -278,14 +309,14 @@ class Qube3PALInterface:
                     overflow_delta = max(0, cur_overflows - self._last_overflows)
                 self._last_overflows = cur_overflows
         except Exception:
-            overflow_delta = 0
+            overflow_delta = 0  # keep running; don't fault just for missing telemetry
 
         if overflow_delta > 0:
             self._overflow_total += int(overflow_delta)
             if self._overflow_total > self.overflow_hard_limit:
                 self._faulted = True
 
-        # backlog now represents cumulative overflow pressure (not "samples waiting")
+        # backlog output now represents cumulative overflow count (as you intended)
         backlog = int(self._overflow_total)
 
         # --- Pull signals ---
@@ -305,12 +336,11 @@ class Qube3PALInterface:
             self._phi_prev, self._phi_unwrapped, phi_u
         )
 
-        # Fault flags from PAL + our software latch
         motor_fault = int(to_float(getattr(q, "motorFault", 0)))
         stall_detect = int(to_float(getattr(q, "stallDetected", 0)))
         stall_error = int(to_float(getattr(q, "stallError", 0)))
 
-        # Latch if hardware says fault (optional: you can remove this if you want separate)
+        # Latch if hardware reports motor fault
         if motor_fault != 0:
             self._faulted = True
 
@@ -320,6 +350,7 @@ class Qube3PALInterface:
 
         if not motor_enable:
             v = 0.0
+
         if self._faulted:
             v = 0.0
             motor_enable = False
@@ -334,7 +365,7 @@ class Qube3PALInterface:
             except Exception:
                 pass
 
-        # LED (optional: turn red when faulted)
+        # LED: red on fault
         try:
             if self._faulted:
                 rgb = (True, False, False)
@@ -342,22 +373,19 @@ class Qube3PALInterface:
                 rgb = led_rgb
             r, g, b = rgb
             q.write_led(np.array([1.0 if r else 0.0,
-                                  1.0 if g else 0.0,
-                                  1.0 if b else 0.0], dtype=np.float64))
+                                1.0 if g else 0.0,
+                                1.0 if b else 0.0], dtype=np.float64))
         except Exception:
             pass
-
-        # Reload watchdog every step (best-effort)
-        self._watchdog_reload_best_effort()
 
         motor_counts = int(to_float(getattr(q, "motorEncoderCounts", 0)))
         pendulum_counts = int(to_float(getattr(q, "pendulumEncoderCounts", 0)))
         motor_cps = to_float(getattr(q, "motorCountsPerSecond", 0.0))
         pendulum_cps = to_float(getattr(q, "pendulumCountsPerSecond", 0.0))
 
-        rt_ok = (not self._faulted) and (dt_wall <= dt_hard_limit) and (overflow_delta == 0)
+        # "rt_ok" should mean "no latched fault"
+        rt_ok = (not self._faulted)
 
-        # fault output: keep your existing "fault int" semantics but include latch
         fault_out = int(self._faulted or (motor_fault != 0))
 
         return Qube3State(
